@@ -1,0 +1,1 @@
+CREATE INDEX index_rule_policy_id ON rule(policy_id(50));
