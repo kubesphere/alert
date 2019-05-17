@@ -1,0 +1,3990 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Alert Project",
+    "version": "0.0.1",
+    "contact": {
+      "name": "Alert Project",
+      "url": "https://github.com/kubesphere/alert"
+    }
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/action": {
+      "get": {
+        "summary": "describe actions",
+        "operationId": "DescribeActions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeActionsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "action_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "action_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "trigger_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "trigger_action",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "nf_address_list_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete actions",
+        "operationId": "DeleteActions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteActionsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteActionsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create action",
+        "operationId": "CreateAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateActionResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify action",
+        "operationId": "ModifyAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyActionResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/alert": {
+      "get": {
+        "summary": "describe alerts",
+        "operationId": "DescribeAlerts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeAlertsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "running_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete alerts by name",
+        "operationId": "DeleteAlertsByName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteAlertsByNameResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteAlertsByNameRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      },
+      "post": {
+        "summary": "create alert",
+        "operationId": "CreateAlert",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateAlertResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateAlertRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify alert by name",
+        "operationId": "ModifyAlertByName",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyAlertByNameResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyAlertByNameRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/comment": {
+      "get": {
+        "summary": "describe comments",
+        "operationId": "DescribeComments",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeCommentsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "comment_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "addresser",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "history_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete comments",
+        "operationId": "DeleteComments",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteCommentsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteCommentsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create comment",
+        "operationId": "CreateComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateCommentResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateCommentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify comment",
+        "operationId": "ModifyComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyCommentResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyCommentRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/executor": {
+      "get": {
+        "summary": "describe executors",
+        "operationId": "DescribeExecutors",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeExecutorsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete executors",
+        "operationId": "DeleteExecutors",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteExecutorsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteExecutorsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create executor",
+        "operationId": "CreateExecutor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateExecutorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateExecutorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify executor",
+        "operationId": "ModifyExecutor",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyExecutorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyExecutorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/history": {
+      "get": {
+        "summary": "describe histories",
+        "operationId": "DescribeHistories",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeHistoriesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "history_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "history_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "event",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "notification_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "resource_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete histories",
+        "operationId": "DeleteHistories",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteHistoriesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteHistoriesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create history",
+        "operationId": "CreateHistory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateHistoryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateHistoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify history",
+        "operationId": "ModifyHistory",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyHistoryResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyHistoryRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/metric": {
+      "get": {
+        "summary": "describe metrics",
+        "operationId": "DescribeMetrics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeMetricsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "metric_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "metric_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_type_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete metrics",
+        "operationId": "DeleteMetrics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteMetricsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteMetricsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create metric",
+        "operationId": "CreateMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateMetricResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateMetricRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify metric",
+        "operationId": "ModifyMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyMetricResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyMetricRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/policy": {
+      "get": {
+        "summary": "describe policies",
+        "operationId": "DescribePolicies",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribePoliciesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_description",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_type_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete policies",
+        "operationId": "DeletePolicies",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeletePoliciesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeletePoliciesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create policy",
+        "operationId": "CreatePolicy",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreatePolicyResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreatePolicyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify policy",
+        "operationId": "ModifyPolicy",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyPolicyResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyPolicyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/resource_filter": {
+      "get": {
+        "summary": "describe resource filters",
+        "operationId": "DescribeResourceFilters",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeResourceFiltersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_type_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete resource filters",
+        "operationId": "DeleteResourceFilters",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteResourceFiltersResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteResourceFiltersRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create resource filter",
+        "operationId": "CreateResourceFilter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateResourceFilterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateResourceFilterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify resource filter",
+        "operationId": "ModifyResourceFilter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyResourceFilterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyResourceFilterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/resource_type": {
+      "get": {
+        "summary": "describe resource types",
+        "operationId": "DescribeResourceTypes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeResourceTypesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "rs_type_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_type_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete resource types",
+        "operationId": "DeleteResourceTypes",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteResourceTypesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteResourceTypesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create resource type",
+        "operationId": "CreateResourceType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateResourceTypeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateResourceTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify resource type",
+        "operationId": "ModifyResourceType",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyResourceTypeResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyResourceTypeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/rule": {
+      "get": {
+        "summary": "describe rules",
+        "operationId": "DescribeRules",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeRulesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "rule_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "monitor_periods",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "severity",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "metrics_type",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "condition_type",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "thresholds",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "unit",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "consecutive_count",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "inhibit",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "metric_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "delete": {
+        "summary": "delete rules",
+        "operationId": "DeleteRules",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDeleteRulesResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertDeleteRulesRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "post": {
+        "summary": "create rule",
+        "operationId": "CreateRule",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateRuleResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateRuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify rule",
+        "operationId": "ModifyRule",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyRuleResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyRuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/alert_detail": {
+      "get": {
+        "summary": "describe alert details",
+        "operationId": "DescribeAlertDetails",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeAlertDetailsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "running_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/alert_status": {
+      "get": {
+        "summary": "describe alert status",
+        "operationId": "DescribeAlertStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeAlertStatusResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "running_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/historydetail": {
+      "get": {
+        "summary": "describe history detail",
+        "operationId": "DescribeHistoryDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeHistoryDetailResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "history_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "history_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "event",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "resource_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "recent",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/policybyalert": {
+      "patch": {
+        "summary": "patch policy",
+        "operationId": "ModifyPolicyByAlert",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyPolicyByAlertResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyPolicyByAlertRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "alertAction": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "action_name": {
+          "type": "string"
+        },
+        "trigger_status": {
+          "type": "string"
+        },
+        "trigger_action": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "nf_address_list_id": {
+          "type": "string"
+        }
+      },
+      "title": "9.Action\n********************************************************************************************************"
+    },
+    "alertAlert": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "running_status": {
+          "type": "string"
+        },
+        "alert_status": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "rs_filter_id": {
+          "type": "string"
+        },
+        "executor_id": {
+          "type": "string"
+        }
+      },
+      "title": "6.Alert\n********************************************************************************************************"
+    },
+    "alertComment": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "string"
+        },
+        "addresser": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "history_id": {
+          "type": "string"
+        }
+      },
+      "title": "8.Comment\n********************************************************************************************************"
+    },
+    "alertCreateActionRequest": {
+      "type": "object",
+      "properties": {
+        "action_name": {
+          "type": "string"
+        },
+        "trigger_status": {
+          "type": "string"
+        },
+        "trigger_action": {
+          "type": "string"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "nf_address_list_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateActionResponse": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateAlertRequest": {
+      "type": "object",
+      "properties": {
+        "alert_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "rs_filter_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateAlertResponse": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateCommentRequest": {
+      "type": "object",
+      "properties": {
+        "addresser": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "history_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateCommentResponse": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateExecutorRequest": {
+      "type": "object",
+      "properties": {
+        "executor_name": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateExecutorResponse": {
+      "type": "object",
+      "properties": {
+        "executor_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateHistoryRequest": {
+      "type": "object",
+      "properties": {
+        "history_name": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "notification_id": {
+          "type": "string"
+        },
+        "alert_id": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "resource_name": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateMetricRequest": {
+      "type": "object",
+      "properties": {
+        "metric_name": {
+          "type": "string"
+        },
+        "metric_param": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateMetricResponse": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreatePolicyRequest": {
+      "type": "object",
+      "properties": {
+        "policy_name": {
+          "type": "string"
+        },
+        "policy_description": {
+          "type": "string"
+        },
+        "policy_config": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "available_start_time": {
+          "type": "string"
+        },
+        "available_end_time": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreatePolicyResponse": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateResourceFilterRequest": {
+      "type": "object",
+      "properties": {
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateResourceFilterResponse": {
+      "type": "object",
+      "properties": {
+        "rs_filter_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateResourceTypeRequest": {
+      "type": "object",
+      "properties": {
+        "rs_type_name": {
+          "type": "string"
+        },
+        "rs_type_param": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateResourceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateRuleRequest": {
+      "type": "object",
+      "properties": {
+        "rule_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "monitor_periods": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "metrics_type": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "consecutive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "inhibit": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "metric_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertCreateRuleResponse": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertDeleteActionsRequest": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteActionsResponse": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteAlertsRequest": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteAlertsResponse": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteCommentsRequest": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteCommentsResponse": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteExecutorsRequest": {
+      "type": "object",
+      "properties": {
+        "executor_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteExecutorsResponse": {
+      "type": "object",
+      "properties": {
+        "executor_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteHistoriesRequest": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteHistoriesResponse": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteMetricsRequest": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteMetricsResponse": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeletePoliciesRequest": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeletePoliciesResponse": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteResourceFiltersRequest": {
+      "type": "object",
+      "properties": {
+        "rs_filter_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteResourceFiltersResponse": {
+      "type": "object",
+      "properties": {
+        "rs_filter_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteResourceTypesRequest": {
+      "type": "object",
+      "properties": {
+        "rs_type_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteResourceTypesResponse": {
+      "type": "object",
+      "properties": {
+        "rs_type_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteRulesRequest": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteRulesResponse": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDescribeActionsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "action_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAction"
+          }
+        }
+      }
+    },
+    "alertDescribeAlertsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "alert_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAlert"
+          }
+        }
+      }
+    },
+    "alertDescribeCommentsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "comment_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertComment"
+          }
+        }
+      }
+    },
+    "alertDescribeExecutorsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "executor_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertExecutor"
+          }
+        }
+      }
+    },
+    "alertDescribeHistoriesResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "history_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertHistory"
+          }
+        }
+      }
+    },
+    "alertDescribeMetricsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "metric_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertMetric"
+          }
+        }
+      }
+    },
+    "alertDescribePoliciesResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "policy_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertPolicy"
+          }
+        }
+      }
+    },
+    "alertDescribeResourceFiltersResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "resourcefilter_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertResourceFilter"
+          }
+        }
+      }
+    },
+    "alertDescribeResourceTypesResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "resource_type_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertResourceType"
+          }
+        }
+      }
+    },
+    "alertDescribeRulesResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rule_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertRule"
+          }
+        }
+      }
+    },
+    "alertExecutor": {
+      "type": "object",
+      "properties": {
+        "executor_id": {
+          "type": "string"
+        },
+        "executor_name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "0.Executor\n********************************************************************************************************"
+    },
+    "alertHistory": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "string"
+        },
+        "history_name": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "notification_id": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "alert_id": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "resource_name": {
+          "type": "string"
+        }
+      },
+      "title": "7.History\n********************************************************************************************************"
+    },
+    "alertMetric": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "string"
+        },
+        "metric_name": {
+          "type": "string"
+        },
+        "metric_param": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      },
+      "title": "3.Metric\n********************************************************************************************************"
+    },
+    "alertModifyActionRequest": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "action_name": {
+          "type": "string"
+        },
+        "trigger_status": {
+          "type": "string"
+        },
+        "trigger_action": {
+          "type": "string"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "nf_address_list_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyActionResponse": {
+      "type": "object",
+      "properties": {
+        "action_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyAlertRequest": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "rs_filter_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyAlertResponse": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyCommentRequest": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "string"
+        },
+        "addresser": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "history_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyCommentResponse": {
+      "type": "object",
+      "properties": {
+        "comment_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyExecutorRequest": {
+      "type": "object",
+      "properties": {
+        "executor_id": {
+          "type": "string"
+        },
+        "executor_name": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyExecutorResponse": {
+      "type": "object",
+      "properties": {
+        "executor_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyHistoryRequest": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "string"
+        },
+        "history_name": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "notification_id": {
+          "type": "string"
+        },
+        "alert_id": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "resource_name": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyMetricRequest": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "string"
+        },
+        "metric_name": {
+          "type": "string"
+        },
+        "metric_param": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyMetricResponse": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyPolicyRequest": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "string"
+        },
+        "policy_name": {
+          "type": "string"
+        },
+        "policy_description": {
+          "type": "string"
+        },
+        "policy_config": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "available_start_time": {
+          "type": "string"
+        },
+        "available_end_time": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyPolicyResponse": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyResourceFilterRequest": {
+      "type": "object",
+      "properties": {
+        "rs_filter_id": {
+          "type": "string"
+        },
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyResourceFilterResponse": {
+      "type": "object",
+      "properties": {
+        "rs_filter_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyResourceTypeRequest": {
+      "type": "object",
+      "properties": {
+        "rs_type_id": {
+          "type": "string"
+        },
+        "rs_type_name": {
+          "type": "string"
+        },
+        "rs_type_param": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyResourceTypeResponse": {
+      "type": "object",
+      "properties": {
+        "rs_type_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyRuleRequest": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "monitor_periods": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "metrics_type": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "consecutive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "inhibit": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "alertModifyRuleResponse": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertPolicy": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "string"
+        },
+        "policy_name": {
+          "type": "string"
+        },
+        "policy_description": {
+          "type": "string"
+        },
+        "policy_config": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "available_start_time": {
+          "type": "string"
+        },
+        "available_end_time": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      },
+      "title": "4.Policy\n********************************************************************************************************"
+    },
+    "alertResourceFilter": {
+      "type": "object",
+      "properties": {
+        "rs_filter_id": {
+          "type": "string"
+        },
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      },
+      "title": "2.Resource Filter\n********************************************************************************************************"
+    },
+    "alertResourceType": {
+      "type": "object",
+      "properties": {
+        "rs_type_id": {
+          "type": "string"
+        },
+        "rs_type_name": {
+          "type": "string"
+        },
+        "rs_type_param": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "1.ResourceType\n********************************************************************************************************"
+    },
+    "alertRule": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "monitor_periods": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "metrics_type": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "consecutive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "inhibit": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "metric_id": {
+          "type": "string"
+        }
+      },
+      "title": "5.Rule\n********************************************************************************************************"
+    },
+    "alertAlertDetail": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "running_status": {
+          "type": "string"
+        },
+        "alert_status": {
+          "type": "string"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "rs_type_name": {
+          "type": "string"
+        },
+        "executor_id": {
+          "type": "string"
+        },
+        "policy_name": {
+          "type": "string"
+        },
+        "policy_description": {
+          "type": "string"
+        },
+        "policy_config": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "available_start_time": {
+          "type": "string"
+        },
+        "available_end_time": {
+          "type": "string"
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rules_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "positives_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "most_recent_alert_time": {
+          "type": "string"
+        },
+        "nf_address_list_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertAlertStatus": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "monitor_periods": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "metrics_type": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "consecutive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "inhibit": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "metric_name": {
+          "type": "string"
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertResourceStatus"
+          }
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "alertDeleteAlertsByNameRequest": {
+      "type": "object",
+      "properties": {
+        "resource_search": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDeleteAlertsByNameResponse": {
+      "type": "object",
+      "properties": {
+        "alert_name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "alertDescribeAlertDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "alertdetail_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAlertDetail"
+          }
+        }
+      }
+    },
+    "alertDescribeAlertStatusResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "alertstatus_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAlertStatus"
+          }
+        }
+      }
+    },
+    "alertDescribeHistoryDetailResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "historydetail_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertHistoryDetail"
+          }
+        }
+      }
+    },
+    "alertHistoryDetail": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "string"
+        },
+        "history_name": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_name": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "notification_id": {
+          "type": "string"
+        },
+        "notification_status": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "rs_type_name": {
+          "type": "string"
+        },
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "metric_name": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "resource_name": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "2.History\r\n********************************************************************************************************"
+    },
+    "alertModifyAlertByNameRequest": {
+      "type": "object",
+      "properties": {
+        "resource_search": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "rs_filter_id": {
+          "type": "string"
+        }
+      },
+      "title": "1.Alert\r\n********************************************************************************************************"
+    },
+    "alertModifyAlertByNameResponse": {
+      "type": "object",
+      "properties": {
+        "alert_name": {
+          "type": "string"
+        }
+      }
+    },
+    "alertModifyPolicyByAlertRequest": {
+      "type": "object",
+      "properties": {
+        "resource_search": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "policy_name": {
+          "type": "string"
+        },
+        "policy_description": {
+          "type": "string"
+        },
+        "policy_config": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "available_start_time": {
+          "type": "string"
+        },
+        "available_end_time": {
+          "type": "string"
+        },
+        "rs_type_id": {
+          "type": "string"
+        }
+      },
+      "title": "0.Policy\r\n********************************************************************************************************"
+    },
+    "alertModifyPolicyByAlertResponse": {
+      "type": "object",
+      "properties": {
+        "alert_name": {
+          "type": "string"
+        }
+      }
+    },
+    "alertResourceStatus": {
+      "type": "object",
+      "properties": {
+        "resource_name": {
+          "type": "string"
+        },
+        "current_level": {
+          "type": "string"
+        },
+        "positive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cumulated_send_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "next_resend_interval": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "next_sendable_time": {
+          "type": "string"
+        },
+        "aggregated_alerts": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "description": "The Authorization header must be set to Bearer followed by a space and a token. For example, 'Bearer vHUabiBEIKi8n1RdvWOjGFulGSM6zunb'.",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ]
+}

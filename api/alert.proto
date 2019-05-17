@@ -1,0 +1,1063 @@
+// Copyright 2018 The KubeSphere Authors. All rights reserved.
+// Use of this source code is governed by a Apache license
+// that can be found in the LICENSE file.
+
+
+syntax = "proto3";
+
+package kubesphere.alert;
+
+option go_package = "pb";
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+//0.Executor
+//********************************************************************************************************
+message Executor {
+	string executor_id = 1;
+	string executor_name = 2;
+	string status = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+}
+
+message CreateExecutorRequest {
+	string executor_name = 1;
+}
+message CreateExecutorResponse {
+	string executor_id = 1;
+}
+
+message DescribeExecutorsRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string executor_id = 6;
+	repeated string executor_name = 7;
+	repeated string status = 8;
+
+}
+message DescribeExecutorsResponse {
+	uint32 total = 1;
+	repeated Executor executor_set = 2;
+}
+
+message ModifyExecutorRequest {
+	string executor_id = 1;
+	string executor_name = 2;
+	string status = 3;
+}
+message ModifyExecutorResponse {
+	string executor_id = 1;
+}
+
+message DeleteExecutorsRequest {
+	repeated string executor_id = 1;
+}
+message DeleteExecutorsResponse {
+	repeated string executor_id = 1;
+}
+
+//1.ResourceType
+//********************************************************************************************************
+message ResourceType {
+	string rs_type_id = 1;
+	string rs_type_name = 2;
+	string rs_type_param = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+}
+
+message CreateResourceTypeRequest {
+	string rs_type_name = 1;
+	string rs_type_param = 2;
+}
+message CreateResourceTypeResponse {
+	string rs_type_id = 1;
+}
+
+message DescribeResourceTypesRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string rs_type_id = 6;
+	repeated string rs_type_name = 7;
+}
+message DescribeResourceTypesResponse {
+	uint32 total = 1;
+	repeated ResourceType resource_type_set = 2;
+}
+
+message ModifyResourceTypeRequest {
+	string rs_type_id = 1;
+	string rs_type_name = 2;
+	string rs_type_param = 3;
+}
+message ModifyResourceTypeResponse {
+	string rs_type_id = 1;
+}
+
+message DeleteResourceTypesRequest {
+	repeated string rs_type_id = 1;
+}
+message DeleteResourceTypesResponse {
+	repeated string rs_type_id = 1;
+}
+
+
+//2.Resource Filter
+//********************************************************************************************************
+message ResourceFilter {
+	string rs_filter_id = 1;
+	string rs_filter_name = 2;
+	string rs_filter_param = 3;
+	string status = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+	string rs_type_id = 7;
+}
+
+message CreateResourceFilterRequest {
+	string rs_filter_name = 1;
+	string rs_filter_param = 2;
+	string status = 3;
+	string rs_type_id = 4;
+}
+message CreateResourceFilterResponse {
+	string rs_filter_id = 1;
+}
+
+message DescribeResourceFiltersRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string rs_filter_id = 6;
+	repeated string rs_filter_name = 7;
+	repeated string status = 8;
+	repeated string rs_type_id = 9;
+}
+message DescribeResourceFiltersResponse {
+	uint32 total = 1;
+	repeated ResourceFilter resourcefilter_set = 2;
+}
+
+message ModifyResourceFilterRequest {
+	string rs_filter_id = 1;
+	string rs_filter_name = 2;
+	string rs_filter_param = 3;
+	string status = 4;
+	string rs_type_id = 5;
+}
+message ModifyResourceFilterResponse {
+	string rs_filter_id = 1;
+}
+
+message DeleteResourceFiltersRequest {
+	repeated string rs_filter_id = 1;
+}
+message DeleteResourceFiltersResponse {
+	repeated string rs_filter_id = 1;
+}
+
+
+//3.Metric
+//********************************************************************************************************
+message Metric {
+	string metric_id = 1;
+	string metric_name = 2;
+	string metric_param = 3;
+	string status = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+	string rs_type_id = 7;
+}
+
+message CreateMetricRequest {
+	string metric_name = 1;
+	string metric_param = 2;
+	string status = 3;
+	string rs_type_id = 4;
+}
+message CreateMetricResponse {
+	string metric_id = 1;
+}
+
+message DescribeMetricsRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string metric_id = 6;
+	repeated string metric_name = 7;
+	repeated string status = 8;
+	repeated string rs_type_id = 9;
+}
+message DescribeMetricsResponse {
+	uint32 total = 1;
+	repeated Metric metric_set = 2;
+}
+
+message ModifyMetricRequest {
+	string metric_id = 1;
+	string metric_name = 2;
+	string metric_param = 3;
+	string status = 4;
+	string rs_type_id = 5;
+}
+message ModifyMetricResponse {
+	string metric_id = 1;
+}
+
+message DeleteMetricsRequest {
+	repeated string metric_id = 1;
+}
+message DeleteMetricsResponse {
+	repeated string metric_id = 1;
+}
+
+
+//4.Policy
+//********************************************************************************************************
+message Policy {
+	string policy_id = 1;
+	string policy_name = 2;
+	string policy_description = 3;
+	string policy_config = 4;
+	string creator = 5;
+	string available_start_time = 6;
+	string available_end_time = 7;
+	google.protobuf.Timestamp create_time = 8;
+	google.protobuf.Timestamp update_time = 9;
+	string rs_type_id = 10;
+}
+
+message CreatePolicyRequest {
+	string policy_name = 1;
+	string policy_description = 2;
+	string policy_config = 3;
+	string creator = 4;
+	string available_start_time = 5;
+	string available_end_time = 6;
+	string rs_type_id = 7;
+}
+message CreatePolicyResponse {
+	string policy_id = 1;
+}
+
+message DescribePoliciesRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string policy_id = 6;
+	repeated string policy_name = 7;
+	repeated string policy_description = 8;
+	repeated string creator = 9;
+	repeated string rs_type_id = 10;
+}
+message DescribePoliciesResponse {
+	uint32 total = 1;
+	repeated Policy policy_set = 2;
+}
+
+message ModifyPolicyRequest {
+	string policy_id = 1;
+	string policy_name = 2;
+	string policy_description = 3;
+	string policy_config = 4;
+	string creator = 5;
+	string available_start_time = 6;
+	string available_end_time = 7;
+	string rs_type_id = 8;
+}
+message ModifyPolicyResponse {
+	string policy_id = 1;
+}
+
+message DeletePoliciesRequest {
+	repeated string policy_id = 1;
+}
+message DeletePoliciesResponse {
+	repeated string policy_id = 1;
+}
+
+
+//5.Rule
+//********************************************************************************************************
+message Rule {
+	string rule_id = 1;
+	string rule_name = 2;
+	bool disabled = 3;
+	uint32 monitor_periods = 4;
+	string severity = 5;
+	string metrics_type = 6;
+	string condition_type = 7;
+	string thresholds = 8;
+	string unit = 9;
+	uint32 consecutive_count = 10;
+	bool inhibit = 11;
+	google.protobuf.Timestamp create_time = 12;
+	google.protobuf.Timestamp update_time = 13;
+	string policy_id = 14;
+	string metric_id = 15;
+}
+
+message CreateRuleRequest {
+	string rule_name = 1;
+	bool disabled = 2;
+	uint32 monitor_periods = 3;
+	string severity = 4;
+	string metrics_type = 5;
+	string condition_type = 6;
+	string thresholds = 7;
+	string unit = 8;
+	uint32 consecutive_count = 9;
+	bool inhibit = 10;
+	string policy_id = 11;
+	string metric_id = 12;
+}
+message CreateRuleResponse {
+	string rule_id = 1;
+}
+
+message DescribeRulesRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string rule_id = 6;
+	repeated string rule_name = 7;
+	repeated bool disabled = 8;
+	repeated uint32 monitor_periods = 9;
+	repeated string severity = 10;
+	repeated string metrics_type = 11;
+	repeated string condition_type = 12;
+	repeated string thresholds = 13;
+	repeated string unit = 14;
+	repeated uint32 consecutive_count = 15;
+	repeated bool inhibit = 16;
+	repeated string policy_id = 17;
+	repeated string metric_id = 18;
+}
+message DescribeRulesResponse {
+	uint32 total = 1;
+	repeated Rule rule_set = 2;
+}
+
+message ModifyRuleRequest {
+	string rule_id = 1;
+	string rule_name = 2;
+	bool disabled = 3;
+	uint32 monitor_periods = 4;
+	string severity = 5;
+	string metrics_type = 6;
+	string condition_type = 7;
+	string thresholds = 8;
+	string unit = 9;
+	uint32 consecutive_count = 10;
+	bool inhibit = 11;
+}
+message ModifyRuleResponse {
+	string rule_id = 1;
+}
+
+message DeleteRulesRequest {
+	repeated string rule_id = 1;
+}
+message DeleteRulesResponse {
+	repeated string rule_id = 1;
+}
+
+
+//6.Alert
+//********************************************************************************************************
+message Alert {
+	string alert_id = 1;
+	string alert_name = 2;
+	bool disabled = 3;
+	string running_status = 4;
+	string alert_status = 5;
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp update_time = 7;
+	string policy_id = 8;
+	string rs_filter_id = 9;
+	string executor_id = 10;
+}
+
+message CreateAlertRequest {
+	string alert_name = 1;
+	bool disabled = 2;
+	string policy_id = 3;
+	string rs_filter_id = 4;
+}
+message CreateAlertResponse {
+	string alert_id = 1;
+}
+
+message DescribeAlertsRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string alert_id = 6;
+	repeated string alert_name = 7;
+	repeated bool disabled = 8;
+	repeated string running_status = 9;
+	repeated string policy_id = 10;
+	repeated string rs_filter_id = 11;
+	repeated string executor_id = 12;
+}
+message DescribeAlertsResponse {
+	uint32 total = 1;
+	repeated Alert alert_set = 2;
+}
+
+message ModifyAlertRequest {
+	string alert_id = 1;
+	string alert_name = 2;
+	bool disabled = 3;
+	string policy_id = 4;
+	string rs_filter_id = 5;
+}
+message ModifyAlertResponse {
+	string alert_id = 1;
+}
+
+message DeleteAlertsRequest {
+	repeated string alert_id = 1;
+}
+message DeleteAlertsResponse {
+	repeated string alert_id = 1;
+}
+
+
+//7.History
+//********************************************************************************************************
+message History {
+	string history_id = 1;
+	string history_name = 2;
+	string event = 3;
+	string content = 4;
+	string notification_id = 5;
+	google.protobuf.Timestamp create_time = 6;
+	google.protobuf.Timestamp update_time = 7;
+	string alert_id = 8;
+	string rule_id = 9;
+	string resource_name = 10;
+}
+
+message CreateHistoryRequest {
+	string history_name = 1;
+	string event = 2;
+	string content = 3;
+	string notification_id = 4;
+	string alert_id = 5;
+	string rule_id = 6;
+	string resource_name = 7;
+}
+message CreateHistoryResponse {
+	string history_id = 1;
+}
+
+message DescribeHistoriesRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string history_id = 6;
+	repeated string history_name = 7;
+	repeated string event = 8;
+	repeated string content = 9;
+	repeated string notification_id = 10;
+	repeated string alert_id = 11;
+	repeated string rule_id = 12;
+	repeated string resource_name = 13;
+}
+message DescribeHistoriesResponse {
+	uint32 total = 1;
+	repeated History history_set = 2;
+}
+
+message ModifyHistoryRequest {
+	string history_id = 1;
+	string history_name = 2;
+	string event = 3;
+	string content = 4;
+	string notification_id = 5;
+	string alert_id = 6;
+	string rule_id = 7;
+	string resource_name = 8;
+}
+message ModifyHistoryResponse {
+	string history_id = 1;
+}
+
+message DeleteHistoriesRequest {
+	repeated string history_id = 1;
+}
+message DeleteHistoriesResponse {
+	repeated string history_id = 1;
+}
+
+
+//8.Comment
+//********************************************************************************************************
+message Comment {
+	string comment_id = 1;
+	string addresser = 2;
+	string content = 3;
+	google.protobuf.Timestamp create_time = 4;
+	google.protobuf.Timestamp update_time = 5;
+	string history_id = 6;
+}
+
+message CreateCommentRequest {
+	string addresser = 1;
+	string content = 2;
+	string history_id = 3;
+}
+message CreateCommentResponse {
+	string comment_id = 1;
+}
+
+message DescribeCommentsRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string comment_id = 6;
+	repeated string addresser = 7;
+	repeated string content = 8;
+	repeated string history_id = 9;
+}
+message DescribeCommentsResponse {
+	uint32 total = 1;
+	repeated Comment comment_set = 2;
+}
+
+message ModifyCommentRequest {
+	string comment_id = 1;
+	string addresser = 2;
+	string content = 3;
+	string history_id = 4;
+}
+message ModifyCommentResponse {
+	string comment_id = 1;
+}
+
+message DeleteCommentsRequest {
+	repeated string comment_id = 1;
+}
+message DeleteCommentsResponse {
+	repeated string comment_id = 1;
+}
+
+
+//9.Action
+//********************************************************************************************************
+message Action {
+	string action_id = 1;
+	string action_name = 2;
+	string trigger_status = 3;
+	string trigger_action = 4;
+	google.protobuf.Timestamp create_time = 5;
+	google.protobuf.Timestamp update_time = 6;
+	string policy_id = 7;
+	string nf_address_list_id = 8;
+}
+
+message CreateActionRequest {
+	string action_name = 1;
+	string trigger_status = 2;
+	string trigger_action = 3;
+	string policy_id = 4;
+	string nf_address_list_id = 5;
+}
+message CreateActionResponse {
+	string action_id = 1;
+}
+
+message DescribeActionsRequest {
+	string search_word = 1;
+	string sort_key = 2;
+	bool reverse = 3;
+	uint32 offset = 4;
+	uint32 limit = 5;
+
+	repeated string action_id = 6;
+	repeated string action_name = 7;
+	repeated string trigger_status = 9;
+	repeated string trigger_action = 10;
+	repeated string policy_id = 11;
+	repeated string nf_address_list_id = 12;
+}
+message DescribeActionsResponse {
+	uint32 total = 1;
+	repeated Action action_set = 2;
+}
+
+message ModifyActionRequest {
+	string action_id = 1;
+	string action_name = 2;
+	string trigger_status = 3;
+	string trigger_action = 4;
+	string policy_id = 5;
+	string nf_address_list_id = 6;
+}
+message ModifyActionResponse {
+	string action_id = 1;
+}
+
+message DeleteActionsRequest {
+	repeated string action_id = 1;
+}
+message DeleteActionsResponse {
+	repeated string action_id = 1;
+}
+
+
+//=====================================================================================================================//
+service AlertManager {
+	//0.executor
+	//********************************************************************************************************
+	rpc CreateExecutor (CreateExecutorRequest) returns (CreateExecutorResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create executor"
+		};
+		option (google.api.http) = {
+			post: "/v1/executor"
+			body: "*"
+		};
+	}
+
+	rpc DescribeExecutors (DescribeExecutorsRequest) returns (DescribeExecutorsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe executors"
+		};
+		option (google.api.http) = {
+			get: "/v1/executor"
+		};
+	}
+
+	rpc ModifyExecutor (ModifyExecutorRequest) returns (ModifyExecutorResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify executor"
+		};
+		option (google.api.http) = {
+			patch: "/v1/executor"
+			body: "*"
+		};
+	}
+
+	rpc DeleteExecutors (DeleteExecutorsRequest) returns (DeleteExecutorsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete executors"
+		};
+		option (google.api.http) = {
+			delete: "/v1/executor"
+			body: "*"
+		};
+	}
+
+
+	//1.resource_type
+	//********************************************************************************************************
+	rpc CreateResourceType (CreateResourceTypeRequest) returns (CreateResourceTypeResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create resource type"
+		};
+		option (google.api.http) = {
+			post: "/v1/resource_type"
+			body: "*"
+		};
+	}
+
+	rpc DescribeResourceTypes (DescribeResourceTypesRequest) returns (DescribeResourceTypesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe resource types"
+		};
+		option (google.api.http) = {
+			get: "/v1/resource_type"
+		};
+	}
+
+	rpc ModifyResourceType (ModifyResourceTypeRequest) returns (ModifyResourceTypeResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify resource type"
+		};
+		option (google.api.http) = {
+			patch: "/v1/resource_type"
+			body: "*"
+		};
+	}
+
+	rpc DeleteResourceTypes (DeleteResourceTypesRequest) returns (DeleteResourceTypesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete resource types"
+		};
+		option (google.api.http) = {
+			delete: "/v1/resource_type"
+			body: "*"
+		};
+	}
+
+
+	//2.resource filter
+	//********************************************************************************************************
+	rpc CreateResourceFilter (CreateResourceFilterRequest) returns (CreateResourceFilterResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create resource filter"
+		};
+		option (google.api.http) = {
+			post: "/v1/resource_filter"
+			body: "*"
+		};
+	}
+
+	rpc DescribeResourceFilters (DescribeResourceFiltersRequest) returns (DescribeResourceFiltersResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe resource filters"
+		};
+		option (google.api.http) = {
+			get: "/v1/resource_filter"
+		};
+	}
+
+	rpc ModifyResourceFilter (ModifyResourceFilterRequest) returns (ModifyResourceFilterResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify resource filter"
+		};
+		option (google.api.http) = {
+			patch: "/v1/resource_filter"
+			body: "*"
+		};
+	}
+
+	rpc DeleteResourceFilters (DeleteResourceFiltersRequest) returns (DeleteResourceFiltersResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete resource filters"
+		};
+		option (google.api.http) = {
+			delete: "/v1/resource_filter"
+			body: "*"
+		};
+	}
+
+
+	//3.metric
+	//********************************************************************************************************
+	rpc CreateMetric (CreateMetricRequest) returns (CreateMetricResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create metric"
+		};
+		option (google.api.http) = {
+			post: "/v1/metric"
+			body: "*"
+		};
+	}
+
+	rpc DescribeMetrics (DescribeMetricsRequest) returns (DescribeMetricsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe metrics"
+		};
+		option (google.api.http) = {
+			get: "/v1/metric"
+		};
+	}
+
+	rpc ModifyMetric (ModifyMetricRequest) returns (ModifyMetricResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify metric"
+		};
+		option (google.api.http) = {
+			patch: "/v1/metric"
+			body: "*"
+		};
+	}
+
+	rpc DeleteMetrics (DeleteMetricsRequest) returns (DeleteMetricsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete metrics"
+		};
+		option (google.api.http) = {
+			delete: "/v1/metric"
+			body: "*"
+		};
+	}
+
+
+	//4.Policy
+	//********************************************************************************************************
+	rpc CreatePolicy (CreatePolicyRequest) returns (CreatePolicyResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create policy"
+		};
+		option (google.api.http) = {
+			post: "/v1/policy"
+			body: "*"
+		};
+	}
+
+	rpc DescribePolicies (DescribePoliciesRequest) returns (DescribePoliciesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe policies"
+		};
+		option (google.api.http) = {
+			get: "/v1/policy"
+		};
+	}
+
+	rpc ModifyPolicy (ModifyPolicyRequest) returns (ModifyPolicyResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify policy"
+		};
+		option (google.api.http) = {
+			patch: "/v1/policy"
+			body: "*"
+		};
+	}
+
+	rpc DeletePolicies (DeletePoliciesRequest) returns (DeletePoliciesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete policies"
+		};
+		option (google.api.http) = {
+			delete: "/v1/policy"
+			body: "*"
+		};
+	}
+
+
+	//5.Rule
+	//********************************************************************************************************
+	rpc CreateRule (CreateRuleRequest) returns (CreateRuleResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create rule"
+		};
+		option (google.api.http) = {
+			post: "/v1/rule"
+			body: "*"
+		};
+	}
+
+	rpc DescribeRules (DescribeRulesRequest) returns (DescribeRulesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe rules"
+		};
+		option (google.api.http) = {
+			get: "/v1/rule"
+		};
+	}
+
+	rpc ModifyRule (ModifyRuleRequest) returns (ModifyRuleResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify rule"
+		};
+		option (google.api.http) = {
+			patch: "/v1/rule"
+			body: "*"
+		};
+	}
+
+	rpc DeleteRules (DeleteRulesRequest) returns (DeleteRulesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete rules"
+		};
+		option (google.api.http) = {
+			delete: "/v1/rule"
+			body: "*"
+		};
+	}
+
+
+	//6.Alert
+	//********************************************************************************************************
+	rpc CreateAlert (CreateAlertRequest) returns (CreateAlertResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create alert"
+		};
+		option (google.api.http) = {
+			post: "/v1/alert"
+			body: "*"
+		};
+	}
+
+	rpc DescribeAlerts (DescribeAlertsRequest) returns (DescribeAlertsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe alerts"
+		};
+		option (google.api.http) = {
+			get: "/v1/alert"
+		};
+	}
+
+	rpc ModifyAlert (ModifyAlertRequest) returns (ModifyAlertResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify alert"
+		};
+		option (google.api.http) = {
+			patch: "/v1/alert"
+			body: "*"
+		};
+	}
+
+	rpc DeleteAlerts (DeleteAlertsRequest) returns (DeleteAlertsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete alerts"
+		};
+		option (google.api.http) = {
+			delete: "/v1/alert"
+			body: "*"
+		};
+	}
+
+
+	//7.History
+	//********************************************************************************************************
+	rpc CreateHistory (CreateHistoryRequest) returns (CreateHistoryResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create history"
+		};
+		option (google.api.http) = {
+			post: "/v1/history"
+			body: "*"
+		};
+	}
+
+	rpc DescribeHistories (DescribeHistoriesRequest) returns (DescribeHistoriesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe histories"
+		};
+		option (google.api.http) = {
+			get: "/v1/history"
+		};
+	}
+
+	rpc ModifyHistory (ModifyHistoryRequest) returns (ModifyHistoryResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify history"
+		};
+		option (google.api.http) = {
+			patch: "/v1/history"
+			body: "*"
+		};
+	}
+
+	rpc DeleteHistories (DeleteHistoriesRequest) returns (DeleteHistoriesResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete histories"
+		};
+		option (google.api.http) = {
+			delete: "/v1/history"
+			body: "*"
+		};
+	}
+
+
+	//8.Comment
+	//********************************************************************************************************
+	rpc CreateComment (CreateCommentRequest) returns (CreateCommentResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create comment"
+		};
+		option (google.api.http) = {
+			post: "/v1/comment"
+			body: "*"
+		};
+	}
+
+	rpc DescribeComments (DescribeCommentsRequest) returns (DescribeCommentsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe comments"
+		};
+		option (google.api.http) = {
+			get: "/v1/comment"
+		};
+	}
+
+	rpc ModifyComment (ModifyCommentRequest) returns (ModifyCommentResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify comment"
+		};
+		option (google.api.http) = {
+			patch: "/v1/comment"
+			body: "*"
+		};
+	}
+
+	rpc DeleteComments (DeleteCommentsRequest) returns (DeleteCommentsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete comments"
+		};
+		option (google.api.http) = {
+			delete: "/v1/comment"
+			body: "*"
+		};
+	}
+
+
+	//9.Action
+	//********************************************************************************************************
+	rpc CreateAction (CreateActionRequest) returns (CreateActionResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "create action"
+		};
+		option (google.api.http) = {
+			post: "/v1/action"
+			body: "*"
+		};
+	}
+
+	rpc DescribeActions (DescribeActionsRequest) returns (DescribeActionsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "describe actions"
+		};
+		option (google.api.http) = {
+			get: "/v1/action"
+		};
+	}
+
+	rpc ModifyAction (ModifyActionRequest) returns (ModifyActionResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "modify action"
+		};
+		option (google.api.http) = {
+			patch: "/v1/action"
+			body: "*"
+		};
+	}
+
+	rpc DeleteActions (DeleteActionsRequest) returns (DeleteActionsResponse) {
+		option (grpc.gateway.protoc_gen_swagger.options.openapiv2_operation) = {
+			summary: "delete actions"
+		};
+		option (google.api.http) = {
+			delete: "/v1/action"
+			body: "*"
+		};
+	}
+}

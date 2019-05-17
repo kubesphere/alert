@@ -1,0 +1,19 @@
+// Copyright 2018 The KubeSphere Authors. All rights reserved.
+// Use of this source code is governed by a Apache license
+// that can be found in the LICENSE file.
+
+
+syntax = "proto3";
+package kubesphere;
+
+// set go package name to pb
+option go_package = "pb";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+message ErrorDetail {
+	string error_name = 1;
+	string cause = 2;
+}
+

@@ -1,0 +1,1 @@
+ALTER TABLE history MODIFY resource_name varchar(300);

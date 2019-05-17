@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alerting-etcd
+  namespace: kubesphere-alerting-system
+  labels:
+    app: alerting
+    tier: etcd
+    version: v1.0.0
+spec:
+  selector:
+    app: alerting
+    tier: etcd
+  ports:
+  - name: tcp
+    protocol: TCP
+    port: 2379
+    targetPort: 2379
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: alerting-etcd-pvc
+  namespace: kubesphere-alerting-system
+  labels:
+    app: alerting
+    tier: etcd
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: alerting-etcd-deployment
+  namespace: kubesphere-alerting-system
+  labels:
+    app: alerting
+    tier: etcd
+    version: v1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alerting
+      tier: etcd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: alerting
+        tier: etcd
+        version: v1.0.0
+    spec:
+      containers:
+      - name: alerting-etcd
+        image: quay.io/coreos/etcd:v3.3.10
+        imagePullPolicy: IfNotPresent
+        command: ["etcd", "--data-dir=/data", "--listen-client-urls=http://0.0.0.0:2379", "--advertise-client-urls=http://alerting-etcd.kubesphere-alerting-system.svc:2379", "--max-snapshots=5", "--max-wals=5", "--auto-compaction-retention=168"]
+        ports:
+        - containerPort: 2379
+          name: etcd
+        volumeMounts:
+        - name: etcd-persistent-storage
+          mountPath: /data
+      volumes:
+      - name: etcd-persistent-storage
+        persistentVolumeClaim:
+          claimName: alerting-etcd-pvc
+

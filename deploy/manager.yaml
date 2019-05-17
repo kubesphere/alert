@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alerting-manager-server
+  namespace: kubesphere-alerting-system
+spec:
+  selector:
+    app: alerting-manager
+  ports:
+  - name: alerting-manager-grpc
+    protocol: TCP
+    port: 9201
+    targetPort: 9201
+  - name: alerting-manager-http
+    protocol: TCP
+    port: 9200
+    targetPort: 9200
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: alerting-manager
+  name: alerting-manager
+  namespace: kubesphere-alerting-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alerting-manager
+  template:
+    metadata:
+      labels:
+        app: alerting-manager
+    spec:
+      initContainers:
+      - name: wait-mysql
+        image: busybox:1.28.4
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', 'until nc -z alerting-db.kubesphere-alerting-system.svc 3306; do echo "waiting for mysql"; sleep 2; done;']
+      - name: wait-etcd
+        image: busybox:1.28.4
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', 'until nc -z alerting-etcd.kubesphere-alerting-system.svc 2379; do echo "waiting for etcd"; sleep 2; done;']
+      containers:
+      - command:
+        - /alerting/alert
+        image: dockerhub.qingcloud.com/ksalerting/alerting
+        imagePullPolicy: Always
+        name: alerting-manager
+        env:
+        - name: ALERT_APP_RUN_MODE
+          value: "manager"
+        - name: ALERT_MYSQL_HOST
+          value: "alerting-db.kubesphere-alerting-system"
+        - name: ALERT_ETCD_ENDPOINTS
+          value: "alerting-etcd.kubesphere-alerting-system:2379"
+        ports:
+        - containerPort: 9201
+          protocol: TCP
+        - containerPort: 9200
+          protocol: TCP
