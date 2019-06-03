@@ -2,6 +2,7 @@ module kubesphere.io/alert
 
 require (
 	github.com/bitly/go-simplejson v0.5.0
+	github.com/coreos/etcd v3.3.13+incompatible
 	github.com/emicklei/go-restful v2.9.3+incompatible
 	github.com/emicklei/go-restful-openapi v1.0.0
 	github.com/fatih/camelcase v1.0.0
@@ -28,6 +29,7 @@ require (
 	github.com/speps/go-hashids v2.0.0+incompatible
 	github.com/stretchr/testify v1.3.0
 	github.com/ugorji/go v1.1.4 // indirect
+	go.etcd.io/etcd v3.3.12+incompatible
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	golang.org/x/tools v0.0.0-20190312170243-e65039ee4138
 	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
@@ -37,5 +39,9 @@ require (
 	k8s.io/apimachinery v0.0.0-20181127025237-2b1284ed4c93
 	k8s.io/client-go v0.0.0-20181213151034-8d9ed539ba31
 	k8s.io/klog v0.3.0 // indirect
+	openpitrix.io/libqueue v0.3.1
+	openpitrix.io/logger v0.1.0
 	sigs.k8s.io/yaml v1.1.0 // indirect
 )
+
+replace openpitrix.io/libqueue v0.3.1 => github.com/openpitrix/libqueue v0.3.1

@@ -39,9 +39,9 @@ spec:
         - name: ALERT_APP_RUN_MODE
           value: "client"
         - name: ALERT_MYSQL_HOST
-          value: "alerting-db.kubesphere-alerting-system"
+          value: "openpitrix-db.openpitrix-system.svc"
         - name: ALERT_ETCD_ENDPOINTS
-          value: "alerting-etcd.kubesphere-alerting-system:2379"
+          value: "openpitrix-etcd.openpitrix-system.svc:2379"
         - name: ALERT_APP_HOST
           value: "alerting-manager-server.kubesphere-alerting-system"
         ports:
