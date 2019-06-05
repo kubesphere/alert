@@ -1056,7 +1056,7 @@ func removePolicy(client pb.AlertManagerClient, ctx context.Context, policyId st
 }
 
 func createAlertInfo(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	/*alertInfo := new(models.AlertInfo)
+	alertInfo := new(models.AlertInfo)
 
 	err := request.ReadEntity(&alertInfo)
 	if err != nil {
@@ -1066,14 +1066,6 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 	}
 
 	client, err := alclient.NewClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
-		return
-	}
-
-	clientCustom, err := alclient.NewCustomClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
 		resp := &pb.CreateAlertResponse{}
@@ -1169,12 +1161,12 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 	//4. Check if same alert_name exists
 	resourceSearch, _ := json.Marshal(resourceMap)
 	alertNames := strings.Split(alertInfo.Alert.AlertName, ",")
-	var reqCheck = &pb.DescribeAlertDetailsRequest{
+	var reqCheck = &rs.DescribeAlertDetailsRequest{
 		ResourceSearch: string(resourceSearch),
 		AlertName:      alertNames,
 	}
 
-	respCheck, err := clientCustom.DescribeAlertDetails(ctx, reqCheck)
+	respCheck, err := rs.DescribeAlertDetails(reqCheck)
 	if err != nil {
 		logger.Error(nil, "CreateAlertInfo check alert name failed: %+v", err)
 		resp := &pb.CreateAlertResponse{}
@@ -1313,7 +1305,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 
 	logger.Debug(nil, "CreateAlertInfo Alert success: %+v", respAlert)
 
-	response.WriteAsJson(respAlert)*/
+	response.WriteAsJson(respAlert)
 }
 
 func CreateAlertCluster(request *restful.Request, response *restful.Response) {
@@ -1656,7 +1648,7 @@ func DescribeAlertDetailsContainer(request *restful.Request, response *restful.R
 }
 
 func describeAlertStatus(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	/*resourceSearch, _ := json.Marshal(resourceMap)
+	resourceSearch, _ := json.Marshal(resourceMap)
 	alertIds := strings.Split(request.QueryParameter("alert_ids"), ",")
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
 	disables := parseBools(strings.Split(request.QueryParameter("disabled"), ","))
@@ -1672,15 +1664,7 @@ func describeAlertStatus(resourceMap map[string]string, request *restful.Request
 	offset, _ := parseUint32(request.QueryParameter("offset"))
 	limit, _ := parseUint32(request.QueryParameter("limit"))
 
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	var req = &pb.DescribeAlertStatusRequest{
+	var req = &rs.DescribeAlertStatusRequest{
 		ResourceSearch: string(resourceSearch),
 		AlertId:        alertIds,
 		AlertName:      alertNames,
@@ -1697,14 +1681,14 @@ func describeAlertStatus(resourceMap map[string]string, request *restful.Request
 		Limit:          limit,
 	}
 
-	resp, err := clientCustom.DescribeAlertStatus(ctx, req)
+	resp, err := rs.DescribeAlertStatus(req)
 	if err != nil {
 		logger.Error(nil, "DescribeAlertStatus failed: %+v", err)
 	}
 
 	logger.Debug(nil, "DescribeAlertStatus success: %+v", resp)
 
-	response.WriteAsJson(resp)*/
+	response.WriteAsJson(resp)
 }
 
 func DescribeAlertStatusCluster(request *restful.Request, response *restful.Response) {
@@ -1808,7 +1792,7 @@ func DescribeHistories(request *restful.Request, response *restful.Response) {
 }
 
 func describeHistoryDetail(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	/*resourceSearch, _ := json.Marshal(resourceMap)
+	resourceSearch, _ := json.Marshal(resourceMap)
 	historyIds := strings.Split(request.QueryParameter("history_ids"), ",")
 	historyNames := strings.Split(request.QueryParameter("history_names"), ",")
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
@@ -1823,15 +1807,7 @@ func describeHistoryDetail(resourceMap map[string]string, request *restful.Reque
 	offset, _ := parseUint32(request.QueryParameter("offset"))
 	limit, _ := parseUint32(request.QueryParameter("limit"))
 
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	var req = &pb.DescribeHistoryDetailRequest{
+	var req = &rs.DescribeHistoryDetailRequest{
 		ResourceSearch: string(resourceSearch),
 		SearchWord:     request.QueryParameter("search_word"),
 		HistoryId:      historyIds,
@@ -1848,14 +1824,14 @@ func describeHistoryDetail(resourceMap map[string]string, request *restful.Reque
 		Limit:          limit,
 	}
 
-	resp, err := clientCustom.DescribeHistoryDetail(ctx, req)
+	resp, err := rs.DescribeHistoryDetail(req)
 	if err != nil {
 		logger.Error(nil, "DescribeHistoryDetail failed: %+v", err)
 	}
 
 	logger.Debug(nil, "DescribeHistoryDetail success: %+v", resp)
 
-	response.WriteAsJson(resp)*/
+	response.WriteAsJson(resp)
 }
 
 func DescribeHistoryDetailCluster(request *restful.Request, response *restful.Response) {
