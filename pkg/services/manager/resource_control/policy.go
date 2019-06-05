@@ -2,7 +2,6 @@ package resource_control
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	aldb "kubesphere.io/alert/pkg/db"
@@ -137,56 +136,4 @@ func DeletePolicies(ctx context.Context, policyIds []string) ([]string, error) {
 
 	tx.Commit()
 	return policyIds, nil
-}
-
-func ModifyPolicyByAlert(ctx context.Context, resourceMap map[string]string, req *pb.ModifyPolicyByAlertRequest) (string, error) {
-	alertName := req.AlertName
-
-	alerts, count, _ := GetAlertByName(resourceMap, alertName)
-
-	if count != 1 {
-		return "", errors.New("alert_name not found or duplicate")
-	}
-
-	alertId := alerts[0].AlertId
-
-	attributes := make(map[string]interface{})
-
-	if req.PolicyName != "" {
-		attributes[models.PlColName] = req.PolicyName
-	}
-	if req.PolicyDescription != "" {
-		attributes[models.PlColDescription] = req.PolicyDescription
-	}
-	if req.PolicyConfig != "" {
-		attributes[models.PlColConfig] = req.PolicyConfig
-	}
-	if req.Creator != "" {
-		attributes[models.PlColCreator] = req.Creator
-	}
-	if req.AvailableStartTime != "" {
-		attributes[models.PlColAvailableStartTime] = req.AvailableStartTime
-	}
-	if req.AvailableEndTime != "" {
-		attributes[models.PlColAvailableEndTime] = req.AvailableEndTime
-	}
-	if req.RsTypeId != "" {
-		attributes[models.PlColTypeId] = req.RsTypeId
-	}
-
-	attributes[models.PlColUpdateTime] = time.Now()
-
-	db := global.GetInstance().GetDB()
-	tx := db.Begin()
-
-	var policy models.Policy
-	err := tx.Model(&policy).Where(models.PlColId+" = (select policy_id from alert where alert_id = ?)", alertId).Updates(attributes)
-	if err.Error != nil {
-		tx.Rollback()
-		logger.Error(ctx, "Patch Policy By Alert [%s] failed: %+v", alertName, err.Error)
-		return "", err.Error
-	}
-
-	tx.Commit()
-	return alertName, nil
 }

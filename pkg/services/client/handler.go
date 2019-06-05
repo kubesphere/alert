@@ -629,7 +629,7 @@ func DeletePolicies(request *restful.Request, response *restful.Response) {
 }
 
 func modifyPolicyByAlert(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
+	/*resourceSearch, _ := json.Marshal(resourceMap)
 	policyByAlert := new(models.PolicyByAlert)
 
 	err := request.ReadEntity(&policyByAlert)
@@ -668,7 +668,7 @@ func modifyPolicyByAlert(resourceMap map[string]string, request *restful.Request
 
 	logger.Debug(nil, "ModifyPolicyByAlert success: %+v", resp)
 
-	response.WriteAsJson(resp)
+	response.WriteAsJson(resp)*/
 }
 
 func ModifyPolicyByAlertCluster(request *restful.Request, response *restful.Response) {
@@ -1055,7 +1055,7 @@ func removePolicy(client pb.AlertManagerClient, ctx context.Context, policyId st
 }
 
 func createAlertInfo(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	alertInfo := new(models.AlertInfo)
+	/*alertInfo := new(models.AlertInfo)
 
 	err := request.ReadEntity(&alertInfo)
 	if err != nil {
@@ -1312,7 +1312,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 
 	logger.Debug(nil, "CreateAlertInfo Alert success: %+v", respAlert)
 
-	response.WriteAsJson(respAlert)
+	response.WriteAsJson(respAlert)*/
 }
 
 func CreateAlertCluster(request *restful.Request, response *restful.Response) {
@@ -1374,7 +1374,7 @@ func CreateAlertContainer(request *restful.Request, response *restful.Response) 
 }
 
 func modifyAlertByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
+	/*resourceSearch, _ := json.Marshal(resourceMap)
 	alert := new(models.Alert)
 
 	err := request.ReadEntity(&alert)
@@ -1407,7 +1407,7 @@ func modifyAlertByName(resourceMap map[string]string, request *restful.Request, 
 
 	logger.Debug(nil, "ModifyAlertByName success: %+v", resp)
 
-	response.WriteAsJson(resp)
+	response.WriteAsJson(resp)*/
 }
 
 func ModifyAlertByNameCluster(request *restful.Request, response *restful.Response) {
@@ -1469,7 +1469,7 @@ func ModifyAlertByNameContainer(request *restful.Request, response *restful.Resp
 }
 
 func deleteAlertsByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
+	/*resourceSearch, _ := json.Marshal(resourceMap)
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
 
 	clientCustom, err := alclient.NewCustomClient()
@@ -1492,7 +1492,7 @@ func deleteAlertsByName(resourceMap map[string]string, request *restful.Request,
 
 	logger.Debug(nil, "DeleteAlertsByName success: %+v", resp)
 
-	response.WriteAsJson(resp)
+	response.WriteAsJson(resp)*/
 }
 
 func DeleteAlertsByNameCluster(request *restful.Request, response *restful.Response) {
@@ -1554,7 +1554,7 @@ func DeleteAlertsByNameContainer(request *restful.Request, response *restful.Res
 }
 
 func describeAlertDetails(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
+	/*resourceSearch, _ := json.Marshal(resourceMap)
 	alertIds := strings.Split(request.QueryParameter("alert_ids"), ",")
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
 	disables := parseBools(strings.Split(request.QueryParameter("disabled"), ","))
@@ -1601,7 +1601,7 @@ func describeAlertDetails(resourceMap map[string]string, request *restful.Reques
 
 	logger.Debug(nil, "DescribeAlertDetails success: %+v", resp)
 
-	response.WriteAsJson(resp)
+	response.WriteAsJson(resp)*/
 }
 
 func DescribeAlertDetailsCluster(request *restful.Request, response *restful.Response) {
@@ -1663,7 +1663,7 @@ func DescribeAlertDetailsContainer(request *restful.Request, response *restful.R
 }
 
 func describeAlertStatus(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
+	/*resourceSearch, _ := json.Marshal(resourceMap)
 	alertIds := strings.Split(request.QueryParameter("alert_ids"), ",")
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
 	disables := parseBools(strings.Split(request.QueryParameter("disabled"), ","))
@@ -1711,7 +1711,7 @@ func describeAlertStatus(resourceMap map[string]string, request *restful.Request
 
 	logger.Debug(nil, "DescribeAlertStatus success: %+v", resp)
 
-	response.WriteAsJson(resp)
+	response.WriteAsJson(resp)*/
 }
 
 func DescribeAlertStatusCluster(request *restful.Request, response *restful.Response) {
@@ -1815,7 +1815,7 @@ func DescribeHistories(request *restful.Request, response *restful.Response) {
 }
 
 func describeHistoryDetail(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
+	/*resourceSearch, _ := json.Marshal(resourceMap)
 	historyIds := strings.Split(request.QueryParameter("history_ids"), ",")
 	historyNames := strings.Split(request.QueryParameter("history_names"), ",")
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
@@ -1862,7 +1862,7 @@ func describeHistoryDetail(resourceMap map[string]string, request *restful.Reque
 
 	logger.Debug(nil, "DescribeHistoryDetail success: %+v", resp)
 
-	response.WriteAsJson(resp)
+	response.WriteAsJson(resp)*/
 }
 
 func DescribeHistoryDetailCluster(request *restful.Request, response *restful.Response) {

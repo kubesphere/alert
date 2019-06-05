@@ -29,7 +29,6 @@ require (
 	github.com/speps/go-hashids v2.0.0+incompatible
 	github.com/stretchr/testify v1.3.0
 	github.com/ugorji/go v1.1.4 // indirect
-	go.etcd.io/etcd v3.3.12+incompatible
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	golang.org/x/tools v0.0.0-20190312170243-e65039ee4138
 	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
