@@ -17,6 +17,7 @@ import (
 	"kubesphere.io/alert/pkg/logger"
 	"kubesphere.io/alert/pkg/models"
 	"kubesphere.io/alert/pkg/pb"
+	rs "kubesphere.io/alert/pkg/services/client/resource_control"
 )
 
 func parseBool(input string) bool {
@@ -1554,7 +1555,7 @@ func DeleteAlertsByNameContainer(request *restful.Request, response *restful.Res
 }
 
 func describeAlertDetails(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	/*resourceSearch, _ := json.Marshal(resourceMap)
+	resourceSearch, _ := json.Marshal(resourceMap)
 	alertIds := strings.Split(request.QueryParameter("alert_ids"), ",")
 	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
 	disables := parseBools(strings.Split(request.QueryParameter("disabled"), ","))
@@ -1569,15 +1570,7 @@ func describeAlertDetails(resourceMap map[string]string, request *restful.Reques
 	offset, _ := parseUint32(request.QueryParameter("offset"))
 	limit, _ := parseUint32(request.QueryParameter("limit"))
 
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	var req = &pb.DescribeAlertDetailsRequest{
+	var req = &rs.DescribeAlertDetailsRequest{
 		ResourceSearch: string(resourceSearch),
 		SearchWord:     request.QueryParameter("search_word"),
 		AlertId:        alertIds,
@@ -1594,14 +1587,14 @@ func describeAlertDetails(resourceMap map[string]string, request *restful.Reques
 		Limit:          limit,
 	}
 
-	resp, err := clientCustom.DescribeAlertDetails(ctx, req)
+	resp, err := rs.DescribeAlertDetails(req)
 	if err != nil {
 		logger.Error(nil, "DescribeAlertDetails failed: %+v", err)
 	}
 
 	logger.Debug(nil, "DescribeAlertDetails success: %+v", resp)
 
-	response.WriteAsJson(resp)*/
+	response.WriteAsJson(resp)
 }
 
 func DescribeAlertDetailsCluster(request *restful.Request, response *restful.Response) {
