@@ -6,12 +6,15 @@ import (
 	"strings"
 	"time"
 
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+
 	"kubesphere.io/alert/pkg/constants"
 	aldb "kubesphere.io/alert/pkg/db"
 	"kubesphere.io/alert/pkg/gerr"
 	"kubesphere.io/alert/pkg/global"
 	"kubesphere.io/alert/pkg/logger"
 	"kubesphere.io/alert/pkg/metric"
+	"kubesphere.io/alert/pkg/util/pbutil"
 	"kubesphere.io/alert/pkg/util/stringutil"
 )
 
@@ -99,28 +102,29 @@ func getMostRecentAlertTimeByAlertId(alertId string) string {
 }
 
 type AlertDetail struct {
-	AlertId             string    `gorm:"column:alert_id" json:"alert_id"`
-	AlertName           string    `gorm:"column:alert_name" json:"alert_name"`
-	Disabled            bool      `gorm:"column:disabled" json:"disabled"`
-	CreateTime          time.Time `gorm:"column:create_time" json:"create_time"`
-	RunningStatus       string    `gorm:"column:running_status" json:"running_status"`
-	AlertStatus         string    `gorm:"column:alert_status" json:"alert_status"`
-	PolicyId            string    `gorm:"column:policy_id" json:"policy_id"`
-	RsFilterName        string    `gorm:"column:rs_filter_name" json:"rs_filter_name"`
-	RsFilterParam       string    `gorm:"column:rs_filter_param" json:"rs_filter_param"`
-	RsTypeName          string    `gorm:"column:rs_type_name" json:"rs_type_name"`
-	ExecutorId          string    `gorm:"column:executor_id" json:"executor_id"`
-	PolicyName          string    `gorm:"column:policy_name" json:"policy_name"`
-	PolicyDescription   string    `gorm:"column:policy_description" json:"policy_description"`
-	PolicyConfig        string    `gorm:"column:policy_config" json:"policy_config"`
-	Creator             string    `gorm:"column:creator" json:"creator"`
-	AvailableStartTime  string    `gorm:"column:available_start_time" json:"available_start_time"`
-	AvailableEndTime    string    `gorm:"column:available_end_time" json:"available_end_time"`
-	Metrics             []string  `gorm:"column:metrics" json:"metrics"`
-	RulesCount          uint32    `json:"rules_count"`
-	PositivesCount      uint32    `json:"positives_count"`
-	MostRecentAlertTime string    `json:"most_recent_alert_time"`
-	NfAddressListId     string    `gorm:"column:nf_address_list_id" json:"nf_address_list_id"`
+	AlertId             string               `gorm:"column:alert_id" json:"alert_id"`
+	AlertName           string               `gorm:"column:alert_name" json:"alert_name"`
+	Disabled            bool                 `gorm:"column:disabled" json:"disabled"`
+	CreateTimeDB        time.Time            `gorm:"column:create_time"`
+	CreateTime          *timestamp.Timestamp `json:"create_time"`
+	RunningStatus       string               `gorm:"column:running_status" json:"running_status"`
+	AlertStatus         string               `gorm:"column:alert_status" json:"alert_status"`
+	PolicyId            string               `gorm:"column:policy_id" json:"policy_id"`
+	RsFilterName        string               `gorm:"column:rs_filter_name" json:"rs_filter_name"`
+	RsFilterParam       string               `gorm:"column:rs_filter_param" json:"rs_filter_param"`
+	RsTypeName          string               `gorm:"column:rs_type_name" json:"rs_type_name"`
+	ExecutorId          string               `gorm:"column:executor_id" json:"executor_id"`
+	PolicyName          string               `gorm:"column:policy_name" json:"policy_name"`
+	PolicyDescription   string               `gorm:"column:policy_description" json:"policy_description"`
+	PolicyConfig        string               `gorm:"column:policy_config" json:"policy_config"`
+	Creator             string               `gorm:"column:creator" json:"creator"`
+	AvailableStartTime  string               `gorm:"column:available_start_time" json:"available_start_time"`
+	AvailableEndTime    string               `gorm:"column:available_end_time" json:"available_end_time"`
+	Metrics             []string             `gorm:"column:metrics" json:"metrics"`
+	RulesCount          uint32               `json:"rules_count"`
+	PositivesCount      uint32               `json:"positives_count"`
+	MostRecentAlertTime string               `json:"most_recent_alert_time"`
+	NfAddressListId     string               `gorm:"column:nf_address_list_id" json:"nf_address_list_id"`
 }
 
 type StatusAlert struct {
@@ -206,6 +210,7 @@ func getAlertDetails(req *DescribeAlertDetailsRequest) ([]*AlertDetail, uint64, 
 	}
 
 	for _, ald := range alds {
+		ald.CreateTime = pbutil.ToProtoTimestamp(ald.CreateTimeDB)
 		ald.Metrics = getMetricsByAlertId(ald.AlertId)
 		alertStatus := StatusAlert{}
 		err := json.Unmarshal([]byte(ald.AlertStatus), &alertStatus)
@@ -354,22 +359,24 @@ type ResourceStatus struct {
 }
 
 type AlertStatus struct {
-	RuleId           string           `gorm:"column:rule_id" json:"rule_id"`
-	RuleName         string           `gorm:"column:rule_name" json:"rule_name"`
-	Disabled         bool             `gorm:"column:disabled" json:"disabled"`
-	MonitorPeriods   uint32           `gorm:"column:monitor_periods" json:"monitor_periods"`
-	Severity         string           `gorm:"column:severity" json:"severity"`
-	MetricsType      string           `gorm:"column:metrics_type" json:"metrics_type"`
-	ConditionType    string           `gorm:"column:condition_type" json:"condition_type"`
-	Thresholds       string           `gorm:"column:thresholds" json:"thresholds"`
-	Unit             string           `gorm:"column:unit" json:"unit"`
-	ConsecutiveCount uint32           `gorm:"column:consecutive_count" json:"consecutive_count"`
-	Inhibit          bool             `gorm:"column:inhibit" json:"inhibit"`
-	MetricName       string           `gorm:"column:metric_name" json:"metric_name"`
-	Resources        []ResourceStatus `gorm:"column:resources" json:"resources"`
-	CreateTime       time.Time        `gorm:"column:create_time" json:"create_time"`
-	UpdateTime       time.Time        `gorm:"column:update_time" json:"update_time"`
-	AlertStatus      string           `gorm:"column:alert_status"`
+	RuleId           string               `gorm:"column:rule_id" json:"rule_id"`
+	RuleName         string               `gorm:"column:rule_name" json:"rule_name"`
+	Disabled         bool                 `gorm:"column:disabled" json:"disabled"`
+	MonitorPeriods   uint32               `gorm:"column:monitor_periods" json:"monitor_periods"`
+	Severity         string               `gorm:"column:severity" json:"severity"`
+	MetricsType      string               `gorm:"column:metrics_type" json:"metrics_type"`
+	ConditionType    string               `gorm:"column:condition_type" json:"condition_type"`
+	Thresholds       string               `gorm:"column:thresholds" json:"thresholds"`
+	Unit             string               `gorm:"column:unit" json:"unit"`
+	ConsecutiveCount uint32               `gorm:"column:consecutive_count" json:"consecutive_count"`
+	Inhibit          bool                 `gorm:"column:inhibit" json:"inhibit"`
+	MetricName       string               `gorm:"column:metric_name" json:"metric_name"`
+	Resources        []ResourceStatus     `gorm:"column:resources" json:"resources"`
+	CreateTimeDB     time.Time            `gorm:"column:create_time"`
+	UpdateTimeDB     time.Time            `gorm:"column:update_time"`
+	CreateTime       *timestamp.Timestamp `json:"create_time"`
+	UpdateTime       *timestamp.Timestamp `json:"update_time"`
+	AlertStatus      string               `gorm:"column:alert_status"`
 }
 
 type DescribeAlertStatusRequest struct {
@@ -529,6 +536,8 @@ func getAlertStatus(req *DescribeAlertStatusRequest) ([]*AlertStatus, uint64, er
 	count_resources := 0
 
 	for _, als := range alss {
+		als.CreateTime = pbutil.ToProtoTimestamp(als.CreateTimeDB)
+		als.UpdateTime = pbutil.ToProtoTimestamp(als.UpdateTimeDB)
 		alertStatus := StatusAlert{}
 		err := json.Unmarshal([]byte(als.AlertStatus), &alertStatus)
 		if err == nil {
@@ -576,16 +585,18 @@ func DescribeAlertStatus(req *DescribeAlertStatusRequest) (*DescribeAlertStatusR
 }
 
 type Alert struct {
-	AlertId       string    `gorm:"column:alert_id" json:"alert_id"`
-	AlertName     string    `gorm:"column:alert_name" json:"alert_name"`
-	Disabled      bool      `gorm:"column:disabled" json:"disabled"`
-	RunningStatus string    `gorm:"column:running_status" json:"running_status"`
-	AlertStatus   string    `gorm:"column:alert_status" json:"alert_status"`
-	CreateTime    time.Time `gorm:"column:create_time" json:"create_time"`
-	UpdateTime    time.Time `gorm:"column:update_time" json:"update_time"`
-	PolicyId      string    `gorm:"column:policy_id" json:"policy_id"`
-	RsFilterId    string    `gorm:"column:rs_filter_id" json:"rs_filter_id"`
-	ExecutorId    string    `gorm:"column:executor_id" json:"executor_id"`
+	AlertId       string               `gorm:"column:alert_id" json:"alert_id"`
+	AlertName     string               `gorm:"column:alert_name" json:"alert_name"`
+	Disabled      bool                 `gorm:"column:disabled" json:"disabled"`
+	RunningStatus string               `gorm:"column:running_status" json:"running_status"`
+	AlertStatus   string               `gorm:"column:alert_status" json:"alert_status"`
+	CreateTimeDB  time.Time            `gorm:"column:create_time"`
+	UpdateTimeDB  time.Time            `gorm:"column:update_time"`
+	CreateTime    *timestamp.Timestamp `json:"create_time"`
+	UpdateTime    *timestamp.Timestamp `json:"update_time"`
+	PolicyId      string               `gorm:"column:policy_id" json:"policy_id"`
+	RsFilterId    string               `gorm:"column:rs_filter_id" json:"rs_filter_id"`
+	ExecutorId    string               `gorm:"column:executor_id" json:"executor_id"`
 }
 
 func GetAlertByName(resourceMap map[string]string, alertName string) ([]*Alert, uint64, error) {
@@ -612,6 +623,11 @@ func GetAlertByName(resourceMap map[string]string, alertName string) ([]*Alert, 
 	if err != nil {
 		logger.Error(nil, "Failed to GetAlertByName [%v], error: %+v.", alertName, err)
 		return nil, 0, err
+	}
+
+	for _, al := range als {
+		al.CreateTime = pbutil.ToProtoTimestamp(al.CreateTimeDB)
+		al.UpdateTime = pbutil.ToProtoTimestamp(al.UpdateTimeDB)
 	}
 
 	return als, count, nil
