@@ -601,7 +601,7 @@ type Alert struct {
 
 func GetAlertByName(resourceMap map[string]string, alertName string) ([]*Alert, uint64, error) {
 	dbChain := aldb.GetChain(global.GetInstance().GetDB().Table("alert t1").
-		Select("t1.alert_id,t1.alert_name").
+		Select("t1.alert_id,t1.alert_name,t1.policy_id").
 		Joins("left join resource_filter t2 on t1.rs_filter_id=t2.rs_filter_id").
 		Joins("left join resource_type t3 on t2.rs_type_id=t3.rs_type_id"))
 
