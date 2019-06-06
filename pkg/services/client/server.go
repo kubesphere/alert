@@ -1135,8 +1135,10 @@ func WebService() *restful.WebService {
 	return ws
 }
 
+var Container = restful.DefaultContainer
+
 func Run() {
-	restful.DefaultContainer.Add(WebService())
+	Container.Add(WebService())
 	enableCORS()
 
 	global.GetInstance()
@@ -1155,6 +1157,10 @@ func enableCORS() {
 		AllowedMethods: []string{"GET", "POST", "PUT", "PATCH", "DELETE"},
 		CookiesAllowed: false,
 		AllowedDomains: []string{"*"},
-		Container:      restful.DefaultContainer}
-	restful.DefaultContainer.Filter(cors.Filter)
+		Container:      Container}
+	Container.Filter(cors.Filter)
+}
+
+func PrepareSwagger() {
+	Container.Add(WebService())
 }
