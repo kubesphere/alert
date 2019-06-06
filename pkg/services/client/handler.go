@@ -18,6 +18,7 @@ import (
 	"kubesphere.io/alert/pkg/models"
 	"kubesphere.io/alert/pkg/pb"
 	rs "kubesphere.io/alert/pkg/services/client/resource_control"
+	"kubesphere.io/alert/pkg/util/stringutil"
 )
 
 func parseBool(input string) bool {
@@ -1470,12 +1471,18 @@ func deleteAlertsByName(resourceMap map[string]string, request *restful.Request,
 		AlertName: []string{},
 	}
 
-	defer response.WriteAsJson(resp)
+	alertNames := stringutil.SimplifyStringList(strings.Split(request.QueryParameter("alert_names"), ","))
+	if len(alertNames) == 0 {
+		logger.Debug(nil, "DeleteAlertsByName has no alert name specified.")
+		response.WriteAsJson(resp)
+		return
+	}
 
 	alerts, count, _ := rs.GetAlertByName(resourceMap, request.QueryParameter("alert_names"))
 
 	if count == 0 {
 		logger.Debug(nil, "DeleteAlertsByName has no match alert name.")
+		response.WriteAsJson(resp)
 		return
 	}
 
@@ -1494,6 +1501,7 @@ func deleteAlertsByName(resourceMap map[string]string, request *restful.Request,
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(resp)
 		return
 	}
 
@@ -1503,6 +1511,7 @@ func deleteAlertsByName(resourceMap map[string]string, request *restful.Request,
 	respDelete, err := client.DeleteAlerts(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteAlertsByName failed: %+v", err)
+		response.WriteAsJson(resp)
 		return
 	}
 
@@ -1510,9 +1519,12 @@ func deleteAlertsByName(resourceMap map[string]string, request *restful.Request,
 	for _, alertDelete := range respDelete.AlertId {
 		alertNamesSuccess = append(alertNamesSuccess, alertIdName[alertDelete])
 	}
-	resp.AlertName = alertNamesSuccess
+	resp = DeleteAlertsByNameResponse{
+		AlertName: alertNamesSuccess,
+	}
 
 	logger.Debug(nil, "DeleteAlertsByName success: %+v", resp)
+	response.WriteAsJson(resp)
 }
 
 func DeleteAlertsByNameCluster(request *restful.Request, response *restful.Response) {
