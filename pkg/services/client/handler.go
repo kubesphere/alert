@@ -1461,31 +1461,58 @@ func ModifyAlertByNameContainer(request *restful.Request, response *restful.Resp
 	modifyAlertByName(resourceMap, request, response)
 }
 
-func deleteAlertsByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	/*resourceSearch, _ := json.Marshal(resourceMap)
-	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
+type DeleteAlertsByNameResponse struct {
+	AlertName []string `json:"alert_name"`
+}
 
-	clientCustom, err := alclient.NewCustomClient()
+func deleteAlertsByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
+	resp := DeleteAlertsByNameResponse{
+		AlertName: []string{},
+	}
+
+	defer response.WriteAsJson(resp)
+
+	alerts, count, _ := rs.GetAlertByName(resourceMap, request.QueryParameter("alert_names"))
+
+	if count == 0 {
+		logger.Debug(nil, "DeleteAlertsByName has no match alert name.")
+		return
+	}
+
+	alertIdName := map[string]string{}
+
+	alertIds := []string{}
+	for _, alert := range alerts {
+		alertIds = append(alertIds, alert.AlertId)
+		alertIdName[alert.AlertId] = alert.AlertName
+	}
+
+	var req = &pb.DeleteAlertsRequest{
+		AlertId: alertIds,
+	}
+
+	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	var req = &pb.DeleteAlertsByNameRequest{
-		ResourceSearch: string(resourceSearch),
-		AlertName:      alertNames,
-	}
-
-	resp, err := clientCustom.DeleteAlertsByName(ctx, req)
+	respDelete, err := client.DeleteAlerts(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteAlertsByName failed: %+v", err)
+		return
 	}
 
-	logger.Debug(nil, "DeleteAlertsByName success: %+v", resp)
+	alertNamesSuccess := []string{}
+	for _, alertDelete := range respDelete.AlertId {
+		alertNamesSuccess = append(alertNamesSuccess, alertIdName[alertDelete])
+	}
+	resp.AlertName = alertNamesSuccess
 
-	response.WriteAsJson(resp)*/
+	logger.Debug(nil, "DeleteAlertsByName success: %+v", resp)
 }
 
 func DeleteAlertsByNameCluster(request *restful.Request, response *restful.Response) {
