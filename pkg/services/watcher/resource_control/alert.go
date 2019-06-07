@@ -62,13 +62,13 @@ func UpdateAlertByAlertId(alertId string, oldStatus string, newStatus string) er
 	return nil
 }
 
-func DeleteAlertByAlertId(alertId string) error {
+func DeleteAlerts(alertIds []string) error {
 	db := global.GetInstance().GetDB()
 	tx := db.Begin()
 
 	//1. Delete ResourceFilter
 	var resourceFilter models.ResourceFilter
-	err := tx.Model(&resourceFilter).Where("rs_filter_id in (select rs_filter_id from alert where alert_id in (?))", alertId).Delete(models.ResourceFilter{})
+	err := tx.Model(&resourceFilter).Where("rs_filter_id in (select rs_filter_id from alert where alert_id in (?))", alertIds).Delete(models.ResourceFilter{})
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete ResourceFilter failed, [%+v]\n", err.Error)
@@ -77,7 +77,7 @@ func DeleteAlertByAlertId(alertId string) error {
 
 	//2. Delete Rules
 	var rule models.Rule
-	err = tx.Model(&rule).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertId).Delete(models.Rule{})
+	err = tx.Model(&rule).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertIds).Delete(models.Rule{})
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Rules failed, [%+v]\n", err.Error)
@@ -86,7 +86,7 @@ func DeleteAlertByAlertId(alertId string) error {
 
 	//3. Delete Action
 	var action models.Action
-	err = tx.Model(&action).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertId).Delete(models.Action{})
+	err = tx.Model(&action).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertIds).Delete(models.Action{})
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Action failed, [%+v]\n", err.Error)
@@ -95,7 +95,7 @@ func DeleteAlertByAlertId(alertId string) error {
 
 	//4. Delete Policy
 	var policy models.Policy
-	err = tx.Model(&policy).Where("policy_id in (select policy_id from alert where alert_id in (?))", alertId).Delete(models.Policy{})
+	err = tx.Model(&policy).Where("policy_id in (select policy_id from alert where alert_id in (?))", alertIds).Delete(models.Policy{})
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Policy failed, [%+v]\n", err.Error)
@@ -104,7 +104,7 @@ func DeleteAlertByAlertId(alertId string) error {
 
 	//5. Delete Alert
 	var alert models.Alert
-	err = tx.Model(&alert).Where("alert_id in (?)", alertId).Delete(models.Alert{})
+	err = tx.Model(&alert).Where("alert_id in (?)", alertIds).Delete(models.Alert{})
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Alert failed, [%+v]\n", err.Error)

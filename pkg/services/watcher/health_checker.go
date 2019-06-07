@@ -86,7 +86,7 @@ func (hc *HealthChecker) processTimeoutUpdatingAlerts() {
 	for _, alert := range alerts {
 		err := rs.UpdateAlertByAlertId(alert.AlertId, "updating", "adding")
 		if err == nil && executorCount > 0 {
-			hc.executorWatcher.alertQueue.WriteBackAlert(alert.AlertId)
+			hc.executorWatcher.alertBroadcast.Broadcast(alert.AlertId, "updating", 10)
 		}
 	}
 }
@@ -113,7 +113,10 @@ func (hc *HealthChecker) processTimeoutDeletingAlerts() {
 		return
 	}
 
+	alertIds := []string{}
 	for _, alert := range alerts {
-		rs.DeleteAlertByAlertId(alert.AlertId)
+		alertIds = append(alertIds, alert.AlertId)
 	}
+
+	rs.DeleteAlerts(alertIds)
 }

@@ -31,9 +31,10 @@ type ExecutorInfo struct {
 
 type ExecutorWatcher struct {
 	sync.RWMutex
-	members       map[string]*Member
-	alertQueue    *AlertQueue
-	healthChecker *HealthChecker
+	members        map[string]*Member
+	alertQueue     *AlertQueue
+	alertBroadcast *AlertBroadcast
+	healthChecker  *HealthChecker
 }
 
 // Member is a client machine
@@ -44,9 +45,10 @@ type Member struct {
 
 func NewExecutorWatcher() *ExecutorWatcher {
 	ew := &ExecutorWatcher{
-		members:       make(map[string]*Member),
-		alertQueue:    NewAlertQueue(),
-		healthChecker: NewHealthChecker(),
+		members:        make(map[string]*Member),
+		alertQueue:     NewAlertQueue(),
+		alertBroadcast: NewAlertBroadcast(),
+		healthChecker:  NewHealthChecker(),
 	}
 
 	ew.healthChecker.SetExecutorWatcher(ew)
