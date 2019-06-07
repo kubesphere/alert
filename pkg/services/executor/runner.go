@@ -663,8 +663,6 @@ func (ar *AlertRunner) Run(initStatus string) {
 	timer := time.NewTicker(time.Second * TickPeriodSecond)
 	defer timer.Stop()
 
-	defer close(ar.SignalCh)
-
 	ar.loadAlertInfo()
 	ar.updateAlertUpdateTime()
 
