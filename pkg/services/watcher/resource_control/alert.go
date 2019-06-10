@@ -1,6 +1,7 @@
 package resource_control
 
 import (
+	"fmt"
 	"time"
 
 	"kubesphere.io/alert/pkg/global"
@@ -66,43 +67,53 @@ func DeleteAlerts(alertIds []string) error {
 	db := global.GetInstance().GetDB()
 	tx := db.Begin()
 
-	//1. Delete ResourceFilter
-	var resourceFilter models.ResourceFilter
-	err := tx.Model(&resourceFilter).Where("rs_filter_id in (select rs_filter_id from alert where alert_id in (?))", alertIds).Delete(models.ResourceFilter{})
+	//1. Prepare where collect
+	where := ""
+	for i, alertId := range alertIds {
+		if i == 0 {
+			where += fmt.Sprintf("'%s'", alertId)
+		} else {
+			where += fmt.Sprintf(",'%s'", alertId)
+		}
+	}
+
+	//2. Delete ResourceFilters
+	sql := fmt.Sprintf("DELETE rf FROM resource_filter rf, alert al WHERE rf.rs_filter_id=al.rs_filter_id AND al.alert_id IN (%s)", where)
+	err := tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete ResourceFilter failed, [%+v]\n", err.Error)
 		return err.Error
 	}
 
-	//2. Delete Rules
-	var rule models.Rule
-	err = tx.Model(&rule).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertIds).Delete(models.Rule{})
+	//3. Delete Rules
+	sql = fmt.Sprintf("DELETE rl FROM rule rl, alert al WHERE rl.policy_id=al.policy_id AND al.alert_id IN (%s)", where)
+	err = tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Rules failed, [%+v]\n", err.Error)
 		return err.Error
 	}
 
-	//3. Delete Action
-	var action models.Action
-	err = tx.Model(&action).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertIds).Delete(models.Action{})
+	//4. Delete Actions
+	sql = fmt.Sprintf("DELETE ac FROM action ac, alert al WHERE ac.policy_id=al.policy_id AND al.alert_id IN (%s)", where)
+	err = tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Action failed, [%+v]\n", err.Error)
 		return err.Error
 	}
 
-	//4. Delete Policy
-	var policy models.Policy
-	err = tx.Model(&policy).Where("policy_id in (select policy_id from alert where alert_id in (?))", alertIds).Delete(models.Policy{})
+	//5. Delete Policies
+	sql = fmt.Sprintf("DELETE pl FROM policy pl, alert al WHERE pl.policy_id=al.policy_id AND al.alert_id IN (%s)", where)
+	err = tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlertByAlertId Delete Policy failed, [%+v]\n", err.Error)
 		return err.Error
 	}
 
-	//5. Delete Alert
+	//6. Delete Alerts
 	var alert models.Alert
 	err = tx.Model(&alert).Where("alert_id in (?)", alertIds).Delete(models.Alert{})
 	if err.Error != nil {
