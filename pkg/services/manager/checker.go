@@ -74,14 +74,6 @@ func (s *Server) Checker(ctx context.Context, req interface{}) error {
 		return manager.NewChecker(ctx, r).
 			Required(models.AcColId).
 			Exec()
-	case *pb.ModifyPolicyByAlertRequest:
-		return manager.NewChecker(ctx, r).
-			Required(models.AlColName).
-			Exec()
-	case *pb.ModifyAlertByNameRequest:
-		return manager.NewChecker(ctx, r).
-			Required(models.AlColName, models.AlColPolicyId, models.AlColRsFilterId).
-			Exec()
 	}
 
 	return nil

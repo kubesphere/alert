@@ -40,6 +40,5 @@ func Serve() {
 		WithChecker(s.Checker).
 		Serve(func(server *grpc.Server) {
 			pb.RegisterAlertManagerServer(server, s)
-			pb.RegisterAlertManagerCustomServer(server, s)
 		})
 }

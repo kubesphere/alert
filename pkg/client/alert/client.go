@@ -29,21 +29,3 @@ func NewClient() (*Client, error) {
 		AlertManagerClient: pb.NewAlertManagerClient(conn),
 	}, nil
 }
-
-type CustomClient struct {
-	pb.AlertManagerCustomClient
-}
-
-func NewCustomClient() (*CustomClient, error) {
-	cfg := config.GetInstance()
-	managerHost := cfg.App.Host
-	managerPort, _ := strconv.Atoi(cfg.App.Port)
-
-	conn, err := manager.NewClient(managerHost, managerPort)
-	if err != nil {
-		return nil, err
-	}
-	return &CustomClient{
-		AlertManagerCustomClient: pb.NewAlertManagerCustomClient(conn),
-	}, nil
-}

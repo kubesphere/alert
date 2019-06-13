@@ -86,17 +86,17 @@ func DeleteAlert(alertId string) error {
 	tx := db.Begin()
 
 	//1. Delete ResourceFilter
-	var resourceFilter models.ResourceFilter
-	err := tx.Model(&resourceFilter).Where("rs_filter_id in (select rs_filter_id from alert where alert_id in (?))", alertId).Delete(models.ResourceFilter{})
+	sql := fmt.Sprintf("DELETE rf FROM resource_filter rf, alert al WHERE rf.rs_filter_id=al.rs_filter_id AND al.alert_id IN ('%s')", alertId)
+	err := tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlert Delete ResourceFilter failed, [%+v]\n", err.Error)
 		return err.Error
 	}
 
-	//2. Delete Rules
-	var rule models.Rule
-	err = tx.Model(&rule).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertId).Delete(models.Rule{})
+	//2. Delete Rule
+	sql = fmt.Sprintf("DELETE rl FROM rule rl, alert al WHERE rl.policy_id=al.policy_id AND al.alert_id IN ('%s')", alertId)
+	err = tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlert Delete Rules failed, [%+v]\n", err.Error)
@@ -104,8 +104,8 @@ func DeleteAlert(alertId string) error {
 	}
 
 	//3. Delete Action
-	var action models.Action
-	err = tx.Model(&action).Where("policy_id in (select policy_id from policy where policy_id in (select policy_id from alert where alert_id in (?)))", alertId).Delete(models.Action{})
+	sql = fmt.Sprintf("DELETE ac FROM action ac, alert al WHERE ac.policy_id=al.policy_id AND al.alert_id IN ('%s')", alertId)
+	err = tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlert Delete Action failed, [%+v]\n", err.Error)
@@ -113,8 +113,8 @@ func DeleteAlert(alertId string) error {
 	}
 
 	//4. Delete Policy
-	var policy models.Policy
-	err = tx.Model(&policy).Where("policy_id in (select policy_id from alert where alert_id in (?))", alertId).Delete(models.Policy{})
+	sql = fmt.Sprintf("DELETE pl FROM policy pl, alert al WHERE pl.policy_id=al.policy_id AND al.alert_id IN ('%s')", alertId)
+	err = tx.Exec(sql)
 	if err.Error != nil {
 		tx.Rollback()
 		logger.Error(nil, "DeleteAlert Delete Policy failed, [%+v]\n", err.Error)

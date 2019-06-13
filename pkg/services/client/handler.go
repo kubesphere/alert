@@ -17,6 +17,8 @@ import (
 	"kubesphere.io/alert/pkg/logger"
 	"kubesphere.io/alert/pkg/models"
 	"kubesphere.io/alert/pkg/pb"
+	rs "kubesphere.io/alert/pkg/services/client/resource_control"
+	"kubesphere.io/alert/pkg/util/stringutil"
 )
 
 func parseBool(input string) bool {
@@ -90,14 +92,16 @@ func CreateResourceType(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&resourceType)
 	if err != nil {
-		resp := &pb.CreateResourceTypeResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateResourceType request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateResourceTypeResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreateResourceTypeResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -111,6 +115,8 @@ func CreateResourceType(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreateResourceType(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateResourceType failed: %+v", err)
+		response.WriteAsJson(&pb.CreateResourceTypeResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateResourceType success: %+v", resp)
@@ -130,6 +136,8 @@ func DescribeResourceTypes(request *restful.Request, response *restful.Response)
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeResourceTypesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -147,6 +155,8 @@ func DescribeResourceTypes(request *restful.Request, response *restful.Response)
 	resp, err := client.DescribeResourceTypes(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeResourceTypes failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeResourceTypesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeResourceTypes success: %+v", resp)
@@ -159,8 +169,8 @@ func ModifyResourceType(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&resourceType)
 	if err != nil {
-		resp := &pb.ModifyResourceTypeResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyResourceType request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyResourceTypeResponse{})
 		return
 	}
 
@@ -181,6 +191,8 @@ func ModifyResourceType(request *restful.Request, response *restful.Response) {
 	resp, err := client.ModifyResourceType(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyResourceType failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyResourceTypeResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyResourceType success: %+v", resp)
@@ -194,6 +206,8 @@ func DeleteResourceTypes(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeleteResourceTypesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -206,6 +220,8 @@ func DeleteResourceTypes(request *restful.Request, response *restful.Response) {
 	resp, err := client.DeleteResourceTypes(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteResourceTypes failed: %+v", err)
+		response.WriteAsJson(&pb.DeleteResourceTypesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeleteResourceTypes success: %+v", resp)
@@ -218,14 +234,16 @@ func CreateResourceFilter(request *restful.Request, response *restful.Response) 
 
 	err := request.ReadEntity(&rsFilter)
 	if err != nil {
-		resp := &pb.CreateResourceFilterResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateResourceFilter request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateResourceFilterResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreateResourceFilterResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -241,6 +259,8 @@ func CreateResourceFilter(request *restful.Request, response *restful.Response) 
 	resp, err := client.CreateResourceFilter(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateResourceFilter failed: %+v", err)
+		response.WriteAsJson(&pb.CreateResourceFilterResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateResourceFilter success: %+v", resp)
@@ -262,6 +282,8 @@ func DescribeResourceFilters(request *restful.Request, response *restful.Respons
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeResourceFiltersResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -281,6 +303,8 @@ func DescribeResourceFilters(request *restful.Request, response *restful.Respons
 	resp, err := client.DescribeResourceFilters(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeResourceFilters failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeResourceFiltersResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeResourceFilters success: %+v", resp)
@@ -293,14 +317,16 @@ func ModifyResourceFilter(request *restful.Request, response *restful.Response) 
 
 	err := request.ReadEntity(&rsFilter)
 	if err != nil {
-		resp := &pb.ModifyResourceFilterResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyResourceFilter request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyResourceFilterResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.ModifyResourceFilterResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -317,6 +343,8 @@ func ModifyResourceFilter(request *restful.Request, response *restful.Response) 
 	resp, err := client.ModifyResourceFilter(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyResourceFilter failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyResourceFilterResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyResourceFilter success: %+v", resp)
@@ -330,6 +358,8 @@ func DeleteResourceFilters(request *restful.Request, response *restful.Response)
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeleteResourceFiltersResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -342,6 +372,8 @@ func DeleteResourceFilters(request *restful.Request, response *restful.Response)
 	resp, err := client.DeleteResourceFilters(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteResourceFilters failed: %+v", err)
+		response.WriteAsJson(&pb.DeleteResourceFiltersResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeleteResourceFilters success: %+v", resp)
@@ -354,14 +386,16 @@ func CreateMetric(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&metric)
 	if err != nil {
-		resp := &pb.CreateMetricResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateMetric request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateMetricResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreateMetricResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -377,6 +411,8 @@ func CreateMetric(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreateMetric(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateMetric failed: %+v", err)
+		response.WriteAsJson(&pb.CreateMetricResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateMetric success: %+v", resp)
@@ -398,6 +434,8 @@ func DescribeMetrics(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeMetricsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -417,6 +455,8 @@ func DescribeMetrics(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribeMetrics(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeMetrics failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeMetricsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeMetrics success: %+v", resp)
@@ -429,14 +469,16 @@ func ModifyMetric(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&metric)
 	if err != nil {
-		resp := &pb.ModifyMetricResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyMetric request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyMetricResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.ModifyMetricResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -453,6 +495,8 @@ func ModifyMetric(request *restful.Request, response *restful.Response) {
 	resp, err := client.ModifyMetric(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyMetric failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyMetricResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyMetric success: %+v", resp)
@@ -466,6 +510,8 @@ func DeleteMetrics(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeleteMetricsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -478,6 +524,8 @@ func DeleteMetrics(request *restful.Request, response *restful.Response) {
 	resp, err := client.DeleteMetrics(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteMetrics failed: %+v", err)
+		response.WriteAsJson(&pb.DeleteMetricsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeleteMetrics success: %+v", resp)
@@ -490,14 +538,16 @@ func CreatePolicy(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&policy)
 	if err != nil {
-		resp := &pb.CreatePolicyResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreatePolicy request data error %+v.", err)
+		response.WriteAsJson(&pb.CreatePolicyResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreatePolicyResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -515,6 +565,8 @@ func CreatePolicy(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreatePolicy(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreatePolicy failed: %+v", err)
+		response.WriteAsJson(&pb.CreatePolicyResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreatePolicy success: %+v", resp)
@@ -537,6 +589,8 @@ func DescribePolicies(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribePoliciesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -557,6 +611,8 @@ func DescribePolicies(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribePolicies(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribePolicies failed: %+v", err)
+		response.WriteAsJson(&pb.DescribePoliciesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribePolicies success: %+v", resp)
@@ -569,8 +625,8 @@ func ModifyPolicy(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&policy)
 	if err != nil {
-		resp := &pb.ModifyPolicyResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyPolicy request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyPolicyResponse{})
 		return
 	}
 
@@ -596,6 +652,8 @@ func ModifyPolicy(request *restful.Request, response *restful.Response) {
 	resp, err := client.ModifyPolicy(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyPolicy failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyPolicyResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyPolicy success: %+v", resp)
@@ -609,6 +667,8 @@ func DeletePolicies(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeletePoliciesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -621,6 +681,8 @@ func DeletePolicies(request *restful.Request, response *restful.Response) {
 	resp, err := client.DeletePolicies(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeletePolicies failed: %+v", err)
+		response.WriteAsJson(&pb.DeletePoliciesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeletePolicies success: %+v", resp)
@@ -628,29 +690,62 @@ func DeletePolicies(request *restful.Request, response *restful.Response) {
 	response.WriteAsJson(resp)
 }
 
+type PolicyByAlert struct {
+	AlertName          string    `json:"alert_name"`
+	PolicyName         string    `json:"policy_name"`
+	PolicyDescription  string    `json:"policy_description"`
+	PolicyConfig       string    `json:"policy_config"`
+	Creator            string    `json:"creator"`
+	AvailableStartTime string    `json:"available_start_time"`
+	AvailableEndTime   string    `json:"available_end_time"`
+	CreateTime         time.Time `json:"create_time"`
+	UpdateTime         time.Time `json:"update_time"`
+	RsTypeId           string    `json:"rs_type_id"`
+}
+
+type ModifyPolicyByAlertResponse struct {
+	AlertName string `json:"alert_name"`
+}
+
 func modifyPolicyByAlert(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
-	policyByAlert := new(models.PolicyByAlert)
+	resp := ModifyPolicyByAlertResponse{}
+
+	policyByAlert := new(PolicyByAlert)
 
 	err := request.ReadEntity(&policyByAlert)
 	if err != nil {
-		response.WriteErrorString(500, "read request error")
+		logger.Debug(nil, "ModifyPolicyByAlert request data error %+v.", err)
+		response.WriteAsJson(resp)
 		return
 	}
 
-	clientCustom, err := alclient.NewCustomClient()
+	alertNames := stringutil.SimplifyStringList(strings.Split(policyByAlert.AlertName, ","))
+	if len(alertNames) == 0 {
+		logger.Debug(nil, "ModifyPolicyByAlert has no alert name specified.")
+		response.WriteAsJson(resp)
+		return
+	}
+
+	alerts, count, _ := rs.GetAlertByName(resourceMap, policyByAlert.AlertName)
+
+	if count != 1 {
+		logger.Debug(nil, "ModifyPolicyByAlert get no match alert name or duplicate names.")
+		response.WriteAsJson(resp)
+		return
+	}
+
+	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-		response.WriteErrorString(500, "create alert grpc client error")
+		response.WriteAsJson(resp)
 		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	var req = &pb.ModifyPolicyByAlertRequest{
-		ResourceSearch:     string(resourceSearch),
-		AlertName:          policyByAlert.AlertName,
+	var req = &pb.ModifyPolicyRequest{
+		PolicyId:           alerts[0].PolicyId,
 		PolicyName:         policyByAlert.PolicyName,
 		PolicyDescription:  policyByAlert.PolicyDescription,
 		PolicyConfig:       policyByAlert.PolicyConfig,
@@ -660,14 +755,23 @@ func modifyPolicyByAlert(resourceMap map[string]string, request *restful.Request
 		RsTypeId:           policyByAlert.RsTypeId,
 	}
 
-	resp, err := clientCustom.ModifyPolicyByAlert(ctx, req)
+	respModify, err := client.ModifyPolicy(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyPolicyByAlert failed: %+v", err)
-		response.WriteErrorString(500, "ModifyPolicyByAlert error")
+		response.WriteAsJson(resp)
+		return
 	}
 
-	logger.Debug(nil, "ModifyPolicyByAlert success: %+v", resp)
+	if respModify.PolicyId != alerts[0].PolicyId {
+		logger.Debug(nil, "ModifyPolicyByAlert failed, PolicyId request[%+v] response[%+v] mismatch", alerts[0].PolicyId, respModify.PolicyId)
+		response.WriteAsJson(resp)
+		return
+	}
 
+	resp = ModifyPolicyByAlertResponse{
+		AlertName: policyByAlert.AlertName,
+	}
+	logger.Debug(nil, "ModifyPolicyByAlert success: %+v", resp)
 	response.WriteAsJson(resp)
 }
 
@@ -734,8 +838,8 @@ func CreateRule(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&rule)
 	if err != nil {
-		resp := &pb.CreateRuleResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateRule request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateRuleResponse{})
 		return
 	}
 
@@ -765,6 +869,8 @@ func CreateRule(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreateRule(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateRule failed: %+v", err)
+		response.WriteAsJson(&pb.CreateRuleResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateRule success: %+v", resp)
@@ -795,6 +901,8 @@ func DescribeRules(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeRulesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -823,6 +931,8 @@ func DescribeRules(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribeRules(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeRules failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeRulesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeRules success: %+v", resp)
@@ -835,14 +945,16 @@ func ModifyRule(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&rule)
 	if err != nil {
-		resp := &pb.ModifyRuleResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyRule request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyRuleResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.ModifyRuleResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -865,6 +977,8 @@ func ModifyRule(request *restful.Request, response *restful.Response) {
 	resp, err := client.ModifyRule(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyRule failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyRuleResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyRule success: %+v", resp)
@@ -878,6 +992,8 @@ func DeleteRules(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeleteRulesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -890,6 +1006,8 @@ func DeleteRules(request *restful.Request, response *restful.Response) {
 	resp, err := client.DeleteRules(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteRules failed: %+v", err)
+		response.WriteAsJson(&pb.DeleteRulesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeleteRules success: %+v", resp)
@@ -902,14 +1020,16 @@ func CreateAlert(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&alert)
 	if err != nil {
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateAlert request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -924,6 +1044,8 @@ func CreateAlert(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreateAlert(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateAlert failed: %+v", err)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateAlert success: %+v", resp)
@@ -948,6 +1070,8 @@ func DescribeAlerts(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeAlertsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -970,6 +1094,8 @@ func DescribeAlerts(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribeAlerts(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeAlerts failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeAlertsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeAlerts success: %+v", resp)
@@ -982,14 +1108,16 @@ func ModifyAlert(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&alert)
 	if err != nil {
-		resp := &pb.ModifyAlertResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyAlert request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyAlertResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.ModifyAlertResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -1006,6 +1134,8 @@ func ModifyAlert(request *restful.Request, response *restful.Response) {
 	resp, err := client.ModifyAlert(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyAlert failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyAlertResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyAlert success: %+v", resp)
@@ -1019,6 +1149,8 @@ func DeleteAlerts(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeleteAlertsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -1031,6 +1163,8 @@ func DeleteAlerts(request *restful.Request, response *restful.Response) {
 	resp, err := client.DeleteAlerts(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteAlerts failed: %+v", err)
+		response.WriteAsJson(&pb.DeleteAlertsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeleteAlerts success: %+v", resp)
@@ -1059,24 +1193,15 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 
 	err := request.ReadEntity(&alertInfo)
 	if err != nil {
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "createAlertInfo request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
-		return
-	}
-
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1086,8 +1211,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 	//1. Check Rules Length
 	if len(alertInfo.Rules) == 0 {
 		logger.Error(nil, "CreateAlertInfo Rules Length error")
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1101,22 +1225,19 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 	respRsType, err := client.DescribeResourceTypes(ctx, reqRsType)
 	if err != nil {
 		logger.Error(nil, "CreateAlertInfo DescribeResourceTypes failed: %+v", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
 	if respRsType.Total != 1 {
 		logger.Error(nil, "CreateAlertInfo resource type error")
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
 	if respRsType.ResourceTypeSet[0].RsTypeName != resourceMap["rs_type_name"] {
 		logger.Error(nil, "CreateAlertInfo resource type mismatch")
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1125,8 +1246,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 	err = json.Unmarshal([]byte(alertInfo.RsFilter.RsFilterParam), &rsFilterURI)
 	if err != nil {
 		logger.Error(nil, "CreateAlertInfo Unmarshal rsFilterURI Error: %+v", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1160,31 +1280,28 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 
 	if !uriCorrect {
 		logger.Error(nil, "CreateAlertInfo uri mismatch")
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
 	//4. Check if same alert_name exists
 	resourceSearch, _ := json.Marshal(resourceMap)
 	alertNames := strings.Split(alertInfo.Alert.AlertName, ",")
-	var reqCheck = &pb.DescribeAlertDetailsRequest{
+	var reqCheck = &rs.DescribeAlertDetailsRequest{
 		ResourceSearch: string(resourceSearch),
 		AlertName:      alertNames,
 	}
 
-	respCheck, err := clientCustom.DescribeAlertDetails(ctx, reqCheck)
+	respCheck, err := rs.DescribeAlertDetails(reqCheck)
 	if err != nil {
 		logger.Error(nil, "CreateAlertInfo check alert name failed: %+v", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
 	if respCheck.Total != 0 {
 		logger.Error(nil, "CreateAlertInfo alert name already exists")
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1199,8 +1316,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 	respRsFilter, err := client.CreateResourceFilter(ctx, reqRsFilter)
 	if err != nil {
 		logger.Error(nil, "CreateAlertInfo Resource Filter failed: %+v", err)
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1224,8 +1340,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 
 		removeResourceFilter(client, ctx, rsFilterId)
 
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1246,8 +1361,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 		removeResourceFilter(client, ctx, rsFilterId)
 		removePolicy(client, ctx, policyId)
 
-		resp := &pb.CreateActionResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1284,8 +1398,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 		removeResourceFilter(client, ctx, rsFilterId)
 		removePolicy(client, ctx, policyId)
 
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1305,8 +1418,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 		removeResourceFilter(client, ctx, rsFilterId)
 		removePolicy(client, ctx, policyId)
 
-		resp := &pb.CreateAlertResponse{}
-		response.WriteAsJson(resp)
+		response.WriteAsJson(&pb.CreateAlertResponse{})
 		return
 	}
 
@@ -1373,40 +1485,69 @@ func CreateAlertContainer(request *restful.Request, response *restful.Response) 
 	createAlertInfo(resourceMap, request, response)
 }
 
+type ModifyAlertByNameResponse struct {
+	AlertName string `json:"alert_name"`
+}
+
 func modifyAlertByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
 	alert := new(models.Alert)
 
 	err := request.ReadEntity(&alert)
 	if err != nil {
-		resp := &pb.ModifyAlertByNameResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyAlertByName request data error %+v.", err)
+		response.WriteAsJson(&ModifyAlertByNameResponse{})
 		return
 	}
 
-	clientCustom, err := alclient.NewCustomClient()
+	alertNames := stringutil.SimplifyStringList(strings.Split(alert.AlertName, ","))
+	if len(alertNames) == 0 {
+		logger.Debug(nil, "ModifyAlertByName has no alert name specified.")
+		response.WriteAsJson(&ModifyAlertByNameResponse{})
+		return
+	}
+
+	alerts, count, _ := rs.GetAlertByName(resourceMap, alert.AlertName)
+
+	if count != 1 {
+		logger.Debug(nil, "ModifyAlertByName get no match alert name or duplicate names.")
+		response.WriteAsJson(&ModifyAlertByNameResponse{})
+		return
+	}
+
+	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&ModifyAlertByNameResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	var req = &pb.ModifyAlertByNameRequest{
-		ResourceSearch: string(resourceSearch),
-		AlertName:      alert.AlertName,
-		Disabled:       alert.Disabled,
-		PolicyId:       alert.PolicyId,
-		RsFilterId:     alert.RsFilterId,
+	var req = &pb.ModifyAlertRequest{
+		AlertId:    alerts[0].AlertId,
+		Disabled:   alert.Disabled,
+		PolicyId:   alert.PolicyId,
+		RsFilterId: alert.RsFilterId,
 	}
 
-	resp, err := clientCustom.ModifyAlertByName(ctx, req)
+	respModify, err := client.ModifyAlert(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyAlertByName failed: %+v", err)
+		response.WriteAsJson(&ModifyAlertByNameResponse{})
+		return
 	}
 
-	logger.Debug(nil, "ModifyAlertByName success: %+v", resp)
+	if respModify.AlertId != alerts[0].AlertId {
+		logger.Debug(nil, "ModifyAlertByName failed, AlertId request[%+v] response[%+v] mismatch", alerts[0].AlertId, respModify.AlertId)
+		response.WriteAsJson(&ModifyAlertByNameResponse{})
+		return
+	}
 
+	resp := ModifyAlertByNameResponse{
+		AlertName: alert.AlertName,
+	}
+	logger.Debug(nil, "ModifyAlertByName success: %+v", resp)
 	response.WriteAsJson(resp)
 }
 
@@ -1468,30 +1609,65 @@ func ModifyAlertByNameContainer(request *restful.Request, response *restful.Resp
 	modifyAlertByName(resourceMap, request, response)
 }
 
-func deleteAlertsByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
-	resourceSearch, _ := json.Marshal(resourceMap)
-	alertNames := strings.Split(request.QueryParameter("alert_names"), ",")
+type DeleteAlertsByNameResponse struct {
+	AlertName []string `json:"alert_name"`
+}
 
-	clientCustom, err := alclient.NewCustomClient()
+func deleteAlertsByName(resourceMap map[string]string, request *restful.Request, response *restful.Response) {
+	alertNames := stringutil.SimplifyStringList(strings.Split(request.QueryParameter("alert_names"), ","))
+	if len(alertNames) == 0 {
+		logger.Debug(nil, "DeleteAlertsByName has no alert name specified.")
+		response.WriteAsJson(&DeleteAlertsByNameResponse{})
+		return
+	}
+
+	alerts, count, _ := rs.GetAlertByName(resourceMap, request.QueryParameter("alert_names"))
+
+	if count == 0 {
+		logger.Debug(nil, "DeleteAlertsByName get no match alert name.")
+		response.WriteAsJson(&DeleteAlertsByNameResponse{})
+		return
+	}
+
+	alertIdName := map[string]string{}
+
+	alertIds := []string{}
+	for _, alert := range alerts {
+		alertIds = append(alertIds, alert.AlertId)
+		alertIdName[alert.AlertId] = alert.AlertName
+	}
+
+	var req = &pb.DeleteAlertsRequest{
+		AlertId: alertIds,
+	}
+
+	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&DeleteAlertsByNameResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 
-	var req = &pb.DeleteAlertsByNameRequest{
-		ResourceSearch: string(resourceSearch),
-		AlertName:      alertNames,
-	}
-
-	resp, err := clientCustom.DeleteAlertsByName(ctx, req)
+	respDelete, err := client.DeleteAlerts(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteAlertsByName failed: %+v", err)
+		response.WriteAsJson(&DeleteAlertsByNameResponse{})
+		return
+	}
+
+	alertNamesSuccess := []string{}
+	for _, alertDelete := range respDelete.AlertId {
+		alertNamesSuccess = append(alertNamesSuccess, alertIdName[alertDelete])
+	}
+
+	resp := DeleteAlertsByNameResponse{
+		AlertName: alertNamesSuccess,
 	}
 
 	logger.Debug(nil, "DeleteAlertsByName success: %+v", resp)
-
 	response.WriteAsJson(resp)
 }
 
@@ -1569,15 +1745,7 @@ func describeAlertDetails(resourceMap map[string]string, request *restful.Reques
 	offset, _ := parseUint32(request.QueryParameter("offset"))
 	limit, _ := parseUint32(request.QueryParameter("limit"))
 
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	var req = &pb.DescribeAlertDetailsRequest{
+	var req = &rs.DescribeAlertDetailsRequest{
 		ResourceSearch: string(resourceSearch),
 		SearchWord:     request.QueryParameter("search_word"),
 		AlertId:        alertIds,
@@ -1594,9 +1762,11 @@ func describeAlertDetails(resourceMap map[string]string, request *restful.Reques
 		Limit:          limit,
 	}
 
-	resp, err := clientCustom.DescribeAlertDetails(ctx, req)
+	resp, err := rs.DescribeAlertDetails(req)
 	if err != nil {
 		logger.Error(nil, "DescribeAlertDetails failed: %+v", err)
+		response.WriteAsJson(&rs.DescribeAlertDetailsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeAlertDetails success: %+v", resp)
@@ -1679,15 +1849,7 @@ func describeAlertStatus(resourceMap map[string]string, request *restful.Request
 	offset, _ := parseUint32(request.QueryParameter("offset"))
 	limit, _ := parseUint32(request.QueryParameter("limit"))
 
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	var req = &pb.DescribeAlertStatusRequest{
+	var req = &rs.DescribeAlertStatusRequest{
 		ResourceSearch: string(resourceSearch),
 		AlertId:        alertIds,
 		AlertName:      alertNames,
@@ -1704,9 +1866,10 @@ func describeAlertStatus(resourceMap map[string]string, request *restful.Request
 		Limit:          limit,
 	}
 
-	resp, err := clientCustom.DescribeAlertStatus(ctx, req)
+	resp, err := rs.DescribeAlertStatus(req)
 	if err != nil {
 		logger.Error(nil, "DescribeAlertStatus failed: %+v", err)
+		response.WriteAsJson(&rs.DescribeAlertStatusResponse{})
 	}
 
 	logger.Debug(nil, "DescribeAlertStatus success: %+v", resp)
@@ -1787,6 +1950,8 @@ func DescribeHistories(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeHistoriesResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -1807,6 +1972,8 @@ func DescribeHistories(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribeHistories(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeHistories failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeHistoriesResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeHistories success: %+v", resp)
@@ -1830,15 +1997,7 @@ func describeHistoryDetail(resourceMap map[string]string, request *restful.Reque
 	offset, _ := parseUint32(request.QueryParameter("offset"))
 	limit, _ := parseUint32(request.QueryParameter("limit"))
 
-	clientCustom, err := alclient.NewCustomClient()
-	if err != nil {
-		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-	defer cancel()
-
-	var req = &pb.DescribeHistoryDetailRequest{
+	var req = &rs.DescribeHistoryDetailRequest{
 		ResourceSearch: string(resourceSearch),
 		SearchWord:     request.QueryParameter("search_word"),
 		HistoryId:      historyIds,
@@ -1855,9 +2014,11 @@ func describeHistoryDetail(resourceMap map[string]string, request *restful.Reque
 		Limit:          limit,
 	}
 
-	resp, err := clientCustom.DescribeHistoryDetail(ctx, req)
+	resp, err := rs.DescribeHistoryDetail(req)
 	if err != nil {
 		logger.Error(nil, "DescribeHistoryDetail failed: %+v", err)
+		response.WriteAsJson(&rs.DescribeHistoryDetailResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeHistoryDetail success: %+v", resp)
@@ -1928,14 +2089,16 @@ func CreateComment(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&comment)
 	if err != nil {
-		resp := &pb.CreateCommentResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateComment request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateCommentResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create comment grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreateCommentResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -1950,6 +2113,8 @@ func CreateComment(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreateComment(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateComment failed: %+v", err)
+		response.WriteAsJson(&pb.CreateCommentResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateComment success: %+v", resp)
@@ -1971,6 +2136,8 @@ func DescribeComments(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeCommentsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -1990,6 +2157,8 @@ func DescribeComments(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribeComments(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeComments failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeCommentsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeComments success: %+v", resp)
@@ -2002,14 +2171,16 @@ func CreateAction(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&action)
 	if err != nil {
-		resp := &pb.CreateActionResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "CreateAction request data error %+v.", err)
+		response.WriteAsJson(&pb.CreateActionResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.CreateActionResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -2026,6 +2197,8 @@ func CreateAction(request *restful.Request, response *restful.Response) {
 	resp, err := client.CreateAction(ctx, req)
 	if err != nil {
 		logger.Error(nil, "CreateAction failed: %+v", err)
+		response.WriteAsJson(&pb.CreateActionResponse{})
+		return
 	}
 
 	logger.Debug(nil, "CreateAction success: %+v", resp)
@@ -2049,6 +2222,8 @@ func DescribeActions(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DescribeActionsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -2070,6 +2245,8 @@ func DescribeActions(request *restful.Request, response *restful.Response) {
 	resp, err := client.DescribeActions(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DescribeActions failed: %+v", err)
+		response.WriteAsJson(&pb.DescribeActionsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DescribeActions success: %+v", resp)
@@ -2082,14 +2259,16 @@ func ModifyAction(request *restful.Request, response *restful.Response) {
 
 	err := request.ReadEntity(&action)
 	if err != nil {
-		resp := &pb.ModifyActionResponse{}
-		response.WriteAsJson(resp)
+		logger.Debug(nil, "ModifyAction request data error %+v.", err)
+		response.WriteAsJson(&pb.ModifyActionResponse{})
 		return
 	}
 
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.ModifyActionResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -2107,6 +2286,8 @@ func ModifyAction(request *restful.Request, response *restful.Response) {
 	resp, err := client.ModifyAction(ctx, req)
 	if err != nil {
 		logger.Error(nil, "ModifyAction failed: %+v", err)
+		response.WriteAsJson(&pb.ModifyActionResponse{})
+		return
 	}
 
 	logger.Debug(nil, "ModifyAction success: %+v", resp)
@@ -2120,6 +2301,8 @@ func DeleteActions(request *restful.Request, response *restful.Response) {
 	client, err := alclient.NewClient()
 	if err != nil {
 		logger.Error(nil, "Failed to create alert grpc client %+v.", err)
+		response.WriteAsJson(&pb.DeleteActionsResponse{})
+		return
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
@@ -2132,6 +2315,8 @@ func DeleteActions(request *restful.Request, response *restful.Response) {
 	resp, err := client.DeleteActions(ctx, req)
 	if err != nil {
 		logger.Error(nil, "DeleteActions failed: %+v", err)
+		response.WriteAsJson(&pb.DeleteActionsResponse{})
+		return
 	}
 
 	logger.Debug(nil, "DeleteActions success: %+v", resp)

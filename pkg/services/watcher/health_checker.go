@@ -113,7 +113,10 @@ func (hc *HealthChecker) processTimeoutDeletingAlerts() {
 		return
 	}
 
+	alertIds := []string{}
 	for _, alert := range alerts {
-		rs.DeleteAlertByAlertId(alert.AlertId)
+		alertIds = append(alertIds, alert.AlertId)
 	}
+
+	rs.DeleteAlerts(alertIds)
 }

@@ -1,49 +1,41 @@
 package executor
 
 import (
-	"fmt"
+	"errors"
 	"strconv"
 	"time"
 
+	lib "openpitrix.io/libqueue"
+	q "openpitrix.io/libqueue/queue"
+
 	"kubesphere.io/alert/pkg/config"
 	"kubesphere.io/alert/pkg/constants"
-	"kubesphere.io/alert/pkg/etcd"
-	"kubesphere.io/alert/pkg/global"
 	"kubesphere.io/alert/pkg/logger"
 )
 
 type AlertReceiver struct {
-	alertQueue      []*etcd.Queue
+	alertQueue      lib.Topic
 	runningAlertIds chan string
 	executor        *Executor
 }
 
-func getQueueNum() int {
-	cfg := config.GetInstance()
-	queueNum, err := strconv.ParseInt(cfg.Etcd.QueueNum, 10, 0)
-	if err != nil {
-		queueNum = 1000
-	}
-
-	if queueNum < 10 {
-		queueNum = 10
-	}
-
-	if queueNum > 5000 {
-		queueNum = 5000
-	}
-
-	return int(queueNum)
-}
-
 func NewAlertReceiver() *AlertReceiver {
-	queueNum := getQueueNum()
+	cfg := config.GetInstance()
+	queueConnStr := cfg.Queue.Addr
+	queueType := cfg.Queue.Type
 
-	alertQueue := make([]*etcd.Queue, 0)
-
-	for i := 0; i < queueNum; i++ {
-		alertQueue = append(alertQueue, global.GetInstance().GetEtcd().NewQueue(fmt.Sprintf("%s-%d", constants.AlertTopicPrefix, i)))
+	queueConfigMap := map[string]interface{}{
+		"connStr": queueConnStr,
 	}
+
+	var alertQueue lib.Topic
+
+	c, err := q.New(queueType, queueConfigMap)
+	if err != nil {
+		logger.Error(nil, "Failed to connect redis queue: %+v.", err)
+	}
+
+	alertQueue, _ = c.SetTopic(constants.AlertTopicPrefix)
 
 	return &AlertReceiver{
 		alertQueue:      alertQueue,
@@ -56,18 +48,20 @@ func (ar *AlertReceiver) SetExecutor(executor *Executor) {
 }
 
 func (ar *AlertReceiver) Serve() {
-	for i := 0; i < len(ar.alertQueue); i++ {
-		go ar.ExtractAlerts(i)
-	}
+	go ar.ExtractAlerts()
 
 	for i := 0; i < constants.MaxWorkingAlerts; i++ {
 		go ar.HandleAlert(strconv.Itoa(i))
 	}
 }
 
-func (ar *AlertReceiver) ExtractAlerts(index int) error {
+func (ar *AlertReceiver) ExtractAlerts() error {
+	if ar.alertQueue == nil {
+		return errors.New("AlertQueue not initialized")
+	}
+
 	for {
-		alertId, err := ar.alertQueue[index].Dequeue()
+		alertId, err := ar.alertQueue.Dequeue()
 		if err != nil {
 			logger.Error(nil, "AlertReceiver failed to dequeue alert from etcd queue: %+v", err)
 			time.Sleep(3 * time.Second)

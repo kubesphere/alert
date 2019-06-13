@@ -7,7 +7,7 @@ import (
 	"syscall"
 	"time"
 
-	"go.etcd.io/etcd/clientv3"
+	"github.com/coreos/etcd/clientv3"
 
 	"kubesphere.io/alert/pkg/global"
 	"kubesphere.io/alert/pkg/logger"

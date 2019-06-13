@@ -32,7 +32,11 @@ type Config struct {
 
 	Etcd struct {
 		Endpoints string `default:"139.198.121.96:2379"`
-		QueueNum  string `default:"1000"`
+	}
+
+	Queue struct {
+		Type string `default:"redis"`
+		Addr string `default:"redis://redis.kubesphere-system.svc:6379"`
 	}
 
 	App struct {
