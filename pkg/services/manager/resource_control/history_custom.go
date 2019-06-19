@@ -103,9 +103,23 @@ func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailReq
 	offset := getOffset(req.Offset)
 	limit := getLimit(req.Limit)
 
-	if len(alertNames) == 0 {
-		logger.Error(nil, "Describe History Detail [%+v] has no alert_name specified", req)
-		return nil, 0, errors.New("alert_name not specified")
+	alertIds := []string{}
+	for _, alertName := range alertNames {
+		reqAlerts := &pb.DescribeAlertsWithResourceRequest{
+			ResourceSearch: string(req.ResourceSearch),
+			AlertName:      []string{alertName},
+		}
+
+		alerts, count, _ := DescribeAlertsWithResource(ctx, reqAlerts)
+
+		if count == 1 {
+			alertIds = append(alertIds, alerts[0].AlertId)
+		}
+	}
+
+	if len(alertIds) == 0 && len(alertNames) != 0 {
+		logger.Error(nil, "Describe History Detail has no match alert_name[%v]", req)
+		return nil, 0, errors.New("alert_name not found")
 	}
 
 	dbChain := aldb.GetChain(global.GetInstance().GetDB().Table("history t1").
@@ -174,9 +188,9 @@ func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailReq
 		whereResult = whereResult + fmt.Sprintf("t1.history_name in (%s) and ", parseInValues(historyName))
 		whereTriggered = whereTriggered + fmt.Sprintf("t1.history_name in (%s) and ", parseInValues(historyName))
 	}
-	if len(alertNames) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t3.alert_name in (%s) and ", parseInValues(alertNames))
-		whereTriggered = whereTriggered + fmt.Sprintf("t3.alert_name in (%s) and ", parseInValues(alertNames))
+	if len(alertIds) != 0 {
+		whereResult = whereResult + fmt.Sprintf("t3.alert_id in (%s) and ", parseInValues(alertIds))
+		whereTriggered = whereTriggered + fmt.Sprintf("t3.alert_id in (%s) and ", parseInValues(alertIds))
 	}
 	if len(ruleName) != 0 {
 		whereResult = whereResult + fmt.Sprintf("t2.rule_name in (%s) and ", parseInValues(ruleName))
