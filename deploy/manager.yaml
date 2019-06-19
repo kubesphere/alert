@@ -59,6 +59,8 @@ spec:
           value: "openpitrix-db.openpitrix-system.svc"
         - name: ALERT_ETCD_ENDPOINTS
           value: "openpitrix-etcd.openpitrix-system.svc:2379"
+        - name: ALERT_APP_NOTIFICATION_HOST
+          value: "notification.kubesphere-alerting-system.svc:9201"
         - name: ALERT_QUEUE_TYPE
           value: redis
         - name: ALERT_QUEUE_ADDR
