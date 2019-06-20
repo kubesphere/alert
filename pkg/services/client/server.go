@@ -14,7 +14,6 @@ import (
 	"kubesphere.io/alert/pkg/logger"
 	"kubesphere.io/alert/pkg/models"
 	"kubesphere.io/alert/pkg/pb"
-	rs "kubesphere.io/alert/pkg/services/client/resource_control"
 )
 
 const (
@@ -513,8 +512,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -534,8 +533,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -555,8 +554,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -577,8 +576,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -598,8 +597,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -620,8 +619,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -642,8 +641,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -664,8 +663,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -686,8 +685,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -709,8 +708,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -732,8 +731,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertDetailsResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertDetailsResponse{})).
+		Writes(pb.DescribeAlertDetailsResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertDetailsResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -753,8 +752,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -774,8 +773,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -795,8 +794,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -817,8 +816,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -838,8 +837,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -860,8 +859,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -882,8 +881,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -904,8 +903,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -926,8 +925,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -949,8 +948,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -972,8 +971,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeAlertStatusResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeAlertStatusResponse{})).
+		Writes(pb.DescribeAlertStatusResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeAlertStatusResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -995,8 +994,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1016,8 +1015,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1037,8 +1036,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1059,8 +1058,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1080,8 +1079,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1102,8 +1101,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1124,8 +1123,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1146,8 +1145,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1168,8 +1167,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1191,8 +1190,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 
@@ -1214,8 +1213,8 @@ func WebService() *restful.WebService {
 		Param(ws.QueryParameter("offset", "Beginning index of result to return. Use this option together with limit.").DataType("uint32").Required(false)).
 		Param(ws.QueryParameter("limit", "Size of result to return.").DataType("uint32").Required(false)).
 		Metadata(restfulspec.KeyOpenAPITags, tags).
-		Writes(rs.DescribeHistoryDetailResponse{}).
-		Returns(http.StatusOK, RespOK, rs.DescribeHistoryDetailResponse{})).
+		Writes(pb.DescribeHistoryDetailResponse{}).
+		Returns(http.StatusOK, RespOK, pb.DescribeHistoryDetailResponse{})).
 		Consumes(restful.MIME_JSON, constants.MIME_MERGEPATCH).
 		Produces(restful.MIME_JSON)
 

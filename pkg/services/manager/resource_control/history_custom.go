@@ -1,6 +1,7 @@
 package resource_control
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -12,10 +13,10 @@ import (
 	nf "kubesphere.io/alert/pkg/client/notification"
 	"kubesphere.io/alert/pkg/constants"
 	aldb "kubesphere.io/alert/pkg/db"
-	"kubesphere.io/alert/pkg/gerr"
 	"kubesphere.io/alert/pkg/global"
 	"kubesphere.io/alert/pkg/logger"
-	"kubesphere.io/alert/pkg/util/pbutil"
+	"kubesphere.io/alert/pkg/models"
+	"kubesphere.io/alert/pkg/pb"
 	"kubesphere.io/alert/pkg/util/stringutil"
 )
 
@@ -83,7 +84,14 @@ func parseInValues(values []string) string {
 	return output
 }
 
-func getHistoryDetail(resourceMap map[string]string, req *DescribeHistoryDetailRequest) ([]*HistoryDetail, uint64, error) {
+func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailRequest) ([]*models.HistoryDetail, uint64, error) {
+	resourceMap := map[string]string{}
+	err := json.Unmarshal([]byte(req.ResourceSearch), &resourceMap)
+	if err != nil {
+		logger.Error(ctx, "Failed to Describe History Detail, [%+v], [%+v].", req, err)
+		return nil, 0, err
+	}
+
 	historyId := stringutil.SimplifyStringList(req.HistoryId)
 	historyName := stringutil.SimplifyStringList(req.HistoryName)
 	alertNames := stringutil.SimplifyStringList(req.AlertName)
@@ -97,7 +105,12 @@ func getHistoryDetail(resourceMap map[string]string, req *DescribeHistoryDetailR
 
 	alertIds := []string{}
 	for _, alertName := range alertNames {
-		alerts, count, _ := GetAlertByName(resourceMap, alertName)
+		reqAlerts := &pb.DescribeAlertsWithResourceRequest{
+			ResourceSearch: string(req.ResourceSearch),
+			AlertName:      []string{alertName},
+		}
+
+		alerts, count, _ := DescribeAlertsWithResource(ctx, reqAlerts)
 
 		if count == 1 {
 			alertIds = append(alertIds, alerts[0].AlertId)
@@ -225,10 +238,10 @@ func getHistoryDetail(resourceMap map[string]string, req *DescribeHistoryDetailR
 		orderByStr = sortKeyStr + " " + reverseStr
 	}
 
-	var hsds []*HistoryDetail
+	var hsds []*models.HistoryDetail
 	var count uint64
 
-	err := dbChain.
+	err = dbChain.
 		Offset(offset).
 		Limit(limit).
 		Order(orderByStr).
@@ -241,9 +254,6 @@ func getHistoryDetail(resourceMap map[string]string, req *DescribeHistoryDetailR
 
 	notificationIds := []string{}
 	for _, hsd := range hsds {
-		hsd.CreateTime = pbutil.ToProtoTimestamp(hsd.CreateTimeDB)
-		hsd.UpdateTime = pbutil.ToProtoTimestamp(hsd.UpdateTimeDB)
-
 		if hsd.NotificationId == "" {
 			continue
 		}
@@ -287,27 +297,4 @@ func getHistoryDetail(resourceMap map[string]string, req *DescribeHistoryDetailR
 	}
 
 	return hsds, count, nil
-}
-
-func DescribeHistoryDetail(req *DescribeHistoryDetailRequest) (*DescribeHistoryDetailResponse, error) {
-	resourceMap := map[string]string{}
-	err := json.Unmarshal([]byte(req.ResourceSearch), &resourceMap)
-	if err != nil {
-		logger.Error(nil, "Failed to Describe History Detail, [%+v], [%+v].", req, err)
-		return nil, gerr.NewWithDetail(nil, gerr.Internal, err, gerr.ErrorUpdateResourceFailed)
-	}
-
-	hsds, hsdCnt, err := getHistoryDetail(resourceMap, req)
-	if err != nil {
-		logger.Error(nil, "Failed to Describe History Detail, [%+v], [%+v].", req, err)
-		return nil, gerr.NewWithDetail(nil, gerr.Internal, err, gerr.ErrorDescribeResourcesFailed)
-	}
-
-	res := &DescribeHistoryDetailResponse{
-		Total:            uint32(hsdCnt),
-		HistorydetailSet: hsds,
-	}
-
-	logger.Debug(nil, "Describe History Detail successfully, Histories=[%+v].", res)
-	return res, nil
 }

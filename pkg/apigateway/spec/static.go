@@ -1862,6 +1862,558 @@ var Files = map[string]string{
           "AlertManager"
         ]
       }
+    },
+    "/v1/alert_detail": {
+      "get": {
+        "summary": "describe alert details",
+        "operationId": "DescribeAlertDetails",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeAlertDetailsResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "running_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/alert_status": {
+      "get": {
+        "summary": "describe alert status",
+        "operationId": "DescribeAlertStatus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeAlertStatusResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "running_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "creator",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/alert_with_resource": {
+      "get": {
+        "summary": "describe alerts with resource search",
+        "operationId": "DescribeAlertsWithResource",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeAlertsWithResourceResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "alert_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "boolean",
+              "format": "boolean"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "running_status",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "policy_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rs_filter_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "executor_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
+    },
+    "/v1/historydetail": {
+      "get": {
+        "summary": "describe history detail",
+        "operationId": "DescribeHistoryDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertDescribeHistoryDetailResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "search_word",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort_key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reverse",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "resource_search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "history_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "history_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "alert_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "event",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "rule_id",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "resource_name",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multimulti"
+          },
+          {
+            "name": "recent",
+            "in": "query",
+            "required": false,
+            "type": "boolean",
+            "format": "boolean"
+          }
+        ],
+        "tags": [
+          "AlertManagerCustom"
+        ]
+      }
     }
   },
   "definitions": {
@@ -3159,6 +3711,297 @@ var Files = map[string]string{
         }
       },
       "title": "5.Rule\n********************************************************************************************************"
+    },
+    "alertAlertDetail": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "running_status": {
+          "type": "string"
+        },
+        "alert_status": {
+          "type": "string"
+        },
+        "policy_id": {
+          "type": "string"
+        },
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "rs_type_name": {
+          "type": "string"
+        },
+        "executor_id": {
+          "type": "string"
+        },
+        "policy_name": {
+          "type": "string"
+        },
+        "policy_description": {
+          "type": "string"
+        },
+        "policy_config": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "available_start_time": {
+          "type": "string"
+        },
+        "available_end_time": {
+          "type": "string"
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rules_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "positives_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "most_recent_alert_time": {
+          "type": "string"
+        },
+        "nf_address_list_id": {
+          "type": "string"
+        }
+      }
+    },
+    "alertAlertStatus": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_name": {
+          "type": "string"
+        },
+        "disabled": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "monitor_periods": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "metrics_type": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "consecutive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "inhibit": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "metric_name": {
+          "type": "string"
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertResourceStatus"
+          }
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "alertDescribeAlertDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "alertdetail_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAlertDetail"
+          }
+        }
+      }
+    },
+    "alertDescribeAlertStatusResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "alertstatus_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAlertStatus"
+          }
+        }
+      }
+    },
+    "alertDescribeAlertsWithResourceResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "alert_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertAlert"
+          }
+        }
+      }
+    },
+    "alertDescribeHistoryDetailResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "historydetail_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alertHistoryDetail"
+          }
+        }
+      }
+    },
+    "alertHistoryDetail": {
+      "type": "object",
+      "properties": {
+        "history_id": {
+          "type": "string"
+        },
+        "history_name": {
+          "type": "string"
+        },
+        "rule_id": {
+          "type": "string"
+        },
+        "rule_name": {
+          "type": "string"
+        },
+        "event": {
+          "type": "string"
+        },
+        "notification_id": {
+          "type": "string"
+        },
+        "notification_status": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "rs_type_name": {
+          "type": "string"
+        },
+        "rs_filter_name": {
+          "type": "string"
+        },
+        "metric_name": {
+          "type": "string"
+        },
+        "condition_type": {
+          "type": "string"
+        },
+        "thresholds": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "alert_name": {
+          "type": "string"
+        },
+        "rs_filter_param": {
+          "type": "string"
+        },
+        "resource_name": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "update_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "title": "1.History\r\n********************************************************************************************************"
+    },
+    "alertResourceStatus": {
+      "type": "object",
+      "properties": {
+        "resource_name": {
+          "type": "string"
+        },
+        "current_level": {
+          "type": "string"
+        },
+        "positive_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cumulated_send_count": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "next_resend_interval": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "next_sendable_time": {
+          "type": "string"
+        },
+        "aggregated_alerts": {
+          "type": "string"
+        }
+      }
     }
   },
   "securityDefinitions": {
