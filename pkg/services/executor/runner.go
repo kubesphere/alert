@@ -27,6 +27,7 @@ type AlertRunner struct {
 
 type ConfigAlert struct {
 	AlertId            string
+	LoadSuccess        bool
 	Disabled           bool
 	RsTypeName         string
 	RsTypeParam        string
@@ -205,7 +206,15 @@ func (ar *AlertRunner) parseAlertConfigStatus(alertDetail rs.AlertDetail) {
 }
 
 func (ar *AlertRunner) loadAlertInfo() {
-	alertDetail := rs.QueryAlertDetail(ar.AlertConfig.AlertId)
+	alertDetail, err := rs.QueryAlertDetail(ar.AlertConfig.AlertId)
+
+	if err != nil {
+		logger.Error(nil, "loadAlertInfo error: %v", err)
+		ar.AlertConfig.LoadSuccess = false
+		return
+	}
+
+	ar.AlertConfig.LoadSuccess = true
 
 	//1. Parse Resource
 	ar.AlertConfig.RsTypeName = alertDetail.RsTypeName
@@ -648,6 +657,10 @@ func (ar *AlertRunner) GetAlertStatus() (string, time.Time) {
 }
 
 func (ar *AlertRunner) runAlertRules() {
+	if !ar.AlertConfig.LoadSuccess {
+		return
+	}
+
 	if ar.AlertConfig.Disabled {
 		return
 	}
