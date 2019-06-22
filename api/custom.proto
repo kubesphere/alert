@@ -193,7 +193,7 @@ service AlertManagerCustom {
 			summary: "describe alerts with resource search"
 		};
 		option (google.api.http) = {
-			get: "/v1/alert_with_resource"
+			get: "/v1/alerts_with_resource"
 		};
 	}
 
@@ -202,7 +202,7 @@ service AlertManagerCustom {
 			summary: "describe alert details"
 		};
 		option (google.api.http) = {
-			get: "/v1/alert_detail"
+			get: "/v1/alert_details"
 		};
 	}
 
@@ -223,7 +223,7 @@ service AlertManagerCustom {
 			summary: "describe history detail"
 		};
 		option (google.api.http) = {
-			get: "/v1/historydetail"
+			get: "/v1/history_details"
 		};
 	}
 }

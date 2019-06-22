@@ -29,6 +29,58 @@ var Files = map[string]string{
   ],
   "paths": {
     "/v1/action": {
+      "post": {
+        "summary": "create action",
+        "operationId": "CreateAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateActionResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify action",
+        "operationId": "ModifyAction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyActionResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyActionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/actions": {
       "get": {
         "summary": "describe actions",
         "operationId": "DescribeActions",
@@ -163,15 +215,17 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/alert": {
       "post": {
-        "summary": "create action",
-        "operationId": "CreateAction",
+        "summary": "create alert",
+        "operationId": "CreateAlert",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertCreateActionResponse"
+              "$ref": "#/definitions/alertCreateAlertResponse"
             }
           }
         },
@@ -181,7 +235,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertCreateActionRequest"
+              "$ref": "#/definitions/alertCreateAlertRequest"
             }
           }
         ],
@@ -190,13 +244,13 @@ var Files = map[string]string{
         ]
       },
       "patch": {
-        "summary": "modify action",
-        "operationId": "ModifyAction",
+        "summary": "modify alert",
+        "operationId": "ModifyAlert",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertModifyActionResponse"
+              "$ref": "#/definitions/alertModifyAlertResponse"
             }
           }
         },
@@ -206,7 +260,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertModifyActionRequest"
+              "$ref": "#/definitions/alertModifyAlertRequest"
             }
           }
         ],
@@ -215,7 +269,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/alert": {
+    "/v1/alerts": {
       "get": {
         "summary": "describe alerts",
         "operationId": "DescribeAlerts",
@@ -361,15 +415,17 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/comment": {
       "post": {
-        "summary": "create alert",
-        "operationId": "CreateAlert",
+        "summary": "create comment",
+        "operationId": "CreateComment",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertCreateAlertResponse"
+              "$ref": "#/definitions/alertCreateCommentResponse"
             }
           }
         },
@@ -379,7 +435,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertCreateAlertRequest"
+              "$ref": "#/definitions/alertCreateCommentRequest"
             }
           }
         ],
@@ -388,13 +444,13 @@ var Files = map[string]string{
         ]
       },
       "patch": {
-        "summary": "modify alert",
-        "operationId": "ModifyAlert",
+        "summary": "modify comment",
+        "operationId": "ModifyComment",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertModifyAlertResponse"
+              "$ref": "#/definitions/alertModifyCommentResponse"
             }
           }
         },
@@ -404,7 +460,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertModifyAlertRequest"
+              "$ref": "#/definitions/alertModifyCommentRequest"
             }
           }
         ],
@@ -413,7 +469,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/comment": {
+    "/v1/comments": {
       "get": {
         "summary": "describe comments",
         "operationId": "DescribeComments",
@@ -528,15 +584,17 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/executor": {
       "post": {
-        "summary": "create comment",
-        "operationId": "CreateComment",
+        "summary": "create executor",
+        "operationId": "CreateExecutor",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertCreateCommentResponse"
+              "$ref": "#/definitions/alertCreateExecutorResponse"
             }
           }
         },
@@ -546,7 +604,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertCreateCommentRequest"
+              "$ref": "#/definitions/alertCreateExecutorRequest"
             }
           }
         ],
@@ -555,13 +613,13 @@ var Files = map[string]string{
         ]
       },
       "patch": {
-        "summary": "modify comment",
-        "operationId": "ModifyComment",
+        "summary": "modify executor",
+        "operationId": "ModifyExecutor",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertModifyCommentResponse"
+              "$ref": "#/definitions/alertModifyExecutorResponse"
             }
           }
         },
@@ -571,7 +629,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertModifyCommentRequest"
+              "$ref": "#/definitions/alertModifyExecutorRequest"
             }
           }
         ],
@@ -580,7 +638,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/executor": {
+    "/v1/executors": {
       "get": {
         "summary": "describe executors",
         "operationId": "DescribeExecutors",
@@ -685,59 +743,9 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
-      "post": {
-        "summary": "create executor",
-        "operationId": "CreateExecutor",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/alertCreateExecutorResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/alertCreateExecutorRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AlertManager"
-        ]
-      },
-      "patch": {
-        "summary": "modify executor",
-        "operationId": "ModifyExecutor",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/alertModifyExecutorResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/alertModifyExecutorRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AlertManager"
-        ]
       }
     },
-    "/v1/history": {
+    "/v1/histories": {
       "get": {
         "summary": "describe histories",
         "operationId": "DescribeHistories",
@@ -892,7 +900,9 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/history": {
       "post": {
         "summary": "create history",
         "operationId": "CreateHistory",
@@ -945,6 +955,58 @@ var Files = map[string]string{
       }
     },
     "/v1/metric": {
+      "post": {
+        "summary": "create metric",
+        "operationId": "CreateMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateMetricResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateMetricRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify metric",
+        "operationId": "ModifyMetric",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyMetricResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyMetricRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/metrics": {
       "get": {
         "summary": "describe metrics",
         "operationId": "DescribeMetrics",
@@ -1059,59 +1121,9 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
-      "post": {
-        "summary": "create metric",
-        "operationId": "CreateMetric",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/alertCreateMetricResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/alertCreateMetricRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AlertManager"
-        ]
-      },
-      "patch": {
-        "summary": "modify metric",
-        "operationId": "ModifyMetric",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/alertModifyMetricResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/alertModifyMetricRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AlertManager"
-        ]
       }
     },
-    "/v1/policy": {
+    "/v1/policies": {
       "get": {
         "summary": "describe policies",
         "operationId": "DescribePolicies",
@@ -1236,7 +1248,9 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/policy": {
       "post": {
         "summary": "create policy",
         "operationId": "CreatePolicy",
@@ -1289,6 +1303,58 @@ var Files = map[string]string{
       }
     },
     "/v1/resource_filter": {
+      "post": {
+        "summary": "create resource filter",
+        "operationId": "CreateResourceFilter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertCreateResourceFilterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertCreateResourceFilterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      },
+      "patch": {
+        "summary": "modify resource filter",
+        "operationId": "ModifyResourceFilter",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/alertModifyResourceFilterResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/alertModifyResourceFilterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AlertManager"
+        ]
+      }
+    },
+    "/v1/resource_filters": {
       "get": {
         "summary": "describe resource filters",
         "operationId": "DescribeResourceFilters",
@@ -1403,15 +1469,17 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/resource_type": {
       "post": {
-        "summary": "create resource filter",
-        "operationId": "CreateResourceFilter",
+        "summary": "create resource type",
+        "operationId": "CreateResourceType",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertCreateResourceFilterResponse"
+              "$ref": "#/definitions/alertCreateResourceTypeResponse"
             }
           }
         },
@@ -1421,7 +1489,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertCreateResourceFilterRequest"
+              "$ref": "#/definitions/alertCreateResourceTypeRequest"
             }
           }
         ],
@@ -1430,13 +1498,13 @@ var Files = map[string]string{
         ]
       },
       "patch": {
-        "summary": "modify resource filter",
-        "operationId": "ModifyResourceFilter",
+        "summary": "modify resource type",
+        "operationId": "ModifyResourceType",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertModifyResourceFilterResponse"
+              "$ref": "#/definitions/alertModifyResourceTypeResponse"
             }
           }
         },
@@ -1446,7 +1514,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertModifyResourceFilterRequest"
+              "$ref": "#/definitions/alertModifyResourceTypeRequest"
             }
           }
         ],
@@ -1455,7 +1523,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/resource_type": {
+    "/v1/resource_types": {
       "get": {
         "summary": "describe resource types",
         "operationId": "DescribeResourceTypes",
@@ -1550,15 +1618,17 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
+      }
+    },
+    "/v1/rule": {
       "post": {
-        "summary": "create resource type",
-        "operationId": "CreateResourceType",
+        "summary": "create rule",
+        "operationId": "CreateRule",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertCreateResourceTypeResponse"
+              "$ref": "#/definitions/alertCreateRuleResponse"
             }
           }
         },
@@ -1568,7 +1638,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertCreateResourceTypeRequest"
+              "$ref": "#/definitions/alertCreateRuleRequest"
             }
           }
         ],
@@ -1577,13 +1647,13 @@ var Files = map[string]string{
         ]
       },
       "patch": {
-        "summary": "modify resource type",
-        "operationId": "ModifyResourceType",
+        "summary": "modify rule",
+        "operationId": "ModifyRule",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/alertModifyResourceTypeResponse"
+              "$ref": "#/definitions/alertModifyRuleResponse"
             }
           }
         },
@@ -1593,7 +1663,7 @@ var Files = map[string]string{
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/alertModifyResourceTypeRequest"
+              "$ref": "#/definitions/alertModifyRuleRequest"
             }
           }
         ],
@@ -1602,7 +1672,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/rule": {
+    "/v1/rules": {
       "get": {
         "summary": "describe rules",
         "operationId": "DescribeRules",
@@ -1811,59 +1881,9 @@ var Files = map[string]string{
         "tags": [
           "AlertManager"
         ]
-      },
-      "post": {
-        "summary": "create rule",
-        "operationId": "CreateRule",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/alertCreateRuleResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/alertCreateRuleRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AlertManager"
-        ]
-      },
-      "patch": {
-        "summary": "modify rule",
-        "operationId": "ModifyRule",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/alertModifyRuleResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/alertModifyRuleRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AlertManager"
-        ]
       }
     },
-    "/v1/alert_detail": {
+    "/v1/alert_details": {
       "get": {
         "summary": "describe alert details",
         "operationId": "DescribeAlertDetails",
@@ -2151,7 +2171,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/alert_with_resource": {
+    "/v1/alerts_with_resource": {
       "get": {
         "summary": "describe alerts with resource search",
         "operationId": "DescribeAlertsWithResource",
@@ -2280,7 +2300,7 @@ var Files = map[string]string{
         ]
       }
     },
-    "/v1/historydetail": {
+    "/v1/history_details": {
       "get": {
         "summary": "describe history detail",
         "operationId": "DescribeHistoryDetail",

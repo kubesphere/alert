@@ -659,7 +659,7 @@ service AlertManager {
 			summary: "describe executors"
 		};
 		option (google.api.http) = {
-			get: "/v1/executor"
+			get: "/v1/executors"
 		};
 	}
 
@@ -678,7 +678,7 @@ service AlertManager {
 			summary: "delete executors"
 		};
 		option (google.api.http) = {
-			delete: "/v1/executor"
+			delete: "/v1/executors"
 			body: "*"
 		};
 	}
@@ -701,7 +701,7 @@ service AlertManager {
 			summary: "describe resource types"
 		};
 		option (google.api.http) = {
-			get: "/v1/resource_type"
+			get: "/v1/resource_types"
 		};
 	}
 
@@ -720,7 +720,7 @@ service AlertManager {
 			summary: "delete resource types"
 		};
 		option (google.api.http) = {
-			delete: "/v1/resource_type"
+			delete: "/v1/resource_types"
 			body: "*"
 		};
 	}
@@ -743,7 +743,7 @@ service AlertManager {
 			summary: "describe resource filters"
 		};
 		option (google.api.http) = {
-			get: "/v1/resource_filter"
+			get: "/v1/resource_filters"
 		};
 	}
 
@@ -762,7 +762,7 @@ service AlertManager {
 			summary: "delete resource filters"
 		};
 		option (google.api.http) = {
-			delete: "/v1/resource_filter"
+			delete: "/v1/resource_filters"
 			body: "*"
 		};
 	}
@@ -785,7 +785,7 @@ service AlertManager {
 			summary: "describe metrics"
 		};
 		option (google.api.http) = {
-			get: "/v1/metric"
+			get: "/v1/metrics"
 		};
 	}
 
@@ -804,7 +804,7 @@ service AlertManager {
 			summary: "delete metrics"
 		};
 		option (google.api.http) = {
-			delete: "/v1/metric"
+			delete: "/v1/metrics"
 			body: "*"
 		};
 	}
@@ -827,7 +827,7 @@ service AlertManager {
 			summary: "describe policies"
 		};
 		option (google.api.http) = {
-			get: "/v1/policy"
+			get: "/v1/policies"
 		};
 	}
 
@@ -846,7 +846,7 @@ service AlertManager {
 			summary: "delete policies"
 		};
 		option (google.api.http) = {
-			delete: "/v1/policy"
+			delete: "/v1/policies"
 			body: "*"
 		};
 	}
@@ -869,7 +869,7 @@ service AlertManager {
 			summary: "describe rules"
 		};
 		option (google.api.http) = {
-			get: "/v1/rule"
+			get: "/v1/rules"
 		};
 	}
 
@@ -888,7 +888,7 @@ service AlertManager {
 			summary: "delete rules"
 		};
 		option (google.api.http) = {
-			delete: "/v1/rule"
+			delete: "/v1/rules"
 			body: "*"
 		};
 	}
@@ -911,7 +911,7 @@ service AlertManager {
 			summary: "describe alerts"
 		};
 		option (google.api.http) = {
-			get: "/v1/alert"
+			get: "/v1/alerts"
 		};
 	}
 
@@ -930,7 +930,7 @@ service AlertManager {
 			summary: "delete alerts"
 		};
 		option (google.api.http) = {
-			delete: "/v1/alert"
+			delete: "/v1/alerts"
 			body: "*"
 		};
 	}
@@ -953,7 +953,7 @@ service AlertManager {
 			summary: "describe histories"
 		};
 		option (google.api.http) = {
-			get: "/v1/history"
+			get: "/v1/histories"
 		};
 	}
 
@@ -972,7 +972,7 @@ service AlertManager {
 			summary: "delete histories"
 		};
 		option (google.api.http) = {
-			delete: "/v1/history"
+			delete: "/v1/histories"
 			body: "*"
 		};
 	}
@@ -995,7 +995,7 @@ service AlertManager {
 			summary: "describe comments"
 		};
 		option (google.api.http) = {
-			get: "/v1/comment"
+			get: "/v1/comments"
 		};
 	}
 
@@ -1014,7 +1014,7 @@ service AlertManager {
 			summary: "delete comments"
 		};
 		option (google.api.http) = {
-			delete: "/v1/comment"
+			delete: "/v1/comments"
 			body: "*"
 		};
 	}
@@ -1037,7 +1037,7 @@ service AlertManager {
 			summary: "describe actions"
 		};
 		option (google.api.http) = {
-			get: "/v1/action"
+			get: "/v1/actions"
 		};
 	}
 
@@ -1056,7 +1056,7 @@ service AlertManager {
 			summary: "delete actions"
 		};
 		option (google.api.http) = {
-			delete: "/v1/action"
+			delete: "/v1/actions"
 			body: "*"
 		};
 	}
