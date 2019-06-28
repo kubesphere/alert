@@ -44,3 +44,4 @@ require (
 )
 
 replace openpitrix.io/libqueue v0.3.1 => github.com/openpitrix/libqueue v0.3.1
+replace openpitrix.io/logger v0.1.0 => github.com/openpitrix/logger v0.1.0
