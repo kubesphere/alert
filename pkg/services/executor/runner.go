@@ -397,7 +397,7 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 		}
 
 		if resourceIsAlert {
-			ar.sendNotification(&newStatus, ruleId, resourceName, triggeredMetrics)
+			ar.sendActiveNotification(&newStatus, ruleId, resourceName, triggeredMetrics)
 		}
 
 		newResourceStatus[ruleResourceKey] = newStatus
@@ -423,6 +423,14 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 		if operation == "resume" {
 			logger.Debug(nil, "Rule[%v] Resource[%v] %v resumed, write to message", ruleId, resourceName, resumedMetric)
 			ar.writeHistory("", "resumed", fmt.Sprintf("%v", resumedMetric), "", ruleId, resourceName)
+
+			resumeStatus := StatusResource{}
+			if _, ok := oldResourceStatus[ruleResourceKey]; ok {
+				resumeStatus = oldResourceStatus[ruleResourceKey]
+			} else {
+				resumeStatus = ar.getResetResourceStatus(ruleId)
+			}
+			ar.sendResumeNotification(&resumeStatus, ruleId, resourceName, resumedMetric, resumedMetrics)
 			needUpdate = true
 		}
 
@@ -558,7 +566,7 @@ func processResourceName(resourceName string) string {
 	return resourceName
 }
 
-func (ar *AlertRunner) formatNotificationEmail(newStatus *StatusResource, ruleId string, resourceName string) *notification.Email {
+func (ar *AlertRunner) formatActiveNotificationEmail(newStatus *StatusResource, ruleId string, resourceName string) *notification.Email {
 	aggregatedAlerts := newStatus.AggregatedAlerts
 	lastValue := ""
 	for _, recordedRuleMetric := range aggregatedAlerts.LastAlertValues {
@@ -585,7 +593,7 @@ func (ar *AlertRunner) formatNotificationEmail(newStatus *StatusResource, ruleId
 		return nil
 	}
 
-	emailStr := adapter.SendEmailRequest(string(notificationParamBytes))
+	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "false")
 
 	if emailStr == "" {
 		return nil
@@ -602,13 +610,54 @@ func (ar *AlertRunner) formatNotificationEmail(newStatus *StatusResource, ruleId
 	return &email
 }
 
-func (ar *AlertRunner) sendNotification(newStatus *StatusResource, ruleId string, resourceName string, triggeredRuleMetrics []RecordedMetric) {
+func (ar *AlertRunner) formatResumeNotificationEmail(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric) *notification.Email {
+	aggregatedAlerts := resumeStatus.AggregatedAlerts
+	lastValue := ""
+	tv := resumedMetric.tvs[len(resumedMetric.tvs)-1]
+	if resourceName == resumedMetric.ResourceName {
+		v, _ := strconv.ParseFloat(tv.V, 64)
+		lastValue = fmt.Sprintf("%.2f%s", v*ar.AlertConfig.Rules[ruleId].Scale, ar.AlertConfig.Rules[ruleId].Unit)
+	}
+	resumeTime := time.Unix(tv.T, 0).Format("2006-01-02 15:04:05.99999")
+
+	notificationParam := notification.NotificationParam{
+		ResourceName: processResourceName(resourceName),
+		RuleName:     ar.AlertConfig.Rules[ruleId].RuleName,
+		FirstTime:    aggregatedAlerts.FirstAlertTime,
+		LastTime:     resumeTime,
+		LastValue:    lastValue,
+	}
+
+	notificationParamBytes, err := json.Marshal(notificationParam)
+	if err != nil {
+		logger.Error(nil, "Marshal Notification Param error: %v", err)
+		return nil
+	}
+
+	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "true")
+
+	if emailStr == "" {
+		return nil
+	}
+
+	email := notification.Email{}
+
+	err = json.Unmarshal([]byte(emailStr), &email)
+	if err != nil {
+		logger.Error(nil, "Unmarshal Email error: %v", err)
+		return nil
+	}
+
+	return &email
+}
+
+func (ar *AlertRunner) sendActiveNotification(newStatus *StatusResource, ruleId string, resourceName string, triggeredRuleMetrics []RecordedMetric) {
 	ar.pushAggregatedAlerts(newStatus, ruleId, resourceName, triggeredRuleMetrics)
 
 	//Check Notification Sendable
 	if !nf.CheckTimeAvailable(ar.AlertConfig.AvailableStartTime, ar.AlertConfig.AvailableEndTime) {
 		ar.refreshNextSendableTime(newStatus)
-		logger.Debug(nil, "SendNotification not in available time")
+		logger.Debug(nil, "sendActiveNotification not in available time")
 		return
 	}
 
@@ -618,21 +667,42 @@ func (ar *AlertRunner) sendNotification(newStatus *StatusResource, ruleId string
 	}
 
 	nfAddressListId := fmt.Sprintf(`["%s"]`, ar.AlertConfig.NfAddressListId)
-	email := ar.formatNotificationEmail(newStatus, ruleId, resourceName)
+	email := ar.formatActiveNotificationEmail(newStatus, ruleId, resourceName)
 	if email == nil {
-		logger.Error(nil, "formatNotificationEmail failed")
+		logger.Error(nil, "formatActiveNotificationEmail failed")
 	} else {
 		sentSuccess, notificationId := nf.SendNotification("other", nfAddressListId, email.Title, email.Content)
 		if sentSuccess {
 			ar.writeHistory("", "sent_success", fmt.Sprintf("%v", triggeredRuleMetrics), notificationId, ruleId, resourceName)
-			ar.clearAggregatedAlerts(newStatus, ruleId, resourceName)
+			//ar.clearAggregatedAlerts(newStatus, ruleId, resourceName)
 		} else {
 			ar.writeHistory("", "sent_failed", fmt.Sprintf("%v", triggeredRuleMetrics), "", ruleId, resourceName)
-			logger.Error(nil, "SendNotification failed")
+			logger.Error(nil, "sendActiveNotification failed")
 		}
 	}
 
 	ar.processRepeat(newStatus, ruleId, resourceName)
+}
+
+func (ar *AlertRunner) sendResumeNotification(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric, resumedMetrics []RecordedMetric) {
+	//Check Policy Sendable
+	if !ar.checkSendable(resumeStatus, ruleId, resourceName) {
+		return
+	}
+
+	nfAddressListId := fmt.Sprintf(`["%s"]`, ar.AlertConfig.NfAddressListId)
+	email := ar.formatResumeNotificationEmail(resumeStatus, ruleId, resourceName, resumedMetric)
+	if email == nil {
+		logger.Error(nil, "formatResumeNotificationEmail failed")
+	} else {
+		sentSuccess, notificationId := nf.SendNotification("other", nfAddressListId, email.Title, email.Content)
+		if sentSuccess {
+			ar.writeHistory("", "sent_success", fmt.Sprintf("%v", resumedMetrics), notificationId, ruleId, resourceName)
+		} else {
+			ar.writeHistory("", "sent_failed", fmt.Sprintf("%v", resumedMetrics), "", ruleId, resourceName)
+			logger.Error(nil, "sendResumeNotification failed")
+		}
+	}
 }
 
 func (ar *AlertRunner) updateAlertUpdateTime() {
