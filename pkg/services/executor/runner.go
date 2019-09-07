@@ -685,8 +685,10 @@ func (ar *AlertRunner) sendActiveNotification(newStatus *StatusResource, ruleId 
 }
 
 func (ar *AlertRunner) sendResumeNotification(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric, resumedMetrics []RecordedMetric) {
-	//Check Policy Sendable
-	if !ar.checkSendable(resumeStatus, ruleId, resourceName) {
+	//Check Notification Sendable
+	if !nf.CheckTimeAvailable(ar.AlertConfig.AvailableStartTime, ar.AlertConfig.AvailableEndTime) {
+		ar.refreshNextSendableTime(resumeStatus)
+		logger.Debug(nil, "sendResumeNotification not in available time")
 		return
 	}
 
