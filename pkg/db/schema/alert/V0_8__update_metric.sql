@@ -1,0 +1,12 @@
+UPDATE metric SET metric_param="0.000008" WHERE metric_name="node_net_bytes_transmitted";
+UPDATE metric SET metric_param="0.000008" WHERE metric_name="node_net_bytes_received";
+UPDATE metric SET metric_param="0.000008" WHERE metric_name="workspace_net_bytes_transmitted";
+UPDATE metric SET metric_param="0.000008" WHERE metric_name="workspace_net_bytes_received";
+UPDATE metric SET metric_param="0.000008" WHERE metric_name="namespace_net_bytes_transmitted";
+UPDATE metric SET metric_param="0.000008" WHERE metric_name="namespace_net_bytes_received";
+UPDATE metric SET metric_param="0.008" WHERE metric_name="workload_pod_net_bytes_transmitted";
+UPDATE metric SET metric_param="0.008" WHERE metric_name="workload_pod_net_bytes_received";
+UPDATE metric SET metric_param="0.008" WHERE metric_name="pod_net_bytes_transmitted";
+UPDATE metric SET metric_param="0.008" WHERE metric_name="pod_net_bytes_received";
+UPDATE metric SET metric_param="0.008" WHERE metric_name="container_net_bytes_transmitted";
+UPDATE metric SET metric_param="0.008" WHERE metric_name="container_net_bytes_received";
