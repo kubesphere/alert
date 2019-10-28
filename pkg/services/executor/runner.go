@@ -277,6 +277,7 @@ func (ar *AlertRunner) getOneMetric(period uint32, ch chan metric.ResourceMetric
 	}
 
 	for _, rm := range resourceMetrics {
+		logger.Debug(nil, "getOneMetric %v", rm)
 		ch <- rm
 	}
 }
@@ -318,6 +319,7 @@ func (ar *AlertRunner) readRuleResourceMetric(resourceMetrics metric.ResourceMet
 	scale := rule.Scale
 
 	for resourceName, timeValue := range resourceMetrics.ResourceMetric {
+		logger.Debug(nil, "ResourceMetric %v, %v", resourceName, timeValue)
 		if len(timeValue) < int(1) {
 			continue
 		}
@@ -369,6 +371,7 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 	needUpdate := false
 
 	for _, triggeredMetric := range triggeredMetrics {
+		logger.Debug(nil, "triggeredMetric %v", triggeredMetric)
 		resourceName := triggeredMetric.ResourceName
 		ruleResourceKey := getRuleResourceKey(ruleId, resourceName)
 		newStatus := StatusResource{}
@@ -404,6 +407,7 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 	}
 
 	for _, resumedMetric := range resumedMetrics {
+		logger.Debug(nil, "resumedMetric %v", resumedMetric)
 		resourceName := resumedMetric.ResourceName
 		ruleResourceKey := getRuleResourceKey(ruleId, resourceName)
 		newStatus := StatusResource{}
@@ -454,9 +458,11 @@ func (ar *AlertRunner) checkMetrics(ch chan metric.ResourceMetrics) {
 	needUpdate := false
 
 	for resourceMetrics := range ch {
-		logger.Debug(nil, "resourceMetrics %v", resourceMetrics)
+		logger.Debug(nil, "checkMetrics %v", resourceMetrics)
 
-		needUpdate = needUpdate || ar.checkOneMetric(resourceMetrics)
+		checkResult := ar.checkOneMetric(resourceMetrics)
+
+		needUpdate = needUpdate || checkResult
 	}
 
 	if needUpdate {
@@ -539,10 +545,6 @@ func (ar *AlertRunner) checkSendable(newStatus *StatusResource, ruleId string, r
 
 func (ar *AlertRunner) clearAggregatedAlerts(newStatus *StatusResource, ruleId string, resourceName string) {
 	newStatus.AggregatedAlerts = AggregatedAlert{}
-}
-
-func (ar *AlertRunner) refreshNextSendableTime(newStatus *StatusResource) {
-	newStatus.NextSendableTime = time.Now()
 }
 
 func (ar *AlertRunner) processRepeat(newStatus *StatusResource, ruleId string, resourceName string) {
@@ -656,7 +658,6 @@ func (ar *AlertRunner) sendActiveNotification(newStatus *StatusResource, ruleId 
 
 	//Check Notification Sendable
 	if !nf.CheckTimeAvailable(ar.AlertConfig.AvailableStartTime, ar.AlertConfig.AvailableEndTime) {
-		ar.refreshNextSendableTime(newStatus)
 		logger.Debug(nil, "sendActiveNotification not in available time")
 		return
 	}
@@ -687,7 +688,6 @@ func (ar *AlertRunner) sendActiveNotification(newStatus *StatusResource, ruleId 
 func (ar *AlertRunner) sendResumeNotification(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric, resumedMetrics []RecordedMetric) {
 	//Check Notification Sendable
 	if !nf.CheckTimeAvailable(ar.AlertConfig.AvailableStartTime, ar.AlertConfig.AvailableEndTime) {
-		ar.refreshNextSendableTime(resumeStatus)
 		logger.Debug(nil, "sendResumeNotification not in available time")
 		return
 	}
@@ -739,7 +739,7 @@ func (ar *AlertRunner) runAlertRules() {
 
 	ch := make(chan metric.ResourceMetrics, 100)
 	ar.getResourceMetrics(ch)
-	close(ch)
+	defer close(ch)
 
 	ar.checkMetrics(ch)
 }
