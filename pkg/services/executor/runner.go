@@ -739,7 +739,7 @@ func (ar *AlertRunner) runAlertRules() {
 
 	ch := make(chan metric.ResourceMetrics, 100)
 	ar.getResourceMetrics(ch)
-	defer close(ch)
+	close(ch)
 
 	ar.checkMetrics(ch)
 }
