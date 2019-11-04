@@ -1,6 +1,7 @@
 package models
 
 import (
+	"strings"
 	"time"
 
 	"kubesphere.io/alert/pkg/pb"
@@ -45,13 +46,13 @@ const (
 	HsColResourceName   = "resource_name"
 )
 
-func NewHistoryId() string {
-	return idutil.GetUuid(HistoryIdPrefix)
+func NewHistoryId(salt string) string {
+	return idutil.GetUuid(HistoryIdPrefix) + salt
 }
 
 func NewHistory(historyName string, event string, content string, notificationId string, alertId string, ruleId string, resourceName string) *History {
 	history := &History{
-		HistoryId:      NewHistoryId(),
+		HistoryId:      NewHistoryId(strings.TrimPrefix(ruleId, "rl-")),
 		HistoryName:    historyName,
 		Event:          event,
 		Content:        content,
