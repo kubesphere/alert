@@ -76,12 +76,12 @@ func ModifyPolicy(ctx context.Context, req *pb.ModifyPolicyRequest) (string, err
 	if req.Creator != "" {
 		attributes[models.PlColCreator] = req.Creator
 	}
-	if req.AvailableStartTime != "" {
+	/*if req.AvailableStartTime != "" {
 		attributes[models.PlColAvailableStartTime] = req.AvailableStartTime
 	}
 	if req.AvailableEndTime != "" {
 		attributes[models.PlColAvailableEndTime] = req.AvailableEndTime
-	}
+	}*/
 	if req.RsTypeId != "" {
 		attributes[models.PlColTypeId] = req.RsTypeId
 	}

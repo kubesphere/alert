@@ -209,7 +209,7 @@ func ValidateModifyPolicyParams(ctx context.Context, req *pb.ModifyPolicyRequest
 		return err
 	}
 
-	availableStartTime := req.GetAvailableStartTime()
+	/*availableStartTime := req.GetAvailableStartTime()
 	err = checkTimeFormat(ctx, availableStartTime)
 	if err != nil {
 		logger.Error(ctx, "Failed to validate AvailableStartTime [%s]: %+v", availableStartTime, err)
@@ -221,7 +221,7 @@ func ValidateModifyPolicyParams(ctx context.Context, req *pb.ModifyPolicyRequest
 	if err != nil {
 		logger.Error(ctx, "Failed to validate AvailableEndTime [%s]: %+v", availableEndTime, err)
 		return err
-	}
+	}*/
 
 	rsTypeId := req.GetRsTypeId()
 	err = checkStringLen(ctx, rsTypeId, 50)
