@@ -63,6 +63,18 @@ func UpdateAlertByAlertId(alertId string, oldStatus string, newStatus string) er
 	return nil
 }
 
+func UpdateAlertByAlertIdWithTimeOut(alertId string, oldStatus string, newStatus string, timeOut time.Duration) int64 {
+	attributes := make(map[string]interface{})
+
+	attributes["executor_id"] = ""
+	attributes["running_status"] = newStatus
+	attributes["update_time"] = time.Now()
+
+	db := global.GetInstance().GetDB()
+	rowsAffected := db.Table("alert").Where("alert_id = ? and running_status = ? AND update_time < ?", alertId, oldStatus, time.Now().Add(-timeOut)).Updates(attributes).RowsAffected
+	return rowsAffected
+}
+
 func DeleteAlerts(alertIds []string) error {
 	db := global.GetInstance().GetDB()
 	tx := db.Begin()

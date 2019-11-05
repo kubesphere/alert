@@ -52,8 +52,8 @@ func (hc *HealthChecker) processTimeoutRunningAlerts() {
 	executorCount := hc.executorWatcher.GetExecutorCount()
 
 	for _, alert := range alerts {
-		err := rs.UpdateAlertByAlertId(alert.AlertId, "running", "migrating")
-		if err == nil && executorCount > 0 {
+		rowsAffected := rs.UpdateAlertByAlertIdWithTimeOut(alert.AlertId, "running", "migrating", DefaultTimeOut)
+		if rowsAffected > 0 && executorCount > 0 {
 			hc.executorWatcher.alertQueue.WriteBackAlert(alert.AlertId)
 		}
 	}
