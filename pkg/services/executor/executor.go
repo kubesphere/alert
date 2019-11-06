@@ -257,6 +257,7 @@ func (e *Executor) Serve() {
 	go e.alertReceiver.Serve()
 	go e.broadcastReceiver.WatchBroadcast()
 	go e.healthChecker.HealthCheck()
+	go e.healthChecker.UpdateLoop()
 	e.aliveReporter.HeartBeat()
 }
 
