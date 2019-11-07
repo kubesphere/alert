@@ -1,0 +1,1 @@
+ALTER TABLE policy ADD COLUMN language varchar(50) default 'zh';

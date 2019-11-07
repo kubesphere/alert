@@ -25,6 +25,7 @@ type AlertDetail struct {
 	Creator             string    `gorm:"column:creator" json:"creator"`
 	AvailableStartTime  string    `gorm:"column:available_start_time" json:"available_start_time"`
 	AvailableEndTime    string    `gorm:"column:available_end_time" json:"available_end_time"`
+	Language            string    `gorm:"column:language" json:"language"`
 	Metrics             []string  `gorm:"column:metrics" json:"metrics"`
 	RulesCount          uint32    `json:"rules_count"`
 	PositivesCount      uint32    `json:"positives_count"`
@@ -51,6 +52,7 @@ func AlertDetailToPb(alertDetail *AlertDetail) *pb.AlertDetail {
 	pbAlertDetail.Creator = alertDetail.Creator
 	pbAlertDetail.AvailableStartTime = alertDetail.AvailableStartTime
 	pbAlertDetail.AvailableEndTime = alertDetail.AvailableEndTime
+	pbAlertDetail.Language = alertDetail.Language
 	pbAlertDetail.Metrics = alertDetail.Metrics
 	pbAlertDetail.RulesCount = alertDetail.RulesCount
 	pbAlertDetail.PositivesCount = alertDetail.PositivesCount

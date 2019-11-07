@@ -240,7 +240,7 @@ type RecordedMetric struct {
 
 func DescribeAlertDetails(ctx context.Context, req *pb.DescribeAlertDetailsRequest) ([]*models.AlertDetail, uint64, error) {
 	dbChain := aldb.GetChain(global.GetInstance().GetDB().Table("alert t1").
-		Select("t1.alert_id,t1.alert_name,t1.disabled,t1.create_time,t1.running_status,t1.alert_status,t1.policy_id,t3.rs_filter_name,t3.rs_filter_param,t4.rs_type_name,t1.executor_id,t2.policy_name,t2.policy_description,t2.policy_config,t2.creator,t2.available_start_time,t2.available_end_time,t5.nf_address_list_id").
+		Select("t1.alert_id,t1.alert_name,t1.disabled,t1.create_time,t1.running_status,t1.alert_status,t1.policy_id,t3.rs_filter_name,t3.rs_filter_param,t4.rs_type_name,t1.executor_id,t2.policy_name,t2.policy_description,t2.policy_config,t2.creator,t2.available_start_time,t2.available_end_time,t2.language,t5.nf_address_list_id").
 		Joins("left join policy t2 on t1.policy_id=t2.policy_id").
 		Joins("left join resource_filter t3 on t1.rs_filter_id=t3.rs_filter_id").
 		Joins("left join resource_type t4 on t3.rs_type_id=t4.rs_type_id").

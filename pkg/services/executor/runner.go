@@ -36,6 +36,7 @@ type ConfigAlert struct {
 	PolicyConfig       map[string]ConfigPolicy `json:"policy_config"`
 	AvailableStartTime string
 	AvailableEndTime   string
+	Language           string
 	Rules              map[string]RuleInfo
 	Requests           MonitoringRequest
 	NfAddressListId    string
@@ -128,6 +129,7 @@ func (ar *AlertRunner) parsePolicyConfig(alertDetail rs.AlertDetail) {
 
 	ar.AlertConfig.AvailableStartTime = alertDetail.AvailableStartTime
 	ar.AlertConfig.AvailableEndTime = alertDetail.AvailableEndTime
+	ar.AlertConfig.Language = alertDetail.Language
 }
 
 func (ar *AlertRunner) parseRules() {
@@ -568,7 +570,7 @@ func processResourceName(resourceName string) string {
 	return resourceName
 }
 
-func (ar *AlertRunner) formatActiveNotificationEmail(newStatus *StatusResource, ruleId string, resourceName string) *notification.Email {
+func (ar *AlertRunner) formatActiveNotificationEmail(newStatus *StatusResource, ruleId string, resourceName string, language string) *notification.Email {
 	aggregatedAlerts := newStatus.AggregatedAlerts
 	lastValue := ""
 	for _, recordedRuleMetric := range aggregatedAlerts.LastAlertValues {
@@ -595,7 +597,7 @@ func (ar *AlertRunner) formatActiveNotificationEmail(newStatus *StatusResource, 
 		return nil
 	}
 
-	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "false")
+	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "false", language)
 
 	if emailStr == "" {
 		return nil
@@ -612,7 +614,7 @@ func (ar *AlertRunner) formatActiveNotificationEmail(newStatus *StatusResource, 
 	return &email
 }
 
-func (ar *AlertRunner) formatResumeNotificationEmail(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric) *notification.Email {
+func (ar *AlertRunner) formatResumeNotificationEmail(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric, language string) *notification.Email {
 	aggregatedAlerts := resumeStatus.AggregatedAlerts
 	lastValue := ""
 	tv := resumedMetric.tvs[len(resumedMetric.tvs)-1]
@@ -636,7 +638,7 @@ func (ar *AlertRunner) formatResumeNotificationEmail(resumeStatus *StatusResourc
 		return nil
 	}
 
-	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "true")
+	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "true", language)
 
 	if emailStr == "" {
 		return nil
@@ -668,7 +670,7 @@ func (ar *AlertRunner) sendActiveNotification(newStatus *StatusResource, ruleId 
 	}
 
 	nfAddressListId := fmt.Sprintf(`["%s"]`, ar.AlertConfig.NfAddressListId)
-	email := ar.formatActiveNotificationEmail(newStatus, ruleId, resourceName)
+	email := ar.formatActiveNotificationEmail(newStatus, ruleId, resourceName, ar.AlertConfig.Language)
 	if email == nil {
 		logger.Error(nil, "formatActiveNotificationEmail failed")
 	} else {
@@ -693,7 +695,7 @@ func (ar *AlertRunner) sendResumeNotification(resumeStatus *StatusResource, rule
 	}
 
 	nfAddressListId := fmt.Sprintf(`["%s"]`, ar.AlertConfig.NfAddressListId)
-	email := ar.formatResumeNotificationEmail(resumeStatus, ruleId, resourceName, resumedMetric)
+	email := ar.formatResumeNotificationEmail(resumeStatus, ruleId, resourceName, resumedMetric, ar.AlertConfig.Language)
 	if email == nil {
 		logger.Error(nil, "formatResumeNotificationEmail failed")
 	} else {

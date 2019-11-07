@@ -19,6 +19,7 @@ type Policy struct {
 	CreateTime         time.Time `gorm:"column:create_time" json:"create_time"`
 	UpdateTime         time.Time `gorm:"column:update_time" json:"update_time"`
 	RsTypeId           string    `gorm:"column:rs_type_id" json:"rs_type_id"`
+	Language           string    `gorm:"column:language" json:"language"`
 }
 
 //table name
@@ -43,13 +44,14 @@ const (
 	PlColCreateTime         = "create_time"
 	PlColUpdateTime         = "update_time"
 	PlColTypeId             = "rs_type_id"
+	PlColLanguage           = "language"
 )
 
 func NewPolicyId() string {
 	return idutil.GetUuid(PolicyIdPrefix)
 }
 
-func NewPolicy(policyName string, policyDescription string, policyConfig string, creator string, availableStartTime string, availableEndTime string, rsTypeId string) *Policy {
+func NewPolicy(policyName string, policyDescription string, policyConfig string, creator string, availableStartTime string, availableEndTime string, rsTypeId string, language string) *Policy {
 	policy := &Policy{
 		PolicyId:           NewPolicyId(),
 		PolicyName:         policyName,
@@ -61,6 +63,7 @@ func NewPolicy(policyName string, policyDescription string, policyConfig string,
 		CreateTime:         time.Now(),
 		UpdateTime:         time.Now(),
 		RsTypeId:           rsTypeId,
+		Language:           language,
 	}
 	return policy
 }
@@ -77,6 +80,7 @@ func PolicyToPb(policy *Policy) *pb.Policy {
 	pbPolicy.CreateTime = pbutil.ToProtoTimestamp(policy.CreateTime)
 	pbPolicy.UpdateTime = pbutil.ToProtoTimestamp(policy.UpdateTime)
 	pbPolicy.RsTypeId = policy.RsTypeId
+	pbPolicy.Language = policy.Language
 	return &pbPolicy
 }
 
@@ -100,4 +104,5 @@ type PolicyByAlert struct {
 	CreateTime         time.Time `gorm:"column:create_time" json:"create_time"`
 	UpdateTime         time.Time `gorm:"column:update_time" json:"update_time"`
 	RsTypeId           string    `gorm:"column:rs_type_id" json:"rs_type_id"`
+	Language           string    `gorm:"column:language" json:"language"`
 }

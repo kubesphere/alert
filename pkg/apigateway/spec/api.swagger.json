@@ -2699,6 +2699,9 @@
         },
         "rs_type_id": {
           "type": "string"
+        },
+        "language": {
+          "type": "string"
         }
       }
     },
@@ -3465,6 +3468,9 @@
         },
         "rs_type_id": {
           "type": "string"
+        },
+        "language": {
+          "type": "string"
         }
       }
     },
@@ -3609,6 +3615,9 @@
           "format": "date-time"
         },
         "rs_type_id": {
+          "type": "string"
+        },
+        "language": {
           "type": "string"
         }
       },
@@ -3777,6 +3786,9 @@
           "type": "string"
         },
         "available_end_time": {
+          "type": "string"
+        },
+        "language": {
           "type": "string"
         },
         "metrics": {

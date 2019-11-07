@@ -243,6 +243,7 @@ message Policy {
 	google.protobuf.Timestamp create_time = 8;
 	google.protobuf.Timestamp update_time = 9;
 	string rs_type_id = 10;
+	string language = 11;
 }
 
 message CreatePolicyRequest {
@@ -253,6 +254,7 @@ message CreatePolicyRequest {
 	string available_start_time = 5;
 	string available_end_time = 6;
 	string rs_type_id = 7;
+	string language = 8;
 }
 message CreatePolicyResponse {
 	string policy_id = 1;
@@ -285,6 +287,7 @@ message ModifyPolicyRequest {
 	string available_start_time = 6;
 	string available_end_time = 7;
 	string rs_type_id = 8;
+	string language = 9;
 }
 message ModifyPolicyResponse {
 	string policy_id = 1;

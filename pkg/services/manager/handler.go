@@ -294,6 +294,7 @@ func (s *Server) CreatePolicy(ctx context.Context, req *CreatePolicyRequest) (*C
 		req.GetAvailableStartTime(),
 		req.GetAvailableEndTime(),
 		req.GetRsTypeId(),
+		req.GetLanguage(),
 	)
 
 	err = rs.CreatePolicy(ctx, policy)

@@ -2708,6 +2708,9 @@ var Files = map[string]string{
         },
         "rs_type_id": {
           "type": "string"
+        },
+        "language": {
+          "type": "string"
         }
       }
     },
@@ -3474,6 +3477,9 @@ var Files = map[string]string{
         },
         "rs_type_id": {
           "type": "string"
+        },
+        "language": {
+          "type": "string"
         }
       }
     },
@@ -3618,6 +3624,9 @@ var Files = map[string]string{
           "format": "date-time"
         },
         "rs_type_id": {
+          "type": "string"
+        },
+        "language": {
           "type": "string"
         }
       },
@@ -3786,6 +3795,9 @@ var Files = map[string]string{
           "type": "string"
         },
         "available_end_time": {
+          "type": "string"
+        },
+        "language": {
           "type": "string"
         },
         "metrics": {
