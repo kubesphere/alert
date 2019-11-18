@@ -293,6 +293,19 @@ func DescribeAlertDetails(ctx context.Context, req *pb.DescribeAlertDetailsReque
 	return alds, count, nil
 }
 
+func processAlertDetailsOrderField(field string) string {
+	switch field {
+	case "t1.alert_id":
+		return "t1.alert_id"
+		break
+	default:
+		return "t1.alert_id"
+		break
+	}
+
+	return "t1.alert_id"
+}
+
 func buildDB4DescAlertDetails(dbChain *aldb.Chain, req *pb.DescribeAlertDetailsRequest) (*aldb.Chain, string) {
 	resourceSearch := req.ResourceSearch
 	alertId := stringutil.SimplifyStringList(req.AlertId)
@@ -381,7 +394,7 @@ func buildDB4DescAlertDetails(dbChain *aldb.Chain, req *pb.DescribeAlertDetailsR
 	orderByStr := sortKeyStr + " " + reverseStr
 
 	if req.SortKey != "" {
-		sortKeyStr = req.SortKey
+		sortKeyStr = processAlertDetailsOrderField(req.SortKey)
 		if req.Reverse {
 			reverseStr = constants.DESC
 		} else {
@@ -391,6 +404,19 @@ func buildDB4DescAlertDetails(dbChain *aldb.Chain, req *pb.DescribeAlertDetailsR
 	}
 
 	return dbChain, orderByStr
+}
+
+func processAlertStatusOrderField(field string) string {
+	switch field {
+	case "t2.create_time":
+		return "t2.create_time"
+		break
+	default:
+		return "t2.create_time"
+		break
+	}
+
+	return "t2.create_time"
 }
 
 func DescribeAlertStatus(ctx context.Context, req *pb.DescribeAlertStatusRequest) ([]models.AlertStatus, uint64, error) {
@@ -494,7 +520,7 @@ func DescribeAlertStatus(ctx context.Context, req *pb.DescribeAlertStatusRequest
 	orderByStr := sortKeyStr + " " + reverseStr
 
 	if req.SortKey != "" {
-		sortKeyStr = req.SortKey
+		sortKeyStr = processAlertStatusOrderField(req.SortKey)
 		if req.Reverse {
 			reverseStr = constants.DESC
 		} else {

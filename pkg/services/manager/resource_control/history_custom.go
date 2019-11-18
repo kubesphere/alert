@@ -110,6 +110,19 @@ func getResourceConditionValue(resourceMap map[string]string) (string, string) {
 	return "", ""
 }
 
+func processHistoryDetailOrderField(field string) string {
+	switch field {
+	case "t1.create_time":
+		return "t1.create_time"
+		break
+	default:
+		return "t1.create_time"
+		break
+	}
+
+	return "t1.create_time"
+}
+
 func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailRequest) ([]*models.HistoryDetail, uint64, error) {
 	resourceMap := map[string]string{}
 	err := json.Unmarshal([]byte(req.ResourceSearch), &resourceMap)
@@ -233,7 +246,7 @@ func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailReq
 	orderByStr := sortKeyStr + " " + reverseStr
 
 	if req.SortKey != "" {
-		sortKeyStr = req.SortKey
+		sortKeyStr = processHistoryDetailOrderField(req.SortKey)
 		if req.Reverse {
 			reverseStr = constants.DESC
 		} else {
