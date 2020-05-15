@@ -16,7 +16,7 @@ require (
 	github.com/googleapis/gnostic v0.2.0 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.0.0
 	github.com/grpc-ecosystem/grpc-gateway v1.8.5
-	github.com/jinzhu/gorm v1.9.4
+	github.com/jinzhu/gorm v1.9.11
 	github.com/json-iterator/go v1.1.6 // indirect
 	github.com/koding/multiconfig v0.0.0-20171124222453-69c27309b2d7
 	github.com/mattn/go-isatty v0.0.7 // indirect
@@ -44,3 +44,7 @@ require (
 )
 
 replace openpitrix.io/libqueue v0.3.1 => github.com/openpitrix/libqueue v0.3.1
+
+replace openpitrix.io/logger v0.1.0 => github.com/openpitrix/logger v0.1.0
+
+replace git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999

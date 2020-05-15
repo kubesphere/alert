@@ -218,13 +218,13 @@ func RegisterAlertManagerCustomHandlerClient(ctx context.Context, mux *runtime.S
 }
 
 var (
-	pattern_AlertManagerCustom_DescribeAlertsWithResource_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert_with_resource"}, ""))
+	pattern_AlertManagerCustom_DescribeAlertsWithResource_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alerts_with_resource"}, ""))
 
-	pattern_AlertManagerCustom_DescribeAlertDetails_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert_detail"}, ""))
+	pattern_AlertManagerCustom_DescribeAlertDetails_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert_details"}, ""))
 
 	pattern_AlertManagerCustom_DescribeAlertStatus_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert_status"}, ""))
 
-	pattern_AlertManagerCustom_DescribeHistoryDetail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "historydetail"}, ""))
+	pattern_AlertManagerCustom_DescribeHistoryDetail_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "history_details"}, ""))
 )
 
 var (

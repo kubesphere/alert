@@ -559,6 +559,7 @@ func CreatePolicy(request *restful.Request, response *restful.Response) {
 		AvailableStartTime: policy.AvailableStartTime,
 		AvailableEndTime:   policy.AvailableEndTime,
 		RsTypeId:           policy.RsTypeId,
+		Language:           policy.Language,
 	}
 
 	resp, err := client.CreatePolicy(ctx, req)
@@ -646,6 +647,7 @@ func ModifyPolicy(request *restful.Request, response *restful.Response) {
 		AvailableStartTime: policy.AvailableStartTime,
 		AvailableEndTime:   policy.AvailableEndTime,
 		RsTypeId:           policy.RsTypeId,
+		Language:           policy.Language,
 	}
 
 	resp, err := client.ModifyPolicy(ctx, req)
@@ -700,6 +702,7 @@ type PolicyByAlert struct {
 	CreateTime         time.Time `json:"create_time"`
 	UpdateTime         time.Time `json:"update_time"`
 	RsTypeId           string    `json:"rs_type_id"`
+	Language           string    `json:"language"`
 }
 
 type ModifyPolicyByAlertResponse struct {
@@ -765,6 +768,7 @@ func modifyPolicyByAlert(resourceMap map[string]string, request *restful.Request
 		AvailableStartTime: policyByAlert.AvailableStartTime,
 		AvailableEndTime:   policyByAlert.AvailableEndTime,
 		RsTypeId:           policyByAlert.RsTypeId,
+		Language:           policyByAlert.Language,
 	}
 
 	respModify, err := client.ModifyPolicy(ctx, req)
@@ -1350,6 +1354,7 @@ func createAlertInfo(resourceMap map[string]string, request *restful.Request, re
 		Creator:            alertInfo.Policy.Creator,
 		AvailableStartTime: alertInfo.Policy.AvailableStartTime,
 		AvailableEndTime:   alertInfo.Policy.AvailableEndTime,
+		Language:           alertInfo.Policy.Language,
 		RsTypeId:           alertInfo.RsFilter.RsTypeId,
 	}
 

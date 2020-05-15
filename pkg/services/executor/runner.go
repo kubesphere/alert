@@ -27,6 +27,7 @@ type AlertRunner struct {
 
 type ConfigAlert struct {
 	AlertId            string
+	LoadSuccess        bool
 	Disabled           bool
 	RsTypeName         string
 	RsTypeParam        string
@@ -35,6 +36,7 @@ type ConfigAlert struct {
 	PolicyConfig       map[string]ConfigPolicy `json:"policy_config"`
 	AvailableStartTime string
 	AvailableEndTime   string
+	Language           string
 	Rules              map[string]RuleInfo
 	Requests           MonitoringRequest
 	NfAddressListId    string
@@ -127,6 +129,7 @@ func (ar *AlertRunner) parsePolicyConfig(alertDetail rs.AlertDetail) {
 
 	ar.AlertConfig.AvailableStartTime = alertDetail.AvailableStartTime
 	ar.AlertConfig.AvailableEndTime = alertDetail.AvailableEndTime
+	ar.AlertConfig.Language = alertDetail.Language
 }
 
 func (ar *AlertRunner) parseRules() {
@@ -205,7 +208,15 @@ func (ar *AlertRunner) parseAlertConfigStatus(alertDetail rs.AlertDetail) {
 }
 
 func (ar *AlertRunner) loadAlertInfo() {
-	alertDetail := rs.QueryAlertDetail(ar.AlertConfig.AlertId)
+	alertDetail, err := rs.QueryAlertDetail(ar.AlertConfig.AlertId)
+
+	if err != nil {
+		logger.Error(nil, "loadAlertInfo error: %v", err)
+		ar.AlertConfig.LoadSuccess = false
+		return
+	}
+
+	ar.AlertConfig.LoadSuccess = true
 
 	//1. Parse Resource
 	ar.AlertConfig.RsTypeName = alertDetail.RsTypeName
@@ -268,6 +279,7 @@ func (ar *AlertRunner) getOneMetric(period uint32, ch chan metric.ResourceMetric
 	}
 
 	for _, rm := range resourceMetrics {
+		logger.Debug(nil, "getOneMetric %v", rm)
 		ch <- rm
 	}
 }
@@ -309,6 +321,7 @@ func (ar *AlertRunner) readRuleResourceMetric(resourceMetrics metric.ResourceMet
 	scale := rule.Scale
 
 	for resourceName, timeValue := range resourceMetrics.ResourceMetric {
+		logger.Debug(nil, "ResourceMetric %v, %v", resourceName, timeValue)
 		if len(timeValue) < int(1) {
 			continue
 		}
@@ -360,6 +373,7 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 	needUpdate := false
 
 	for _, triggeredMetric := range triggeredMetrics {
+		logger.Debug(nil, "triggeredMetric %v", triggeredMetric)
 		resourceName := triggeredMetric.ResourceName
 		ruleResourceKey := getRuleResourceKey(ruleId, resourceName)
 		newStatus := StatusResource{}
@@ -388,13 +402,14 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 		}
 
 		if resourceIsAlert {
-			ar.sendNotification(&newStatus, ruleId, resourceName, triggeredMetrics)
+			ar.sendActiveNotification(&newStatus, ruleId, resourceName, triggeredMetrics)
 		}
 
 		newResourceStatus[ruleResourceKey] = newStatus
 	}
 
 	for _, resumedMetric := range resumedMetrics {
+		logger.Debug(nil, "resumedMetric %v", resumedMetric)
 		resourceName := resumedMetric.ResourceName
 		ruleResourceKey := getRuleResourceKey(ruleId, resourceName)
 		newStatus := StatusResource{}
@@ -414,6 +429,14 @@ func (ar *AlertRunner) checkOneMetric(resourceMetrics metric.ResourceMetrics) bo
 		if operation == "resume" {
 			logger.Debug(nil, "Rule[%v] Resource[%v] %v resumed, write to message", ruleId, resourceName, resumedMetric)
 			ar.writeHistory("", "resumed", fmt.Sprintf("%v", resumedMetric), "", ruleId, resourceName)
+
+			resumeStatus := StatusResource{}
+			if _, ok := oldResourceStatus[ruleResourceKey]; ok {
+				resumeStatus = oldResourceStatus[ruleResourceKey]
+			} else {
+				resumeStatus = ar.getResetResourceStatus(ruleId)
+			}
+			ar.sendResumeNotification(&resumeStatus, ruleId, resourceName, resumedMetric, resumedMetrics)
 			needUpdate = true
 		}
 
@@ -437,9 +460,11 @@ func (ar *AlertRunner) checkMetrics(ch chan metric.ResourceMetrics) {
 	needUpdate := false
 
 	for resourceMetrics := range ch {
-		logger.Debug(nil, "resourceMetrics %v", resourceMetrics)
+		logger.Debug(nil, "checkMetrics %v", resourceMetrics)
 
-		needUpdate = needUpdate || ar.checkOneMetric(resourceMetrics)
+		checkResult := ar.checkOneMetric(resourceMetrics)
+
+		needUpdate = needUpdate || checkResult
 	}
 
 	if needUpdate {
@@ -524,10 +549,6 @@ func (ar *AlertRunner) clearAggregatedAlerts(newStatus *StatusResource, ruleId s
 	newStatus.AggregatedAlerts = AggregatedAlert{}
 }
 
-func (ar *AlertRunner) refreshNextSendableTime(newStatus *StatusResource) {
-	newStatus.NextSendableTime = time.Now()
-}
-
 func (ar *AlertRunner) processRepeat(newStatus *StatusResource, ruleId string, resourceName string) {
 	newStatus.CumulatedSendCount = newStatus.CumulatedSendCount + 1
 
@@ -549,7 +570,7 @@ func processResourceName(resourceName string) string {
 	return resourceName
 }
 
-func (ar *AlertRunner) formatNotificationEmail(newStatus *StatusResource, ruleId string, resourceName string) *notification.Email {
+func (ar *AlertRunner) formatActiveNotificationEmail(newStatus *StatusResource, ruleId string, resourceName string, language string) *notification.Email {
 	aggregatedAlerts := newStatus.AggregatedAlerts
 	lastValue := ""
 	for _, recordedRuleMetric := range aggregatedAlerts.LastAlertValues {
@@ -576,7 +597,7 @@ func (ar *AlertRunner) formatNotificationEmail(newStatus *StatusResource, ruleId
 		return nil
 	}
 
-	emailStr := adapter.SendEmailRequest(string(notificationParamBytes))
+	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "false", language)
 
 	if emailStr == "" {
 		return nil
@@ -593,13 +614,53 @@ func (ar *AlertRunner) formatNotificationEmail(newStatus *StatusResource, ruleId
 	return &email
 }
 
-func (ar *AlertRunner) sendNotification(newStatus *StatusResource, ruleId string, resourceName string, triggeredRuleMetrics []RecordedMetric) {
+func (ar *AlertRunner) formatResumeNotificationEmail(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric, language string) *notification.Email {
+	aggregatedAlerts := resumeStatus.AggregatedAlerts
+	lastValue := ""
+	tv := resumedMetric.tvs[len(resumedMetric.tvs)-1]
+	if resourceName == resumedMetric.ResourceName {
+		v, _ := strconv.ParseFloat(tv.V, 64)
+		lastValue = fmt.Sprintf("%.2f%s", v*ar.AlertConfig.Rules[ruleId].Scale, ar.AlertConfig.Rules[ruleId].Unit)
+	}
+	resumeTime := time.Unix(tv.T, 0).Format("2006-01-02 15:04:05.99999")
+
+	notificationParam := notification.NotificationParam{
+		ResourceName: processResourceName(resourceName),
+		RuleName:     ar.AlertConfig.Rules[ruleId].RuleName,
+		FirstTime:    aggregatedAlerts.FirstAlertTime,
+		LastTime:     resumeTime,
+		LastValue:    lastValue,
+	}
+
+	notificationParamBytes, err := json.Marshal(notificationParam)
+	if err != nil {
+		logger.Error(nil, "Marshal Notification Param error: %v", err)
+		return nil
+	}
+
+	emailStr := adapter.SendEmailRequest(string(notificationParamBytes), "true", language)
+
+	if emailStr == "" {
+		return nil
+	}
+
+	email := notification.Email{}
+
+	err = json.Unmarshal([]byte(emailStr), &email)
+	if err != nil {
+		logger.Error(nil, "Unmarshal Email error: %v", err)
+		return nil
+	}
+
+	return &email
+}
+
+func (ar *AlertRunner) sendActiveNotification(newStatus *StatusResource, ruleId string, resourceName string, triggeredRuleMetrics []RecordedMetric) {
 	ar.pushAggregatedAlerts(newStatus, ruleId, resourceName, triggeredRuleMetrics)
 
 	//Check Notification Sendable
 	if !nf.CheckTimeAvailable(ar.AlertConfig.AvailableStartTime, ar.AlertConfig.AvailableEndTime) {
-		ar.refreshNextSendableTime(newStatus)
-		logger.Debug(nil, "SendNotification not in available time")
+		logger.Debug(nil, "sendActiveNotification not in available time")
 		return
 	}
 
@@ -609,21 +670,43 @@ func (ar *AlertRunner) sendNotification(newStatus *StatusResource, ruleId string
 	}
 
 	nfAddressListId := fmt.Sprintf(`["%s"]`, ar.AlertConfig.NfAddressListId)
-	email := ar.formatNotificationEmail(newStatus, ruleId, resourceName)
+	email := ar.formatActiveNotificationEmail(newStatus, ruleId, resourceName, ar.AlertConfig.Language)
 	if email == nil {
-		logger.Error(nil, "formatNotificationEmail failed")
+		logger.Error(nil, "formatActiveNotificationEmail failed")
 	} else {
 		sentSuccess, notificationId := nf.SendNotification("other", nfAddressListId, email.Title, email.Content)
 		if sentSuccess {
 			ar.writeHistory("", "sent_success", fmt.Sprintf("%v", triggeredRuleMetrics), notificationId, ruleId, resourceName)
-			ar.clearAggregatedAlerts(newStatus, ruleId, resourceName)
+			//ar.clearAggregatedAlerts(newStatus, ruleId, resourceName)
 		} else {
 			ar.writeHistory("", "sent_failed", fmt.Sprintf("%v", triggeredRuleMetrics), "", ruleId, resourceName)
-			logger.Error(nil, "SendNotification failed")
+			logger.Error(nil, "sendActiveNotification failed")
 		}
 	}
 
 	ar.processRepeat(newStatus, ruleId, resourceName)
+}
+
+func (ar *AlertRunner) sendResumeNotification(resumeStatus *StatusResource, ruleId string, resourceName string, resumedMetric RecordedMetric, resumedMetrics []RecordedMetric) {
+	//Check Notification Sendable
+	if !nf.CheckTimeAvailable(ar.AlertConfig.AvailableStartTime, ar.AlertConfig.AvailableEndTime) {
+		logger.Debug(nil, "sendResumeNotification not in available time")
+		return
+	}
+
+	nfAddressListId := fmt.Sprintf(`["%s"]`, ar.AlertConfig.NfAddressListId)
+	email := ar.formatResumeNotificationEmail(resumeStatus, ruleId, resourceName, resumedMetric, ar.AlertConfig.Language)
+	if email == nil {
+		logger.Error(nil, "formatResumeNotificationEmail failed")
+	} else {
+		sentSuccess, notificationId := nf.SendNotification("other", nfAddressListId, email.Title, email.Content)
+		if sentSuccess {
+			ar.writeHistory("", "sent_success", fmt.Sprintf("%v", resumedMetrics), notificationId, ruleId, resourceName)
+		} else {
+			ar.writeHistory("", "sent_failed", fmt.Sprintf("%v", resumedMetrics), "", ruleId, resourceName)
+			logger.Error(nil, "sendResumeNotification failed")
+		}
+	}
 }
 
 func (ar *AlertRunner) updateAlertUpdateTime() {
@@ -648,6 +731,10 @@ func (ar *AlertRunner) GetAlertStatus() (string, time.Time) {
 }
 
 func (ar *AlertRunner) runAlertRules() {
+	if !ar.AlertConfig.LoadSuccess {
+		return
+	}
+
 	if ar.AlertConfig.Disabled {
 		return
 	}

@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
-	"strings"
 	"time"
 
 	timestamp "github.com/golang/protobuf/ptypes/timestamp"
@@ -72,16 +70,57 @@ type DescribeHistoryDetailResponse struct {
 	HistorydetailSet []*HistoryDetail `json:"historydetail_set"`
 }
 
-func parseInValues(values []string) string {
-	output := ""
-
-	for _, value := range values {
-		output = output + fmt.Sprintf(`,'%s'`, value)
+func getResourceConditionValue(resourceMap map[string]string) (string, string) {
+	switch resourceMap["rs_type_name"] {
+	case "cluster":
+		break
+	case "node":
+		break
+	case "workspace":
+		if resourceMap["ws_name"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.ws_name") in (?)`, resourceMap["ws_name"]
+		}
+	case "namespace":
+		if resourceMap["ns_name"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in (?)`, resourceMap["ns_name"]
+		}
+	case "workload":
+		if resourceMap["ns_name"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in (?)`, resourceMap["ns_name"]
+		}
+	case "pod":
+		if resourceMap["ns_name"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in (?)`, resourceMap["ns_name"]
+		}
+		if resourceMap["node_id"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.node_id") in (?)`, resourceMap["node_id"]
+		}
+	case "container":
+		if resourceMap["ns_name"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in (?)`, resourceMap["ns_name"]
+		}
+		if resourceMap["node_id"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.node_id") in (?)`, resourceMap["node_id"]
+		}
+		if resourceMap["pod_name"] != "" {
+			return `JSON_EXTRACT(t4.rs_filter_param, "$.pod_name") in (?)`, resourceMap["pod_name"]
+		}
 	}
 
-	output = strings.TrimPrefix(output, ",")
+	return "", ""
+}
 
-	return output
+func processHistoryDetailOrderField(field string) string {
+	switch field {
+	case "t1.create_time":
+		return "t1.create_time"
+		break
+	default:
+		return "t1.create_time"
+		break
+	}
+
+	return "t1.create_time"
 }
 
 func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailRequest) ([]*models.HistoryDetail, uint64, error) {
@@ -130,106 +169,84 @@ func DescribeHistoryDetail(ctx context.Context, req *pb.DescribeHistoryDetailReq
 		Joins("left join metric t5 on t5.metric_id=t2.metric_id").
 		Joins("left join resource_type t6 on t6.rs_type_id=t4.rs_type_id"))
 
-	whereResult := ""
-	whereTriggered := ""
-
-	whereResult = whereResult + fmt.Sprintf(`t6.rs_type_name in ("%s") and `, resourceMap["rs_type_name"])
-	whereTriggered = whereTriggered + fmt.Sprintf(`t6.rs_type_name in ("%s") and `, resourceMap["rs_type_name"])
-
-	switch resourceMap["rs_type_name"] {
-	case "cluster":
-		break
-	case "node":
-		break
-	case "workspace":
-		if resourceMap["ws_name"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ws_name") in ("%s") and `, resourceMap["ws_name"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ws_name") in ("%s") and `, resourceMap["ws_name"])
-		}
-	case "namespace":
-		if resourceMap["ns_name"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-		}
-	case "workload":
-		if resourceMap["ns_name"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-		}
-	case "pod":
-		if resourceMap["ns_name"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-		}
-		if resourceMap["node_id"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.node_id") in ("%s") and `, resourceMap["node_id"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.node_id") in ("%s") and `, resourceMap["node_id"])
-		}
-	case "container":
-		if resourceMap["ns_name"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.ns_name") in ("%s") and `, resourceMap["ns_name"])
-		}
-		if resourceMap["node_id"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.node_id") in ("%s") and `, resourceMap["node_id"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.node_id") in ("%s") and `, resourceMap["node_id"])
-		}
-		if resourceMap["pod_name"] != "" {
-			whereResult = whereResult + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.pod_name") in ("%s") and `, resourceMap["pod_name"])
-			whereTriggered = whereTriggered + fmt.Sprintf(`JSON_EXTRACT(t4.rs_filter_param, "$.pod_name") in ("%s") and `, resourceMap["pod_name"])
-		}
+	//Step1: Parse query inputs
+	dbChain.DB = dbChain.Where(`t6.rs_type_name in (?)`, resourceMap["rs_type_name"])
+	rsCond, rsVal := getResourceConditionValue(resourceMap)
+	if "" != rsCond {
+		dbChain.DB = dbChain.Where(rsCond, rsVal)
 	}
-
 	if len(historyId) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t1.history_id in (%s) and ", parseInValues(historyId))
-		whereTriggered = whereTriggered + fmt.Sprintf("t1.history_id in (%s) and ", parseInValues(historyId))
+		dbChain.DB = dbChain.Where(`t1.history_id in (?)`, historyId)
 	}
 	if len(historyName) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t1.history_name in (%s) and ", parseInValues(historyName))
-		whereTriggered = whereTriggered + fmt.Sprintf("t1.history_name in (%s) and ", parseInValues(historyName))
+		dbChain.DB = dbChain.Where(`t1.history_name in (?)`, historyName)
 	}
 	if len(alertIds) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t3.alert_id in (%s) and ", parseInValues(alertIds))
-		whereTriggered = whereTriggered + fmt.Sprintf("t3.alert_id in (%s) and ", parseInValues(alertIds))
+		dbChain.DB = dbChain.Where(`t3.alert_id in (?)`, alertIds)
 	}
 	if len(ruleName) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t2.rule_name in (%s) and ", parseInValues(ruleName))
-		whereTriggered = whereTriggered + fmt.Sprintf("t2.rule_name in (%s) and ", parseInValues(ruleName))
+		dbChain.DB = dbChain.Where(`t2.rule_name in (?)`, ruleName)
 	}
 	if len(event) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t1.event in (%s) and ", parseInValues(event))
+		dbChain.DB = dbChain.Where(`t1.event in (?)`, event)
 	}
-	whereTriggered = whereTriggered + fmt.Sprintf("t1.event = 'triggered' and ")
 	if len(ruleId) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t1.rule_id in (%s) and ", parseInValues(ruleId))
-		whereTriggered = whereTriggered + fmt.Sprintf("t1.rule_id in (%s) and ", parseInValues(ruleId))
+		dbChain.DB = dbChain.Where(`t1.rule_id in (?)`, ruleId)
 	}
 	if len(resourceName) != 0 {
-		whereResult = whereResult + fmt.Sprintf("t1.resource_name in (%s) and ", parseInValues(resourceName))
-		whereTriggered = whereTriggered + fmt.Sprintf("t1.resource_name in (%s) and ", parseInValues(resourceName))
+		dbChain.DB = dbChain.Where(`t1.resource_name in (?)`, resourceName)
 	}
-	//Step2: get SearchWord
 	if req.SearchWord != "" {
-		whereResult = whereResult + fmt.Sprintf("t1.resource_name LIKE '%%%s%%' and ", req.SearchWord)
-		whereTriggered = whereTriggered + fmt.Sprintf("t1.resource_name LIKE '%%%s%%' and ", req.SearchWord)
+		dbChain.DB = dbChain.Where(`t1.resource_name LIKE ?`, "%"+req.SearchWord+"%")
 	}
 
-	whereResult = strings.TrimSuffix(whereResult, " and ")
-	whereTriggered = strings.TrimSuffix(whereTriggered, " and ")
-
-	//Step3: get Recent
+	//Step2: If recent, add subquery
 	if req.Recent {
-		dbChain.DB = dbChain.DB.Where(fmt.Sprintf(`%s and t1.create_time >= (select max(t1.create_time) from history t1 left join rule t2 on t2.rule_id=t1.rule_id left join alert t3 on t3.alert_id=t1.alert_id left join resource_filter t4 on t4.rs_filter_id=t3.rs_filter_id left join metric t5 on t5.metric_id=t2.metric_id left join resource_type t6 on t6.rs_type_id=t4.rs_type_id where %s)`, whereResult, whereTriggered))
-	} else {
-		dbChain.DB = dbChain.DB.Where(whereResult)
+		subQuery := aldb.GetChain(global.GetInstance().GetDB().Table("history t1").
+			Select("max(t1.create_time)").
+			Joins("left join rule t2 on t2.rule_id=t1.rule_id").
+			Joins("left join alert t3 on t3.alert_id=t1.alert_id").
+			Joins("left join resource_filter t4 on t4.rs_filter_id=t3.rs_filter_id").
+			Joins("left join metric t5 on t5.metric_id=t2.metric_id").
+			Joins("left join resource_type t6 on t6.rs_type_id=t4.rs_type_id"))
+
+		subQuery.DB = subQuery.Where(`t6.rs_type_name in (?)`, resourceMap["rs_type_name"])
+		if "" != rsCond {
+			subQuery.DB = subQuery.Where(rsCond, rsVal)
+		}
+		if len(historyId) != 0 {
+			subQuery.DB = subQuery.Where(`t1.history_id in (?)`, historyId)
+		}
+		if len(historyName) != 0 {
+			subQuery.DB = subQuery.Where(`t1.history_name in (?)`, historyName)
+		}
+		if len(alertIds) != 0 {
+			subQuery.DB = subQuery.Where(`t3.alert_id in (?)`, alertIds)
+		}
+		if len(ruleName) != 0 {
+			subQuery.DB = subQuery.Where(`t2.rule_name in (?)`, ruleName)
+		}
+		if len(ruleId) != 0 {
+			subQuery.DB = subQuery.Where(`t1.rule_id in (?)`, ruleId)
+		}
+		if len(resourceName) != 0 {
+			subQuery.DB = subQuery.Where(`t1.resource_name in (?)`, resourceName)
+		}
+		if req.SearchWord != "" {
+			subQuery.DB = subQuery.Where(`t1.resource_name LIKE ?`, "%"+req.SearchWord+"%")
+		}
+		subQuery.DB = subQuery.Where(`t1.event = ?`, "triggered")
+
+		dbChain.DB = dbChain.Where("t1.create_time >= (?)", subQuery.QueryExpr())
 	}
-	//Step4: get OrderByStr
+
+	//Step3: get OrderByStr
 	var sortKeyStr string = "t1.create_time"
 	var reverseStr string = constants.ASC
 	orderByStr := sortKeyStr + " " + reverseStr
 
 	if req.SortKey != "" {
-		sortKeyStr = req.SortKey
+		sortKeyStr = processHistoryDetailOrderField(req.SortKey)
 		if req.Reverse {
 			reverseStr = constants.DESC
 		} else {

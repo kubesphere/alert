@@ -57,11 +57,12 @@ message AlertDetail {
 	string creator = 15;
 	string available_start_time = 16;
 	string available_end_time = 17;
-	repeated string metrics = 18;
-	uint32 rules_count = 19;
-	uint32 positives_count = 20;
-	string most_recent_alert_time = 21;
-	string nf_address_list_id = 22;
+	string language = 18;
+	repeated string metrics = 19;
+	uint32 rules_count = 20;
+	uint32 positives_count = 21;
+	string most_recent_alert_time = 22;
+	string nf_address_list_id = 23;
 }
 
 message DescribeAlertDetailsRequest {
@@ -193,7 +194,7 @@ service AlertManagerCustom {
 			summary: "describe alerts with resource search"
 		};
 		option (google.api.http) = {
-			get: "/v1/alert_with_resource"
+			get: "/v1/alerts_with_resource"
 		};
 	}
 
@@ -202,7 +203,7 @@ service AlertManagerCustom {
 			summary: "describe alert details"
 		};
 		option (google.api.http) = {
-			get: "/v1/alert_detail"
+			get: "/v1/alert_details"
 		};
 	}
 
@@ -223,7 +224,7 @@ service AlertManagerCustom {
 			summary: "describe history detail"
 		};
 		option (google.api.http) = {
-			get: "/v1/historydetail"
+			get: "/v1/history_details"
 		};
 	}
 }

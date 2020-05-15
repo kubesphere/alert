@@ -62,7 +62,7 @@ func SendMetricRequest(metricParam string) string {
 	return ""
 }
 
-func SendEmailRequest(notificationParam string) string {
+func SendEmailRequest(notificationParam string, resume string, language string) string {
 	cfg := config.GetInstance()
 	url := fmt.Sprintf("http://127.0.0.1:%s/api/v1/email", cfg.App.AdapterPort)
 	request, err := http.NewRequest("GET", url, nil)
@@ -73,6 +73,8 @@ func SendEmailRequest(notificationParam string) string {
 
 	params := request.URL.Query()
 	params.Add("notification_param", notificationParam)
+	params.Add("resume", resume)
+	params.Add("language", language)
 	request.URL.RawQuery = params.Encode()
 
 	logger.Debug(nil, "SendEmailRequest %s", request.URL.RawQuery)

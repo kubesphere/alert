@@ -23,24 +23,72 @@ func (hc *HealthChecker) SetExecutorWatcher(executorWatcher *ExecutorWatcher) {
 	hc.executorWatcher = executorWatcher
 }
 
-func (hc *HealthChecker) doHealthCheck() {
-	hc.processTimeoutRunningAlerts()
-	hc.processTimeoutAddingAlerts()
-	hc.processTimeoutUpdatingAlerts()
-	hc.processTimeoutMigratingAlerts()
-	hc.processTimeoutDeletingAlerts()
-}
-
-func (hc *HealthChecker) HealthCheck() {
+func (hc *HealthChecker) checkRunning() {
 	timer := time.NewTicker(time.Second * 30)
 	defer timer.Stop()
 
 	for {
 		select {
 		case <-timer.C:
-			hc.doHealthCheck()
+			hc.processTimeoutRunningAlerts()
 		}
 	}
+}
+
+func (hc *HealthChecker) checkAdding() {
+	timer := time.NewTicker(time.Second * 30)
+	defer timer.Stop()
+
+	for {
+		select {
+		case <-timer.C:
+			hc.processTimeoutAddingAlerts()
+		}
+	}
+}
+
+func (hc *HealthChecker) checkUpdating() {
+	timer := time.NewTicker(time.Second * 30)
+	defer timer.Stop()
+
+	for {
+		select {
+		case <-timer.C:
+			hc.processTimeoutUpdatingAlerts()
+		}
+	}
+}
+
+func (hc *HealthChecker) checkMigrating() {
+	timer := time.NewTicker(time.Second * 30)
+	defer timer.Stop()
+
+	for {
+		select {
+		case <-timer.C:
+			hc.processTimeoutMigratingAlerts()
+		}
+	}
+}
+
+func (hc *HealthChecker) checkDeleting() {
+	timer := time.NewTicker(time.Second * 30)
+	defer timer.Stop()
+
+	for {
+		select {
+		case <-timer.C:
+			hc.processTimeoutDeletingAlerts()
+		}
+	}
+}
+
+func (hc *HealthChecker) HealthCheck() {
+	go hc.checkRunning()
+	go hc.checkAdding()
+	go hc.checkUpdating()
+	go hc.checkMigrating()
+	go hc.checkDeleting()
 }
 
 func (hc *HealthChecker) processTimeoutRunningAlerts() {
@@ -52,8 +100,8 @@ func (hc *HealthChecker) processTimeoutRunningAlerts() {
 	executorCount := hc.executorWatcher.GetExecutorCount()
 
 	for _, alert := range alerts {
-		err := rs.UpdateAlertByAlertId(alert.AlertId, "running", "migrating")
-		if err == nil && executorCount > 0 {
+		rowsAffected := rs.UpdateAlertByAlertIdWithTimeOut(alert.AlertId, "running", "migrating", DefaultTimeOut)
+		if rowsAffected > 0 && executorCount > 0 {
 			hc.executorWatcher.alertQueue.WriteBackAlert(alert.AlertId)
 		}
 	}

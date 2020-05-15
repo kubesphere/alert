@@ -1,6 +1,7 @@
 package resource_control
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -22,6 +23,7 @@ type AlertDetail struct {
 	PolicyConfig       string `gorm:"column:policy_config" json:"policy_config"`
 	AvailableStartTime string `gorm:"column:available_start_time" json:"available_start_time"`
 	AvailableEndTime   string `gorm:"column:available_end_time" json:"available_end_time"`
+	Language           string `gorm:"column:language" json:"language"`
 	NfAddressListId    string `gorm:"column:nf_address_list_id" json:"nf_address_list_id"`
 }
 
@@ -31,9 +33,9 @@ type RunnerInfo struct {
 	UpdateTime  time.Time
 }
 
-func QueryAlertDetail(alertId string) AlertDetail {
+func QueryAlertDetail(alertId string) (AlertDetail, error) {
 	dbChain := aldb.GetChain(global.GetInstance().GetDB().Table("alert t1").
-		Select("t1.alert_id, t1.alert_name, t1.disabled, t1.alert_status, t3.rs_type_name, t3.rs_type_param, t2.rs_filter_name, t2.rs_filter_param, t4.policy_config, t4.available_start_time, t4.available_end_time, t5.nf_address_list_id").
+		Select("t1.alert_id, t1.alert_name, t1.disabled, t1.alert_status, t3.rs_type_name, t3.rs_type_param, t2.rs_filter_name, t2.rs_filter_param, t4.policy_config, t4.available_start_time, t4.available_end_time, t4.language, t5.nf_address_list_id").
 		Joins("left join resource_filter t2 on t2.rs_filter_id=t1.rs_filter_id").
 		Joins("left join resource_type t3 on t3.rs_type_id=t2.rs_type_id").
 		Joins("left join policy t4 on t4.policy_id=t1.policy_id").
@@ -52,12 +54,17 @@ func QueryAlertDetail(alertId string) AlertDetail {
 		Error
 	if err != nil {
 		logger.Error(nil, "Failed to QueryAlertDetail [%v], error: %+v.", alertId, err)
-		return ad
+		return ad, err
+	}
+
+	if len(ads) <= 0 {
+		logger.Error(nil, "QueryAlertDetail [%v] has no match alert.", alertId)
+		return ad, errors.New("QueryAlertDetail has no match alert")
 	}
 
 	ad = *ads[0]
 
-	return ad
+	return ad, nil
 }
 
 func GetAlertInfo(alertId string) models.Alert {

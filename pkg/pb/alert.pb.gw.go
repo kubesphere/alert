@@ -1552,83 +1552,83 @@ func RegisterAlertManagerHandlerClient(ctx context.Context, mux *runtime.ServeMu
 var (
 	pattern_AlertManager_CreateExecutor_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "executor"}, ""))
 
-	pattern_AlertManager_DescribeExecutors_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "executor"}, ""))
+	pattern_AlertManager_DescribeExecutors_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "executors"}, ""))
 
 	pattern_AlertManager_ModifyExecutor_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "executor"}, ""))
 
-	pattern_AlertManager_DeleteExecutors_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "executor"}, ""))
+	pattern_AlertManager_DeleteExecutors_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "executors"}, ""))
 
 	pattern_AlertManager_CreateResourceType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_type"}, ""))
 
-	pattern_AlertManager_DescribeResourceTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_type"}, ""))
+	pattern_AlertManager_DescribeResourceTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_types"}, ""))
 
 	pattern_AlertManager_ModifyResourceType_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_type"}, ""))
 
-	pattern_AlertManager_DeleteResourceTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_type"}, ""))
+	pattern_AlertManager_DeleteResourceTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_types"}, ""))
 
 	pattern_AlertManager_CreateResourceFilter_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_filter"}, ""))
 
-	pattern_AlertManager_DescribeResourceFilters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_filter"}, ""))
+	pattern_AlertManager_DescribeResourceFilters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_filters"}, ""))
 
 	pattern_AlertManager_ModifyResourceFilter_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_filter"}, ""))
 
-	pattern_AlertManager_DeleteResourceFilters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_filter"}, ""))
+	pattern_AlertManager_DeleteResourceFilters_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "resource_filters"}, ""))
 
 	pattern_AlertManager_CreateMetric_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "metric"}, ""))
 
-	pattern_AlertManager_DescribeMetrics_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "metric"}, ""))
+	pattern_AlertManager_DescribeMetrics_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "metrics"}, ""))
 
 	pattern_AlertManager_ModifyMetric_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "metric"}, ""))
 
-	pattern_AlertManager_DeleteMetrics_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "metric"}, ""))
+	pattern_AlertManager_DeleteMetrics_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "metrics"}, ""))
 
 	pattern_AlertManager_CreatePolicy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "policy"}, ""))
 
-	pattern_AlertManager_DescribePolicies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "policy"}, ""))
+	pattern_AlertManager_DescribePolicies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "policies"}, ""))
 
 	pattern_AlertManager_ModifyPolicy_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "policy"}, ""))
 
-	pattern_AlertManager_DeletePolicies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "policy"}, ""))
+	pattern_AlertManager_DeletePolicies_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "policies"}, ""))
 
 	pattern_AlertManager_CreateRule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "rule"}, ""))
 
-	pattern_AlertManager_DescribeRules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "rule"}, ""))
+	pattern_AlertManager_DescribeRules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "rules"}, ""))
 
 	pattern_AlertManager_ModifyRule_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "rule"}, ""))
 
-	pattern_AlertManager_DeleteRules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "rule"}, ""))
+	pattern_AlertManager_DeleteRules_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "rules"}, ""))
 
 	pattern_AlertManager_CreateAlert_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert"}, ""))
 
-	pattern_AlertManager_DescribeAlerts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert"}, ""))
+	pattern_AlertManager_DescribeAlerts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alerts"}, ""))
 
 	pattern_AlertManager_ModifyAlert_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert"}, ""))
 
-	pattern_AlertManager_DeleteAlerts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alert"}, ""))
+	pattern_AlertManager_DeleteAlerts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "alerts"}, ""))
 
 	pattern_AlertManager_CreateHistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "history"}, ""))
 
-	pattern_AlertManager_DescribeHistories_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "history"}, ""))
+	pattern_AlertManager_DescribeHistories_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "histories"}, ""))
 
 	pattern_AlertManager_ModifyHistory_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "history"}, ""))
 
-	pattern_AlertManager_DeleteHistories_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "history"}, ""))
+	pattern_AlertManager_DeleteHistories_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "histories"}, ""))
 
 	pattern_AlertManager_CreateComment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "comment"}, ""))
 
-	pattern_AlertManager_DescribeComments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "comment"}, ""))
+	pattern_AlertManager_DescribeComments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "comments"}, ""))
 
 	pattern_AlertManager_ModifyComment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "comment"}, ""))
 
-	pattern_AlertManager_DeleteComments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "comment"}, ""))
+	pattern_AlertManager_DeleteComments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "comments"}, ""))
 
 	pattern_AlertManager_CreateAction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "action"}, ""))
 
-	pattern_AlertManager_DescribeActions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "action"}, ""))
+	pattern_AlertManager_DescribeActions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "actions"}, ""))
 
 	pattern_AlertManager_ModifyAction_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "action"}, ""))
 
-	pattern_AlertManager_DeleteActions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "action"}, ""))
+	pattern_AlertManager_DeleteActions_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "actions"}, ""))
 )
 
 var (

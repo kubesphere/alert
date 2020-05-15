@@ -169,6 +169,6 @@ func (ew *ExecutorWatcher) migrateAlerts(executorId string) {
 func (ew *ExecutorWatcher) Serve() {
 	ew.initExecutors()
 
-	go ew.healthChecker.HealthCheck()
+	ew.healthChecker.HealthCheck()
 	ew.watchExecutors()
 }
