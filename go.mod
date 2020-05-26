@@ -31,7 +31,7 @@ require (
 	github.com/ugorji/go v1.1.4 // indirect
 	golang.org/x/net v0.0.0-20190311183353-d8887717615a
 	golang.org/x/tools v0.0.0-20190312170243-e65039ee4138
-	google.golang.org/genproto v0.0.0-20190307195333-5fe7a883aa19
+	google.golang.org/genproto v0.0.0-20190404172233-64821d5d2107
 	google.golang.org/grpc v1.20.1
 	gopkg.in/go-playground/validator.v8 v8.18.2 // indirect
 	k8s.io/api v0.0.0-20181213150558-05914d821849 // indirect
@@ -48,3 +48,5 @@ replace openpitrix.io/libqueue v0.3.1 => github.com/openpitrix/libqueue v0.3.1
 replace openpitrix.io/logger v0.1.0 => github.com/openpitrix/logger v0.1.0
 
 replace git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
+
+go 1.13
