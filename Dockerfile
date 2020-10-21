@@ -22,6 +22,10 @@ RUN apk add -U tzdata && ls /usr/share/zoneinfo && cp /usr/share/zoneinfo/Asia/S
 
 COPY --from=golang /alert_bin/alert /alerting/alert
 
+RUN adduser -D -g alerter -u 1002 alerter && \
+    chown -R alerter:alerter /alerting
+USER alerter
+
 EXPOSE 9200
 EXPOSE 9201
 EXPOSE 8080
